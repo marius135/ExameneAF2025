@@ -1,168 +1,193 @@
-# Algorithms Exam Solutions - Variant 2
-Date: 28.01.2025
+Subgraf indus bipartit conex maximal (5p)
+Cel mai mare subgraf indus bipartit conex conține nodurile {4,5,8,7,9}.
+Bipartiția este:
 
-## Task 1 (5 points) - Maximum Bipartite Induced Subgraph
-A bipartite induced subgraph with maximum number of nodes would be:
-- Set A: {4, 8}
-- Set B: {3, 5, 9}
 
-This forms a connected bipartite subgraph with 5 nodes. We can verify it's bipartite as all edges connect nodes from different sets, and it's induced as we've included all edges between these nodes from the original graph.
+Mulțimea A: {4,8}
+Mulțimea B: {5,7,9}
+Este maximal deoarece adăugarea oricărui alt nod ar crea un ciclu impar.
 
-## Task 2 (5 points) - BFS from Node 4
-BFS traversal starting from node 4:
-1. Level 0: 4
-2. Level 1: 3, 5, 8
-3. Level 2: 2, 6, 7, 9
-4. Level 3: 1
 
-Distances from node 4:
-- d(4,4) = 0
-- d(4,3) = d(4,5) = d(4,8) = 1
-- d(4,2) = d(4,6) = d(4,7) = d(4,9) = 2
-- d(4,1) = 3
+BF(4) și calculul distanțelor (5p)
+Parcurgerea în lățime pornind din nodul 4:
 
-The BFS tree would include edges:
-- Level 0->1: 4->3, 4->5, 4->8
-- Level 1->2: 3->2, 3->6, 8->7, 8->9
-- Level 2->3: 2->1
 
-## Task 3 (7.5 points) - Eulerian Path
-The graph has odd degree vertices (1, 6, 7, 9), so it doesn't admit an Eulerian path in its current form.
+Nivel 0: 4
+Nivel 1: 3,5,8 (vecini direcți)
+Nivel 2: 1,2,6,7,9 (vecinii vecinilor)
+Nivel 3: niciun nod nou
 
-Theorem: A connected undirected graph has an Eulerian path if and only if it has either:
-1. All vertices have even degree (Eulerian circuit), or
-2. Exactly two vertices have odd degree (Eulerian path)
+Distanțele de la nodul 4 la celelalte noduri:
 
-To make it have an Eulerian path, we need to remove one edge to leave exactly two odd-degree vertices. We can remove edge (3,6) to achieve this.
+d(4,4) = 0
+d(4,3) = d(4,5) = d(4,8) = 1
+d(4,1) = d(4,2) = d(4,6) = d(4,7) = d(4,9) = 2
 
-After removal, an Eulerian path would be:
-1 -> 2 -> 3 -> 4 -> 5 -> 3 -> 2 -> 6 -> 3 -> 4 -> 8 -> 7 -> 9 -> 8
+Arborele BFS arată astfel:
+Copy       4
+    /  |  \
+   3   5   8
+ /  \     / \
+1    2   7   9
+     |
+     6
 
-## Task 4 (7.5 points) - Critical Nodes
-A node is critical if its removal increases the number of connected components in the graph.
+Lanț eulerian (7.5p)
+Pentru ca un graf neorientat să aibă lanț eulerian, trebuie să îndeplinească una din condițiile:
 
-Algorithm to find critical nodes:
-1. Use DFS to number vertices in order of discovery (discovery[v])
-2. For each vertex v, compute low[v] = min{discovery[v], discovery[u] where u is adjacent to some descendant of v}
-3. A non-root vertex v is critical if it has a child u where low[u] ≥ discovery[v]
-4. The root is critical if it has more than one child in the DFS tree
 
-Critical nodes in the graph: {3, 4, 8}
-- Node 3 connects components {1,2,6} with {4,5}
-- Node 4 connects components {1,2,3,5,6} with {7,8,9}
-- Node 8 connects components {1,2,3,4,5,6} with {7,9}
+Toate nodurile au grad par, sau
+Exact două noduri au grad impar
 
-## Task 5 (5 points) - Floyd-Warshall Algorithm
-For j=1 (using vertex 1 as intermediate):
-D[2,3] = min(D[2,3], D[2,1] + D[1,3]) = min(2, 1+4) = 2
-D[3,2] = min(D[3,2], D[3,1] + D[1,2]) = min(2, 4+1) = 2
+În graful nostru, nodurile cu grad impar sunt: 1,2,4,6
+Având 4 noduri de grad impar, trebuie să eliminăm minimum o muchie pentru a obține un lanț eulerian.
+Strategia: Eliminăm muchia (2,6) care are cost maxim dintre muchiile care conectează noduri de grad impar.
+După eliminare, obținem un lanț eulerian: 1-2-3-4-5-3-6-2-1
 
-For j=2 (using vertex 2 as intermediate):
-D[1,6] = min(D[1,6], D[1,2] + D[2,6]) = min(∞, 1+10) = 11
-D[3,6] = min(D[3,6], D[3,2] + D[2,6]) = min(11, 2+10) = 11
+Noduri critice (7.5p)
+Un nod este critic (punct de articulație) dacă prin eliminarea sa graful se deconectează.
+Folosind algoritmul DFS implementat, nodurile critice sunt: {3,8}
+Explicație:
 
-For j=3 (using vertex 3 as intermediate):
-D[1,4] = min(D[1,4], D[1,3] + D[3,4]) = min(∞, 4+5) = 9
-D[1,5] = min(D[1,5], D[1,3] + D[3,5]) = min(∞, 4+12) = 16
 
-## Task 6 (5 points) - Prim's Algorithm
-Starting from vertex 4:
+Nodul 3 este critic pentru că separă submulțimea {1,2,6} de {4,5}
+Nodul 8 este critic pentru că separă submulțimea {7,9} de restul grafului
 
-1. Add vertex 4 to tree
-2. Add edge (4,5) with weight 1
-3. Add edge (4,3) with weight 5
-4. Add edge (3,2) with weight 2
-5. Add edge (2,1) with weight 1
-6. Add edge (4,8) with weight 3
-7. Add edge (8,7) with weight 2
-8. Add edge (8,9) with weight 6
 
-Final MST weight = 20
+Floyd-Warshall (5p)
+Algoritmul Floyd-Warshall inițializează matricea D cu:
 
-## Task 7 (7.5 points) - MST Algorithm Correctness
-The algorithm is not correct. Counter-example:
-Consider a graph with V={1,2,3} and edges:
-- (1,2) with weight 10
-- (2,3) with weight 1
-- (1,3) with weight 2
 
-When i=1, the algorithm would choose edge (1,2) as it's the only edge with vertex 1, even though it's not in any MST.
+D[i][i] = 0 pentru orice i
+D[i][j] = costul muchiei (i,j) dacă există
+D[i][j] = ∞ dacă nu există muchie
 
-The algorithm fails because it doesn't consider all possible edges at each step, only those connected to the current vertex i. This violates the key principle that an MST can be built by repeatedly selecting the minimum weight edge that doesn't create a cycle.
+La pasul j=1:
+Copy    1  2  3  4  5  6  7  8  9
+1   0  1  4  ∞  ∞  ∞  ∞  ∞  ∞
+2   1  0  2  ∞  ∞ 10  ∞  ∞  ∞
+3   4  2  0  5 12 11  ∞  ∞  ∞
+4   ∞  ∞  5  0  1  ∞  ∞  3  ∞
+5   ∞  ∞ 12  1  0  ∞  ∞  ∞  ∞
+6   ∞ 10 11  ∞  ∞  0  ∞  ∞  ∞
+7   ∞  ∞  ∞  ∞  ∞  ∞  0  2  5
+8   ∞  ∞  ∞  3  ∞  ∞  2  0  6
+9   ∞  ∞  ∞  ∞  ∞  ∞  5  6  0
 
-## Task 8 (12.5 points) - Ford-Fulkerson/Edmonds-Karp Algorithm
-Starting with given flow f, we find augmenting paths:
+Algoritmul lui Prim (5p)
+Pornind din nodul 4:
+Selectăm muchia (4,5) cu cost 1
+Selectăm muchia (4,8) cu cost 3
+Selectăm muchia (4,3) cu cost 5
+Selectăm muchia (8,7) cu cost 2
+Selectăm muchia (8,9) cu cost 6
+Selectăm muchia (3,2) cu cost 2
+Selectăm muchia (3,1) cu cost 4
+Selectăm muchia (3,6) cu cost 11
 
-1. Path 1->5->3->7 with bottleneck 3
-   - Residual capacities: f(1,5)=6→9, f(5,3)=0→3, f(3,7)=3→6
-   
-2. Path 1->2->4->6->7 with bottleneck 2
-   - Residual capacities: f(1,2)=5→7, f(2,4)=3→5, f(4,6)=3→5, f(6,7)=8→10
+Arborele parțial de cost minim are cost total = 34.
 
-No more augmenting paths exist.
+Corectitudinea algoritmului (5p)
+Algoritmul prezentat NU este corect. Contraexemplu:
 
-Minimum cut:
-- S = {1,2,5}
-- T = {3,4,6,7}
-Cut capacity = 16 (sum of capacities of forward edges minus backward edges)
 
-## Task 9 (15 points) - Graph Theory Proofs
+Considerăm un graf cu 3 noduri (1,2,3) și muchii:
 
-a) Let's prove by contradiction. Assume G is not connected. Then there exist vertices x,y that aren't connected by any path. Let A be the connected component containing x. Since |A| < n, there must be at least n/2 edges from x to vertices in A (by degree condition). But then |A| > n/2. Similarly for y's component B, |B| > n/2. But then |A| + |B| > n, contradiction.
+(1,2) cu cost 10
+(2,3) cu cost 1
+(1,3) cu cost 2
 
-b) Example: Take two complete graphs Kn/2 and connect all but one pair of vertices between them. The missing edge's endpoints have sum of degrees = (n-2) + (n-2) = 2n-4 ≥ n for n≥4, but the graph is not Hamiltonian.
 
-c) If m ≥ (n-1)(n-2)/2 + 2, then by Ore's theorem, the graph must contain a Hamiltonian cycle. Proof sketch:
-1. Assume G is not Hamiltonian
-2. By Ore's theorem, there must be two non-adjacent vertices u,v with d(u) + d(v) < n
-3. This means at most n-2 edges incident to {u,v}
-4. Remaining vertices can have at most (n-2)(n-3)/2 edges between them
-5. Total edges ≤ (n-2) + (n-2)(n-3)/2 < (n-1)(n-2)/2 + 2
-6. Contradiction
+Algoritmul va alege prima dată muchia (1,2) deoarece începe cu nodul 1
+Apoi va alege (2,3)
+Rezultatul va avea cost 11, dar soluția optimă are cost 3 folosind muchiile (1,3) și (2,3)
 
-## Task 10 (7.5 points) - Longest Common Subsequence
-For strings X[1..m] and Y[1..n], define L[i,j] as length of LCS of X[1..i] and Y[1..j].
+Problema este că algoritmul forțează alegerea unei muchii conectate la nodul curent i, ceea ce nu garantează optimalitatea globală.
 
-Recurrence:
-```
-L[i,j] = 0 if i=0 or j=0
-L[i,j] = L[i-1,j-1] + 1 if X[i]=Y[j]
-L[i,j] = max(L[i-1,j], L[i,j-1]) otherwise
-```
+Ford-Fulkerson (12.5p)
+Aplicăm algoritmul Edmonds-Karp (Ford-Fulkerson cu BFS):
 
-For "cerceta" and "retea":
+Pași:
 
-|   | ε | r | e | t | e | a |
-|---|---|---|---|---|---|---|
-| ε | 0 | 0 | 0 | 0 | 0 | 0 |
-| c | 0 | 0 | 0 | 0 | 0 | 0 |
-| e | 0 | 0 | 1 | 1 | 1 | 1 |
-| r | 0 | 1 | 1 | 1 | 1 | 1 |
-| c | 0 | 1 | 1 | 1 | 1 | 1 |
-| e | 0 | 1 | 2 | 2 | 2 | 2 |
-| t | 0 | 1 | 2 | 3 | 3 | 3 |
-| a | 0 | 1 | 2 | 3 | 3 | 4 |
+Găsim drumul: 1-2-6-7 cu flux augmentant 3
+Găsim drumul: 1-5-3-7 cu flux augmentant 3
+Găsim drumul: 1-5-4-2-6-7 cu flux augmentant 2
 
-LCS length = 4
-One LCS is "etea"
+Flux maxim = 8
+Tăietura minimă:
 
-## Task 11 (15 points) - Mine Exploration Problem
-This is essentially a shortest path problem where the weight of each edge is 1 if the destination room is collapsed (needs dynamite) and 0 otherwise.
+S = {1,5}
+T = {2,3,4,6,7}
+Capacitatea tăieturii = 8 (suma capacităților arcelor care traversează tăietura)
 
-Algorithm:
-1. Use modified Dijkstra's algorithm with priority queue
-2. Distance represents minimum dynamite needed
-3. For each vertex v, maintain d[v] = minimum dynamite needed to reach v
-4. Priority queue stores pairs (v,d[v])
-5. When processing edge (u,v):
-   - New_cost = d[u] + (1 if v is collapsed, 0 otherwise)
-   - If New_cost < d[v], update d[v] and add (v,d[v]) to queue
 
-Complexity:
-- Time: O(E log V) - same as Dijkstra's
-- Space: O(V) for distances and O(V) for priority queue
+Proprietăți ale grafurilor (15p)
 
-The algorithm is optimal because:
-1. It follows the optimal substructure property
-2. The greedy choice of minimum dynamite path is always safe
-3. No negative weights possible (can't use negative dynamite)
+a) Demonstrație că graful este conex:
+
+Presupunem prin reducere la absurd că graful nu este conex
+Există două componente conexe A și B
+Fie x un nod din A și y un nod din B
+x are grad ≥ n/2 în A
+y are grad ≥ n/2 în B
+Suma gradelor ≥ n, imposibil într-un graf cu n noduri
+Contradicție, deci graful este conex
+
+b) Exemplu de graf nehamiltonian:
+Copy1 -- 2 -- 3
+    |    |
+    4 -- 5
+Nodurile 1 și 5 au suma gradelor = 5 ≥ n = 5, dar graful nu este hamiltonian.
+c) Demonstrație că graful este hamiltonian:
+
+m ≥ (n-1)(n-2)/2 + 2
+Folosind teorema lui Ore, dacă suma gradelor oricăror două noduri neadiacente ≥ n
+Prin contradicție, dacă există noduri neadiacente cu suma gradelor < n
+Numărul de muchii ar fi mai mic decât cel dat
+Contradicție, deci graful este hamiltonian
+
+
+Subsir comun maximal (7.5p)
+Pentru cuvintele 'cerceta' și 'retea':
+
+Matricea dp[][] calculată:
+Copy    r  e  t  e  a
+c   0  0  0  0  0
+e   0  1  1  1  1
+r   1  1  1  1  1
+c   1  1  1  1  1
+e   1  2  2  2  2
+t   1  2  3  3  3
+a   1  2  3  3  4
+Lungimea maximă = 4
+Un subsir comun maximal: 'etea'
+
+Exploratorii în mină (15p)
+Soluție:
+Modelăm problema ca un graf orientat unde:
+
+Nodurile sunt camerele
+Arcele sunt tunelurile
+Costul unui nod este cantitatea de dinamită necesară (0 sau 1)
+
+
+Folosim algoritmul Dijkstra modificat:
+
+Distanța = suma dinamitei necesare
+Relaxăm muchiile considerând costul nodului destinație
+Păstrăm un vector de predecesori pentru reconstrucția drumului
+
+
+Complexitate: O((V+E)logV) unde:
+
+V = numărul de camere
+E = numărul de tuneluri
+
+
+Drumul optim se poate reconstrui folosind vectorul de predecesori
+
+Această soluție este optimă deoarece:
+
+Folosește o coadă de priorități pentru a explora mai întâi drumurile cu cost minim
+Garantează găsirea drumului care folosește minimum de dinamită
+Are complexitate optimă pentru grafuri rare
