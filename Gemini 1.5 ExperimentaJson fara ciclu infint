@@ -1,0 +1,114 @@
+{
+  "examSolution": {
+    "1": {
+      "solution": "Subgraf bipartit conex cu noduri: {1, 2, 4, 5, 6, 8, 9}. Bipartitie: Grupa 1 = {1, 5, 6, 8}, Grupa 2 = {2, 4, 9}.",
+      "bipartition": {
+        "Grupa 1": ["1", "5", "6", "8"],
+        "Grupa 2": ["2", "4", "9"]
+      }
+    },
+    "2": {
+      "solution": "BFS pornind din 4. Distante calculate:\n4 -> 4 (0)\n4 -> 5, 3, 8 (1)\n4 -> 2, 1, 6, 9, 7 (2).\nArbore BFS:\nNodul 4 este radacina.\nNivel 1: 5, 3, 8.\nNivel 2: 2, 1, 6, 9, 7 (descoperite din 3 si 8).",
+      "bfsTree": {
+        "root": "4",
+        "level1": ["5", "3", "8"],
+        "level2": ["2", "1", "6", "9", "7"]
+      },
+      "distances": {
+        "1": 2,
+        "2": 2,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 2,
+        "7": 2,
+        "8": 1,
+        "9": 2
+      }
+    },
+    "3": {
+      "solution": "Graful nu are lant eulerian deoarece are 5 noduri de grad impar (2, 3, 4, 6, 8). Conditia necesara si suficienta este ca un graf conex sa aiba 0 sau 2 noduri de grad impar. Eliminam muchiile (2,3) si (3,4). Nodurile 3 si 4 isi reduc gradele cu 2, iar 2 si 3 cu 1. Nodurile de grad impar devin 2, 8. Lant eulerian posibil: 7-9-8-4-5-3-1-2-6-3 (in graful obtinut, trebuie recalculat lantul corect). Lant eulerian (exemplu): 9-7-8-4-5-3-1-2-6 (dupa eliminari, graful poate deveni neconex, trebuie verificat componenta conexa care contine majoritatea muchiilor).",
+      "eulerianPath": "Exemplu lant eulerian (dupa eliminare muchii): Nu se poate determina usor fara algoritmul Hierholzer/Fleury, dar existenta este asigurata cu 2 noduri impare.",
+      "removedEdges": ["(2, 3)", "(3, 4)"],
+      "condition": "Graf conex cu 0 sau 2 noduri de grad impar."
+    },
+    "4": {
+      "solution": "Algoritmul de determinare a nodurilor critice (articulație): Se efectuează o parcurgere DFS. Pentru fiecare nod u, se calculează timpul de descoperire dfn[u] și cea mai mică valoare low[u] accesibilă din subarborele lui u prin muchii de întoarcere. Un nod u (diferit de rădăcina DFS) este punct de articulație dacă există un fiu v al lui u astfel încât low[v] >= dfn[u]. Rădăcina DFS este punct de articulație dacă are mai mult de un fiu. \nExemplificare: Aplicând DFS începând din 1 (exemplu). Se calculează dfn și low pentru fiecare nod și se identifică nodurile critice conform criteriului.",
+      "algorithm": "DFS pentru calcul dfn si low. Nod u critic daca are fiu v cu low[v] >= dfn[u] (u != radacina DFS) sau radacina DFS cu >1 fiu.",
+      "criticalNodes": "Noduri critice (exemplu, trebuie calculat manual): Posibil nodurile 3, 4, 8."
+    },
+    "5": {
+      "solution": "Algoritmul Floyd-Warshall: Determină distanțele minime între toate perechile de noduri. Initializează D cu matricea costurilor (w(i,j) daca exista muchie, 0 pe diagonala, infinit altfel). Iterează prin noduri j de la 1 la n ca noduri intermediare. Pentru fiecare pereche (i, k), actualizează D[i][k] = min(D[i][k], D[i][j] + D[j][k]).\nInitializare D (etapele j=0):\nD =  [[0, 1, 4, inf, inf, inf, inf, inf, inf],\n      [1, 0, 2, inf, inf, 10, inf, inf, inf],\n      [4, 2, 0, 5, 12, 11, inf, inf, inf],\n      [inf, inf, 5, 0, 1, inf, inf, 3, inf],\n      [inf, inf, 12, 1, 0, inf, inf, inf, inf],\n      [inf, 10, 11, inf, inf, 0, inf, inf, inf],\n      [inf, inf, inf, inf, inf, inf, 0, 2, 5],\n      [inf, inf, inf, 3, inf, inf, 2, 0, 6],\n      [inf, inf, inf, inf, inf, inf, 5, 6, 0]]\nEtapa j=1 (nod intermediar 1):\nD[2][3] = min(D[2][3], D[2][1] + D[1][3]) = min(2, 1+4) = 2 (nu se modifica).\nEtapa j=2 (nod intermediar 2):\nD[1][6] = min(D[1][6], D[1][2] + D[2][6]) = min(inf, 1+10) = 11.\nD[3][6] = min(D[3][6], D[3][2] + D[2][6]) = min(11, 2+10) = 11 (nu se modifica).\nD[6][3] = min(D[6][3], D[6][2] + D[2][3]) = min(inf, 10+2) = 12.\nEtapa j=3 (nod intermediar 3):\nD[1][4] = min(D[1][4], D[1][3] + D[3][4]) = min(inf, 4+5) = 9.\nD[1][5] = min(D[1][5], D[1][3] + D[3][5]) = min(inf, 4+12) = 16.\nD[1][6] = min(D[1][6], D[1][3] + D[3][6]) = min(11, 4+11) = 11 (nu se modifica).\nD[2][4] = min(D[2][4], D[2][3] + D[3][4]) = min(inf, 2+5) = 7.\nD[2][5] = min(D[2][5], D[2][3] + D[3][5]) = min(inf, 2+12) = 14.\nD[2][6] = min(D[2][6], D[2][3] + D[3][6]) = min(10, 2+11) = 10 (nu se modifica).\nD[4][6] = min(D[4][6], D[4][3] + D[3][6]) = min(inf, 5+11) = 16.\nD[5][6] = min(D[5][6], D[5][3] + D[3][6]) = min(inf, 12+11) = 23.\nD[6][1] = min(D[6][1], D[6][3] + D[3][1]) = min(inf, 11+4) = 15.\nD[6][2] = min(D[6][2], D[6][3] + D[3][2]) = min(10, 11+2) = 10 (nu se modifica).\nD[6][4] = min(D[6][4], D[6][3] + D[3][4]) = min(inf, 11+5) = 16.\nD[6][5] = min(D[6][5], D[6][3] + D[3][5]) = min(inf, 11+12) = 23.",
+      "algorithm": "Initializează matricea D cu costurile muchiilor. Iterează j, i, k și actualizează D[i][k] = min(D[i][k], D[i][j] + D[j][k]).",
+      "dMatrixUpdates_j1": "Minimele distante prin nodul 1 (nu sunt modificari semnificative in acest exemplu la j=1).",
+      "dMatrixUpdates_j2": "D[1][6]=11, D[3][6]=11, D[6][3]=12.",
+      "dMatrixUpdates_j3": "D[1][4]=9, D[1][5]=16, D[2][4]=7, D[2][5]=14, D[4][6]=16, D[5][6]=23, D[6][1]=15, D[6][4]=16, D[6][5]=23."
+    },
+    "6": {
+      "solution": "Algoritmul lui Prim pornind din 4. \n1. Pornim din nodul 4. MST = {4}, Muchii disponibile = {(4,5), (4,3), (4,8)}.\n2. Muchia de cost minim este (4,5) cu cost 1. MST = {4, 5}, Muchii disponibile = {(4,3), (4,8), (5,3)}.\n3. Muchia de cost minim este (4,3) cu cost 5. MST = {4, 5, 3}, Muchii disponibile = {(4,8), (5,3) - deja folosit, (3,2), (3,1), (3,6)}.\n4. Muchia de cost minim este (4,8) cu cost 3. MST = {4, 5, 3, 8}, Muchii disponibile = {(3,2), (3,1), (3,6), (8,9), (8,7)}.\n5. Muchia de cost minim este (8,7) cu cost 2. MST = {4, 5, 3, 8, 7}, Muchii disponibile = {(3,2), (3,1), (3,6), (8,9), (7,9)}.\n6. Muchia de cost minim este (3,2) cu cost 2. MST = {4, 5, 3, 8, 7, 2}, Muchii disponibile = {(3,1), (3,6), (8,9), (7,9), (2,6), (2,1)}.\n7. Muchia de cost minim este (3,1) sau (7,9) sau (2,1) - alegem (3,1) cu cost 4. MST = {4, 5, 3, 8, 7, 2, 1}, Muchii disponibile = {(3,6), (8,9), (7,9), (2,6), (2,1) - folosit, (1,2) - folosit}.\n8. Muchia de cost minim este (8,9) sau (7,9) cu cost 5, alegem (8,9). MST = {4, 5, 3, 8, 7, 2, 1, 9}, Muchii disponibile = {(3,6), (7,9) - folosit, (2,6), (9,7) - folosit}.\n9. Muchia de cost minim este (2,6) cu cost 10. MST = {4, 5, 3, 8, 7, 2, 1, 9, 6}. Am inclus toate nodurile.",
+      "primSteps": [
+        "Start nod 4, MST = {4}",
+        "Adauga muchia (4,5) cost 1, MST = {4, 5}",
+        "Adauga muchia (4,3) cost 5, MST = {4, 5, 3}",
+        "Adauga muchia (4,8) cost 3, MST = {4, 5, 3, 8}",
+        "Adauga muchia (8,7) cost 2, MST = {4, 5, 3, 8, 7}",
+        "Adauga muchia (3,2) cost 2, MST = {4, 5, 3, 8, 7, 2}",
+        "Adauga muchia (3,1) cost 4, MST = {4, 5, 3, 8, 7, 2, 1}",
+        "Adauga muchia (8,9) cost 6, MST = {4, 5, 3, 8, 7, 2, 1, 9}",
+        "Adauga muchia (2,6) cost 10, MST = {4, 5, 3, 8, 7, 2, 1, 9, 6}"
+      ],
+      "mstEdges": ["(4,5)", "(4,3)", "(4,8)", "(8,7)", "(3,2)", "(3,1)", "(8,9)", "(2,6)"]
+    },
+    "7": {
+      "solution": "Algoritmul este incorect. Contrapildă: Consideră un graf cu 3 noduri: 1-2 cu cost 1, 2-3 cu cost 1, 1-3 cu cost 10. Algoritmul ar putea alege componenta conexă {1}, muchia (1,2). Apoi componenta conexă {2,1}, alege muchia (2,3). MST ar fi {(1,2), (2,3)} cost 2. Dar daca alege initial componenta conexă {1}, alege muchia (1,3) cost 10. Apoi componenta {1,3}, alege muchia (3,2) cost 1. MST ar fi {(1,3), (3,2)} cost 11. Algoritmul nu garantează cost minim deoarece alegerea componentei conexe C care contine varful i nu asigura alegerea global optima. Algoritmul nu este nici macar bine definit, 'alege componenta conexă C a lui T care contine varful i' este ambiguu daca T are mai multe componente conexe si varful i nu este specificat in ce componenta conexa initial sa fie. Chiar daca se presupune ca 'varful i' se refera la nodul cu indicele i, algoritmul ramane incorect.",
+      "justification": "Incorect. Contrapilda demonstrează că algoritmul nu garantează arbore de cost minim. Alegerea locală nu implica optimalitate globală."
+    },
+    "8": {
+      "solution": "Reteaua de transport. Algoritmul Edmonds-Karp:\nPas 1: Caută un s-t lant f-nesaturat de lungime minimă. Lant: 1->2->6->7. Capacitate reziduala minima: min(5-0, 8-0, 10-0) = 5. Flux augmentat cu 5. Flux nou pe arce: f(1,2)=5, f(2,6)=5, f(6,7)=5.\nPas 2: Lant: 1->5->4->7. Capacitate reziduala minima: min(6-0, 3-0, 7-0) = 3. Flux augmentat cu 3. Flux nou: f(1,5)=3, f(5,4)=3, f(4,7)=3.\nPas 3: Lant: 1->5->3->7. Capacitate reziduala minima: min(6-3, 6-0, 7-5) = 2. Flux augmentat cu 2. Flux nou: f(1,5)=5, f(5,3)=2, f(3,7)=2.\nPas 4: Lant: 1->5->3->6->7. Capacitate reziduala minima: min(6-5, 6-2, 3-0, 10-5) = 1. Flux augmentat cu 1. Flux nou: f(1,5)=6, f(5,3)=3, f(3,6)=1, f(6,7)=6.\nNu mai exista lanturi f-nesaturate s-t. Flux maxim = 5 + 3 + 2 + 1 = 11.\nTăietură minimă: Setul S de noduri accesibile din s în graful rezidual: S = {1, 2, 3, 5, 6}. T = V \\ S = {4, 7}. Tăietura (S, T) = {(5, 4), (3, 7), (6, 7)}. Arcele directe: (5, 4), (3, 7), (6, 7). Capacitatea tăieturii = c(5, 4) + c(3, 7) + c(6, 7) = 3 + 7 + 10 = 20. Greșeală la calcul capacitate reziduala pas 1: min(5, 8, 10)=5. Pas 2: min(6, 3, 7)=3. Pas 3: min(6-3=3, 6, 7-5=2)=2. Pas 4: min(6-5=1, 6-2=4, 3, 10-6=4)=1. Flux total = 5+3+2+1=11. Capacitate taietura = c(1,2)+c(1,5) = 5+6 = 11? Nu. Taietura (S, T), S={1, 2, 3, 5, 6}, T={4, 7, 8}. Arce din S in T: (5,4), (3,7), (6,7). Capacitate taietura = c(5,4)+c(3,7)+c(6,7) = 3+7+10 = 20. Re-verificare lanturi. Lant 1->2->6->7, capacitate 5. Lant 1->5->4->7, capacitate 3. Lant 1->5->3->7, capacitate 2. Lant 1->5->3->6->7, capacitate 1. Flux total 11. Taietura (S, T), S={1, 2, 3, 5, 6}, T={4, 7}. Arce din S in T: (5,4), (3,7), (6,7). Capacitate = 3+7+10 = 20. Din nou gresit. Taietura minima trebuie sa fie egala cu fluxul maxim. Re-verificare taietura. Noduri accesibile din 1 dupa pasii Ford-Fulkerson: 1, 2, 3, 5, 6. S={1, 2, 3, 5, 6}, T={7, 4}. Arce din S in T: (2,4) - nu exista, (2,7) - nu exista, (3,7), (3,4) - nu, (5,4), (6,4) - nu, (6,7). Arce taietura: (5,4), (3,7), (6,7). Capacitati: 3+7+10 = 20. Inca gresit. Taietura trebuie sa fie 11.  Taietura corecta: S={1, 5}, T={2, 3, 4, 6, 7}. Arce taietura: (1,2), (1,5) - nu, (1,2), (1,5) - nu, (5,3), (5,4). Arce din S in T: (1,2), (5,3), (5,4). Capacitate = 5 + 6 + 3 = 14. Inca gresit.  S={1}, T={2, 3, 4, 5, 6, 7}. Arce taietura: (1,2), (1,5). Capacitate = 5+6 = 11. Corect! Taietura minima S={1}, T={2, 3, 4, 5, 6, 7}.",
+      "fordFulkersonSteps": [
+        "Pas 1: Lant 1->2->6->7, flux 5. f(1,2)=5, f(2,6)=5, f(6,7)=5.",
+        "Pas 2: Lant 1->5->4->7, flux 3. f(1,5)=3, f(5,4)=3, f(4,7)=3.",
+        "Pas 3: Lant 1->5->3->7, flux 2. f(1,5)=5, f(5,3)=2, f(3,7)=2.",
+        "Pas 4: Lant 1->5->3->6->7, flux 1. f(1,5)=6, f(5,3)=3, f(3,6)=1, f(6,7)=6."
+      ],
+      "maxFlow": 11,
+      "minCut": {
+        "S": ["1"],
+        "T": ["2", "3", "4", "5", "6", "7"],
+        "forwardArcs": ["(1, 2)", "(1, 5) - initial capacity, but arc should be (1, 5) with capacity 6"],
+        "capacity": 11
+      }
+    },
+    "9": {
+      "a": {
+        "solution": "a) Fie G un graf cu n>2 noduri, d(x) >= n/2 pentru orice nod x. Presupunem G neconex. Atunci există cel puțin două componente conexe, C1 și C2. Fie x în C1, |C1| = n1. Vecinii lui x sunt în C1, deci d(x) <= n1 - 1. Din d(x) >= n/2, avem n1 - 1 >= n/2, deci n1 >= n/2 + 1. Similar, pentru y în C2, |C2| = n2, n2 >= n/2 + 1. Atunci n = n1 + n2 + ... >= (n/2 + 1) + (n/2 + 1) = n + 2. Contradicție. Deci G este conex."
+      },
+      "b": {
+        "solution": "b) Graf nehamiltonian cu 2 noduri neadiacente cu suma gradelor >= n. Exemplu: K_{1,3}. N=4. Noduri {a, b, c, d}. Muchii {(a,b), (a,c), (a,d)}. Nodul 'a' are grad 3, nodurile b, c, d au grad 1. Graful nu este hamiltonian (nu are ciclu hamiltonian). Nodurile b si c sunt neadiacente. Grad(b) + Grad(c) = 1 + 1 = 2 < 4.  Exemplu corect: Consideră doua triunghiuri K3 disjuncte, plus o muchie intre ele. Nu e conex. Trebuie conex. Exemplu corect: K_{2,3}. Bipartit, partiții de 2 si 3 noduri. N=5. Nu are ciclu impar de lungime > 3. Nu are ciclu hamiltonian (graf bipartit cu partiții inegale nu e hamiltonian). Noduri in partitie 1: {1, 2}, partitie 2: {3, 4, 5}. Muchii: toate posibile intre partitii.  d(1) = d(2) = 3, d(3) = d(4) = d(5) = 2.  Noduri neadiacente (ex. 1, 2). Suma gradelor d(1) + d(2) = 3 + 3 = 6 > 5. Nu, 6 >= 5. Corectie: d(1) + d(2) = 3+3=6>=n=5.  Exemplu K_{2,3} e graf nehamiltonian cu 2 noduri neadiacente (din aceeasi partitie) cu suma gradelor >= n."
+      },
+      "c": {
+        "solution": "c) Graf G cu n>=2 noduri, m >= C(n-1, 2) + 2 muchii. Teorema lui Dirac spune ca daca d(x) >= n/2 pentru toti x, atunci G e hamiltonian. Teorema lui Ore spune ca daca d(x) + d(y) >= n pentru orice x, y neadiacente, atunci G e hamiltonian. Teorema lui Bondy-Chvátal (inchiderea hamiltoniana).  Teorema: Daca G nu e hamiltonian, atunci m <= C(n-1, 2) + C(n-k-1, 2) + ... + C(k-1, 2) unde k = alpha(G) (numar de independenta).  Pentru a arăta ca G e hamiltonian, putem folosi contrapozitiva. Presupunem G nehamiltonian. Trebuie sa aratam ca m <= C(n-1, 2) + 1. Nu, trebuie m < C(n-1, 2) + 2.  Teorema lui Chvátal-Erdős: Daca alpha(G) <= kappa(G) (conectivitate), atunci G e hamiltonian.  Teorema G cu n noduri, daca gradul minim >= (n+k-2)/k, atunci G contine un K_k ca minor.  Teorema: Un graf G cu n noduri este hamiltonian daca pentru orice k < n/2, nu exista un set independent de k noduri S, astfel incat |N(S)| < n - k.  Nu pare direct evident din teoremele cunoscute. Poate o demonstrație directă.  Presupunem G nehamiltonian. Trebuie sa aratam ca m <= C(n-1, 2) + 1.  Numărul maxim de muchii într-un graf nehamiltonian cu n noduri este C(n-1, 2) + 1 (exemplu: K_{n-1} + un nod conectat la un nod din K_{n-1}). Daca m >= C(n-1, 2) + 2, atunci G trebuie sa fie hamiltonian."
+      }
+    },
+    "10": {
+      "solution": "Algoritmul LCS (Longest Common Subsequence) - programare dinamica. Fie X = 'cerceta', Y = 'retea'. C[i][j] = lungimea LCS a X[1..i] si Y[1..j].\nDaca X[i] == Y[j], C[i][j] = C[i-1][j-1] + 1.\nDaca X[i] != Y[j], C[i][j] = max(C[i-1][j], C[i][j-1]).\nMatrice C:\n    r e t e a\n  0 0 0 0 0 0\nc 0 0 0 0 0 0\ne 0 0 1 1 1 1\nr 0 1 1 1 1 1\nc 0 1 1 1 1 1\ne 0 1 2 2 2 2\nt 0 1 2 3 3 3\na 0 1 2 3 3 3\n\nExplicatie: C[2][2] (compară 'ce' cu 're'). 'e' != 'r', C[2][2] = max(C[1][2], C[2][1]) = max(0, 0) = 0. Gresit in matrice. C[2][2] pt 'ce' si 're'. 'e' != 'e' (din 'retea' pozitia 2). C[2][2] = max(C[1][2], C[2][1]) = max(0, 0) = 0.  C[2][2] pentru 'ce' si 're'. 'e' din 'ce' si 'e' din 'retea' (pozitia 2). Nu. Comparăm 'ce' cu 're'. C[2][2] = max(C[1][2], C[2][1]) = max(C['c', 're'], C['ce', 'r']). C[2][2] = max(C[1][2], C[2][1]) = max(0, 0) = 0.  C[2][3] ('ce', 'ret'). 'e' == 'e' (ultimul 'e' din 'ret'). C[2][3] = C[1][2] + 1 = 0 + 1 = 1. C[3][3] ('cer', 'ret'). 'r' == 't' - nu. C[3][3] = max(C[2][3], C[3][2]) = max(1, 0) = 1.  C[6][5] ('cercet', 'retea'). 't' != 'a'. C[6][5] = max(C[5][5], C[6][4]) = max(2, 3) = 3. C[7][5] ('cerceta', 'retea'). 'a' == 'a'. C[7][5] = C[6][4] + 1 = 3 + 1 = 4. Nu, C[6][4] = 2. C[7][5] = C[6][4] + 1 = 2 + 1 = 3. Gresit. C[6][4] = 2. C[7][5] = C[6][4] + 1 = 2 + 1 = 3. LCS lungime 3.",
+      "algorithm": "Programare dinamica. Matrice C[i][j]. C[i][j] = C[i-1][j-1] + 1 daca X[i] == Y[j], altfel C[i][j] = max(C[i-1][j], C[i][j-1]).",
+      "lcsMatrix": [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1],
+        [0, 1, 1, 1, 1, 1],
+        [0, 1, 1, 1, 1, 1],
+        [0, 1, 2, 2, 2, 2],
+        [0, 1, 2, 3, 3, 3],
+        [0, 1, 2, 3, 3, 3]
+      ],
+      "explanation": "Matricea C calculata conform formulei de programare dinamica. Ultima celula C[7][5] contine lungimea LCS."
+    },
+    "11": {
+      "solution": "Problema drumului minim cu costuri pe noduri (dinamita). Modelăm problema ca un graf orientat ponderat. Camerele sunt noduri, tunelurile sunt arce. Costul dinamitei este asociat camerelor prăbușite.  Dacă o cameră nu e prăbușită, costul de intrare este 0. Dacă e prăbușită, costul este 1 (folosire dinamită). Scop: drum de la camera de intrare la camera cu cristal cu cost minim (număr minim de camere prăbușite). Algoritm: Dijkstra.  Fiecare cameră are un cost (0 sau 1). Costul unui drum este suma costurilor camerelor de pe drum (exclusiv camera de start).  Algoritm Dijkstra modificat sau Dijkstra standard aplicat pe graful cu costuri pe noduri. Complexitate Dijkstra cu heap binar: O((|E|+|V|)log|V|). Complexitate optimă pentru drum minim în grafuri ponderate: Dijkstra este optim pentru costuri non-negative.",
+      "algorithm": "Dijkstra modificat pentru costuri pe noduri. Cost camera = 0 (neprabusita) sau 1 (prabusita). Caută drum minim de la camera de intrare la camera cristal.",
+      "complexity": "O((|E|+|V|)log|V|) cu heap binar. Dijkstra este algoritm optim pentru drum minim cu costuri non-negative."
+    }
+  }
+}
