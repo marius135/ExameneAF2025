@@ -1,0 +1,195 @@
+valuarea lucrării și tabelul cu punctaj
+Iată evaluarea lucrării tale, împreună cu un tabel rezumativ la final:
+
+Task 1 (Subgraf bipartit maximal conex)
+
+Răspunsul studentului: Subgraful indus propus ({4, 8}, {3, 5, 9}) este bipartit și conex. Are 5 noduri.
+
+Evaluare: Subgraful este corect bipartit și conex. Totuși, nu este maximal. Subgraful corect maximal, conform baremului, este cel cu 6 noduri, indus de {1, 3, 4, 6, 8, 9}.
+
+Punctaj conform barem: Conform baremului, pentru un subgraf bipartit și conex, dar nemaximal, se acordă cel mult 0.1 puncte. Având în vedere că subgraful este corect bipartit și conex, dar nu maximal și nici cel mai mare posibil subgraf bipartit conex (se putea obține unul cu 6 noduri), acordăm 0.1 puncte.
+
+Task 2 (BFS din nodul 4)
+
+Răspunsul studentului: Ordinea BFS, distanțele și arborele BFS sunt corecte.
+
+Evaluare: Ordinea BFS, distanțele calculate și arborele BFS desenat sunt corecte și corespund exemplului din barem (cu mici diferențe de formatare a arborelui, dar structura este corectă).
+
+Punctaj conform barem:
+
+Ordine corectă BFS: 0.3 puncte
+
+Calcul corect distanțe: 0.1 puncte
+
+Arbore BFS corect: 0.1 puncte
+
+Total: 0.5 puncte
+
+Task 3 (Lanț eulerian)
+
+Răspunsul studentului: Identifică corect nodurile de grad impar și concluzionează corect că nu există lanț eulerian în graful original. Propune eliminarea muchiei (3,6). Lanțul eulerian propus după eliminare NU este corect.
+
+Evaluare: Identificarea nodurilor de grad impar și concluzia inițială sunt corecte. Teorema lanțului eulerian este enunțată corect. Însă, lanțul eulerian dat ca exemplu după eliminarea muchiei (3,6) este incorect. Se cerea eliminarea unei muchii pentru a avea exact două noduri de grad impar sau zero. Nodurile de grad impar inițiale sunt 1, 6, 7, 9. Eliminând (3,6), gradele se modifică, dar trebuie recalculat și verificat numărul de noduri impare și dacă graful rămâne conex. Lanțul dat nu este eulerian, muchia (3,4) este parcursă de două ori, iar muchia (3,6) (care oricum ar fi trebuit eliminată) este presupusă a fi parcursă.
+
+Punctaj conform barem:
+
+Verificare condiție existență: 0.2 puncte
+
+Eliminare minimă muchii (identificarea necesității de eliminare este corectă, dar alegerea și verificarea nu sunt complete): apreciem cu 0.1 puncte (din 0.2)
+
+Indicarea unui lanț eulerian valid: 0 puncte (lanțul este incorect)
+
+Enunțarea condiției necesare și suficiente: 0.1 puncte
+
+Total: 0.4 puncte
+
+Task 4 (Noduri critice)
+
+Răspunsul studentului: Definiția nodurilor critice este corectă, algoritmul descris este principiul corect (DFS, disc, low). Lista de noduri critice {3, 4, 8} este corectă. Justificările pentru 3, 4, 8 sunt sumare, dar sugerează înțelegerea conceptului.
+
+Evaluare: Definiția, algoritmul descris și nodurile critice identificate sunt corecte. Lipsesc valorile disc și low concrete pentru a verifica pas cu pas, dar concluzia este bună. Justificările pot fi considerate suficiente pentru un răspuns de examen.
+
+Punctaj conform barem:
+
+Definirea nodurilor critice: 0.1 puncte
+
+Valorile finale ale vectorilor disc și low (deși nu sunt listate explicit, se presupune că au fost calculate corect pentru a ajunge la rezultatul bun): 0.1 puncte (din 0.15, nu sunt explicitate valorile)
+
+Aplicarea practică (ordinea DFS, back edges - nu sunt listate explicit, dar se presupune că au fost folosite): 0.1 puncte (din 0.2, nu sunt explicitate)
+
+Identificarea nodurilor critice: 0.3 puncte
+
+Total: 0.6 puncte (ușor penalizat pentru lipsa detaliilor intermediare)
+
+Task 5 (Floyd-Warshall)
+
+Răspunsul studentului: Calculul pentru j=1, j=2, j=3 este parțial incorect și incomplet. Matricea D nu este inițializată explicit, și doar câteva modificări sunt prezentate, fără a arăta matricea completă după fiecare pas. Calculul pentru D[1,6] la j=2 este greșit (ar trebui să rămână infinit, nu 11, deoarece nu există drum de la 1 la 6 prin 2 direct în graful inițial, doar prin nodul 3 și 2). Similar pentru D[1,4] și D[1,5] la j=3.
+
+Evaluare: Ideea algoritmului nu este menționată scurt, dar nici nu este cerută explicit în barem o descriere teoretică detaliată la acest criteriu, ci mai mult o "menționare foarte scurtă a ideii". Lipsesc pașii de inițializare a matricei D și afișarea matricelor D după fiecare pas j=1, 2, 3. Calculele exemplificate sunt eronate.
+
+Punctaj conform barem:
+
+Menționare scurtă idee (presupunem că studentul înțelege ideea): 0.1 puncte
+
+Scrierea codului (nu este cerută explicit în răspuns, deci nu se penalizează lipsa): se consideră punctajul implicit acoperit de înțelegerea ideii.
+
+Afișarea matricei D (nu este afișată complet, calculele sunt parțial greșite): 0 puncte (din 0.3)
+
+Total: 0.1 puncte
+
+Task 6 (Prim's Algorithm)
+
+Răspunsul studentului: Pașii algoritmului Prim, pornind din 4, sunt parțial corecți. Ordinea adăugării muchiilor este corectă la început (4,5), (4,8), (8,7), (7,9), (3,4), (2,3), (1,2). Însă, ultima muchie (6,2) cu cost 10 nu este corectă și nici necesară. Arborele parțial de cost minim ar trebui să aibă |V|-1 = 8 muchii pentru 9 noduri. Răspunsul studentului listează 8 muchii, dar include (6,2) care nu este în arborele corect conform costurilor minime și ordinii algoritmului Prim. Costul MST calculat (20) este greșit. Costul corect, adunând costurile muchiilor corecte (fără (6,2)), este 1+3+2+5+5+2+1 = 19.
+
+Evaluare: Ideea de bază a algoritmului Prim este implicit în exemplificare. Exemplificarea pas cu pas este parțial corectă, dar include o muchie incorectă la final și calculează greșit costul total.
+
+Punctaj conform barem:
+
+Prezentarea ideii de bază: 0.1 puncte
+
+Exemplificare pas cu pas (parțial corectă, cu eroare la final): 0.2 puncte (din 0.3)
+
+Rezultatul final (lista de muchii este parțial corectă, costul final greșit): 0 puncte (din 0.1, costul final este eronat)
+
+Total: 0.3 puncte
+
+Task 7 (Corectitudinea algoritmului MST)
+
+Răspunsul studentului: Identifică corect că algoritmul propus nu este corect și oferă un contraexemplu valid. Explicația motivului pentru care algoritmul este incorect este corectă - nu consideră toate muchiile posibile la fiecare pas.
+
+Evaluare: Răspunsul demonstrează înțelegerea conceptului de MST și capacitatea de a identifica erori într-un algoritm propus. Contraexemplul și justificarea sunt clare și corecte.
+
+Punctaj conform barem:
+
+Rezumatul algoritmului (implicit prin discuție): 0.1 puncte
+
+Justificare (oferă contraexemplu valid și explicație corectă): 0.3 puncte
+
+Concluzie (afirmă corect că algoritmul nu este corect): 0.1 puncte
+
+Total: 0.5 puncte
+
+Task 8 (Edmonds-Karp)
+
+Răspunsul studentului: Pașii de creștere a fluxului sunt incorecți. Primul drum propus (1->5->3->7) nu este un drum de creștere valid în rețeaua reziduală inițială, conform fluxurilor date. Capacitățile reziduale trebuie calculate corect în funcție de fluxul inițial. Similar, al doilea și al treilea drum sunt probabil, de asemenea, invalide, bazându-se pe un prim pas greșit. Calculul bottleneck și creșterea fluxului sunt, de asemenea, probabil eronate. Concluzia despre fluxul final și tăietura minimă, bazându-se pe pașii incorecți, sunt și ele probabil incorecte.
+
+Evaluare: Începutul algoritmului Edmonds-Karp este greșit, pașii de creștere a fluxului nu sunt validați corect în rețeaua reziduală. Toate concluziile ulterioare bazate pe acești pași inițiali sunt, prin urmare, nevalide.
+
+Punctaj conform barem:
+
+Pașii de creștere a fluxului (toți pașii sunt incorecți): 0 puncte (din 0.5)
+
+Concluzia: fluxul final și oprirea (incorecte, bazate pe pașii anteriori): 0 puncte (din 0.25)
+
+Tăietura minimă (probabil incorectă): 0 puncte (din 0.5)
+
+Total: 0 puncte
+
+Task 9 (Teorema lui Ore)
+
+9a) Conectivitate graf cu grad minim n/2: Demonstrația prin contradicție este corectă și completă. Raționamentul este clar și logic.
+
+9b) Graf nehamiltonian cu suma gradelor >= n: Exemplul graf bipartit complet cu partiții inegale este o idee bună, dar descrierea "connect all but one pair of vertices between them" este vague și potențial ambiguă. Un exemplu mai precis, cum ar fi un K<sub>1, n-1</sub> (stea) sau un graf bipartit complet K<sub>k, n-k</sub> cu k < n/2 ar fi mai clar. Verificarea că nu este hamiltonian și că există noduri neadiacente cu suma gradelor >= n este necesară pentru a fi complet corect. Răspunsul este parțial corect, conceptul de graf bipartit complet este relevant, dar exemplul nu este descris suficient de precis și lipsește verificarea explicită.
+
+9c) Teorema lui Ore: "Proof sketch" este foarte succint și incomplet. Menționează Teorema lui Ore, dar nu dezvoltă argumentul în detaliu. Lipsesc pașii logici și raționamentul clar pentru a ajunge la contradicție. Este mai degrabă o idee generală decât o demonstrație completă.
+
+Punctaj conform barem:
+
+9a): 0.4 puncte (demonstrație corectă și completă)
+
+9b): 0.2 puncte (exemplul este vag, lipsesc detaliile și verificările)
+
+9c): 0.2 puncte (răspuns incomplet/confuz - schiță foarte sumară, lipsesc detaliile)
+
+Total Task 9: 0.8 puncte
+
+Task 10 (LCS)
+
+Răspunsul studentului: Recurența pentru LCS este enunțată corect. Matricea DP pentru "cerceta" și "retea" este calculată corect. Lungimea LCS este identificată corect (4), și un exemplu de LCS ("etea") este dat corect.
+
+Evaluare: Algoritmul LCS este descris corect prin recurență. Exemplificarea cu matricea DP este completă și corectă. Concluziile despre lungimea LCS și un exemplu de subsir comun sunt, de asemenea, corecte.
+
+Punctaj conform barem:
+
+Descriere scurtă metodă (recurența): 0.15 puncte
+
+Exemplificare (matricea DP corectă): 0.4 puncte
+
+Concluzie (lungimea LCS și exemplu): 0.2 puncte
+
+Total: 0.75 puncte
+
+Task 11 (Mina Subterană)
+
+Răspunsul studentului: Sugerează utilizarea unei variante modificate a algoritmului Dijkstra. Ideea de a trata costurile dinamitei ca ponderi (0 sau 1) este corectă. Menționează utilizarea unei cozi de priorități, specifică pentru Dijkstra. Justificarea optimalității este sumară, dar atinge punctele cheie (substructură optimă, alegere greedy, lipsa costurilor negative). Complexitatea menționată (O(E log V)) este corectă pentru Dijkstra.
+
+Evaluare: Soluția propusă cu Dijkstra este validă și eficientă pentru problema dată. Deși baremul menționează 0-1 BFS ca soluție optimă (în complexitate, nu neapărat în algoritmul în sine, Dijkstra funcționează și este acceptabil), Dijkstra este o abordare corectă. Explicația algoritmului și justificarea optimalității sunt sumare, dar acoperă aspectele esențiale. Complexitatea este menționată corect pentru Dijkstra.
+
+Punctaj conform barem:
+
+Secțiunea A (Descrierea soluției): Soluție alternativă cu Dijkstra (corectă, dar nu 0-1 BFS): 0.5 puncte (din 0.75 maxim pentru 0-1 BFS). Explicația este parțială, dar acceptabilă.
+
+Secțiunea B (Discuția complexității): Analiza complexității Dijkstra (O(E log V)) este menționată corect: 0.6 puncte (din 0.75 maxim pentru analiza detaliată a 0-1 BFS, dar analiza Dijkstra este corectă). Justificarea complexității este implicită prin menționarea cozii de priorități.
+
+Total Task 11: 1.1 puncte
+
+Tabel rezumativ punctaj:
+
+Exercițiul	Punctaj Acordat	Explicație Scurtă
+Task 1	0.1	Subgraf bipartit conex, dar nemaximal.
+Task 2	0.5	Răspuns complet corect: ordine BFS, distanțe, arbore BFS.
+Task 3	0.4	Identificare corectă lipsă lanț eulerian, enunț teoremă corect, eliminare muchie parțial corectă, lanț eulerian propus incorect.
+Task 4	0.6	Definiție, algoritm și noduri critice corecte. Lipsesc detalii intermediare (disc, low, ordine DFS, back edges).
+Task 5	0.1	Floyd-Warshall - ideea de bază presupusă, lipsă inițializare, afișare matrice D, calcule exemplificate incorecte.
+Task 6	0.3	Prim - Idee de bază implicită, exemplificare parțial corectă cu eroare la final, cost MST greșit.
+Task 7	0.5	Identifică corect incorectitudinea algoritmului, contraexemplu valid și justificare corectă.
+Task 8	0.0	Edmonds-Karp - Pași de creștere a fluxului, concluzii și tăietură minimă complet incorecte.
+Task 9a	0.4	Demonstrație conectivitate complet corectă.
+Task 9b	0.2	Exemplu graf nehamiltonian vag, lipsesc detalii și verificări.
+Task 9c	0.2	Teorema lui Ore - schiță de demonstrație foarte incompletă.
+Task 10	0.75	LCS - Recurență, matrice DP și concluzii complet corecte.
+Task 11	1.1	Mina - Soluție Dijkstra validă, explicație și justificare optimalitate sumare, analiză complexitate corectă pentru Dijkstra.
+Total	5.05	
+Observații generale:
+
+Lucrarea prezintă o înțelegere parțială a algoritmilor fundamentali. Unele răspunsuri (Task 2, 7, 9a, 10) sunt bune sau foarte bune. Altele (Task 1, 3, 4, 5, 6, 9b, 9c, 11) sunt parțiale sau conțin erori semnificative. Task 8 este complet greșit. Este necesară o aprofundare a algoritmilor grafurilor (în special flux maxim și algoritmi de drumuri minime) și o mai mare atenție la detalii și calcule precise în exemplificări. Punctajul total este 5.05 din 7.5 puncte (dacă adunăm punctajele maxime posibile din barem). Dacă punctajul maxim posibil este 10 (cum sugerează notațiile "5 points", "7.5 points", "12.5 points", "15 points"), atunci punctajul ar fi 5.05 din 10. Verifică baremul total pentru a confirma.
