@@ -1,6 +1,7 @@
 {
   "Examen la Algoritmi Fundamentali - Varianta 2": {
     "Data": "28.01.2025",
+     "Indicatii": "Pentru subiectele 1-6 vecinii unui vârf se consideră în ordine lexicografică".
     "Graf_1_6": {
       "Orientat": "Neorientat",
       "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
