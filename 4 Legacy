@@ -1,0 +1,88 @@
+{
+  "Examen la Algoritmi Fundamentali - Varianta 2": {
+    "Data": "28.01.2025",
+    "Graf_tasks_1_to_6": {
+      "Orientat": "Neorientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Muchii": [
+        {"x": "1", "y": "2", "w": "1"},
+        {"x": "2", "y": "6", "w": "10"},
+        {"x": "2", "y": "3", "w": "2"},
+        {"x": "1", "y": "3", "w": "4"},
+        {"x": "3", "y": "6", "w": "11"},
+        {"x": "3", "y": "5", "w": "12"},
+        {"x": "5", "y": "4", "w": "1"},
+        {"x": "3", "y": "4", "w": "5"},
+        {"x": "4", "y": "8", "w": "3"},
+        {"x": "8", "y": "9", "w": "6"},
+        {"x": "9", "y": "7", "w": "5"},
+        {"x": "7", "y": "8", "w": "2"}
+      ]
+    },
+    "Graf_9": {
+      "Orientat": "Orientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7"],
+      "Muchii": [
+        {"x": "1", "y": "2", "c": "5", "w": "10"},
+        {"x": "1", "y": "5", "c": "6", "w": "6"},
+        {"x": "4", "y": "2", "c": "3", "w": "3"},
+        {"x": "5", "y": "4", "c": "0", "w": "3"},
+        {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "3", "y": "6", "c": "3", "w": "3"},
+        {"x": "5", "y": "3", "c": "6", "w": "7"},
+        {"x": "6", "y": "7", "c": "8", "w": "10"},
+        {"x": "3", "y": "7", "c": "3", "w": "7"}
+      ]
+    },
+    "Tasks": [
+      {
+        "1": "Pentru a identifica un subgraf indus bipartit conex cu număr maxim de noduri în graf neorientat, alegem nodurile {1, 2, 3, 5} pentru care bipartiția este: Partiția A: {1, 3, 5}, Partiția B: {2}. Această bipartiție permite includerea tuturor nodurilor selectate fără a forma cicluri impare, asigurând astfel caracterul bipartit al subgrafului.",
+        "Value": "5 points"
+      },
+      {
+        "2": "Pentru BFS început de la nodul 4: Inițializăm distanțele tuturor nodurilor ca fiind infinite, exceptând nodul de start (4), care are distanța 0. BFS explorează nodurile pe nivele: Nivel 0: 4, Nivel 1: 3, 5, 8, Nivel 2: 1, 6, 9, Nivel 3: 2. Arborele BFS arată astfel: 4-3, 4-5, 4-8; 3-1, 3-6; 8-9; 1-2.",
+        "Value": "5 points"
+      },
+      {
+        "3": "Graful nu admite un lanț eulerian deoarece există mai mult de două noduri cu grad impar (1, 3, 5, 6, 7, 9). Un număr minim de muchii ce trebuie eliminate pentru a permite existența unui lanț eulerian este de 3, scoțând muchiile (1-2), (3-6), (5-4). Un lanț eulerian în graful obținut ar putea fi: 1-3-5-4-8-9-7-8-4-3-2.",
+        "Value": "7.5 points"
+      },
+      {
+        "4": "Algoritmul Tarjan pentru noduri critice arată că nodurile 3 și 4 sunt critice, având în vedere că eliminarea oricăruia din ele crește numărul componentelor conexe. Demonstrația algoritmului este complexă și se bazează pe descoperirea muchiilor de întoarcere și a punctelor de articulație.",
+        "Value": "7.5 points"
+      },
+      {
+        "5": "Algoritmul Floyd-Warshall inițializează matricea D cu infinit, exceptând diagonala principală (0) și valorile muchiilor directe între noduri. După prima iterație (j=1), distanțele directe de la nodul 1 sunt actualizate. După a doua iterație (j=2), sunt recalculare distanțele folosind nodul 2 ca intermediar, și așa mai departe.",
+        "Value": "5 points"
+      },
+      {
+        "6": "Algoritmul lui Prim inițiat de la nodul 4: Selectăm muchiile cu cele mai mici greutăți conectate la nodul de start, actualizând arborele pas cu pas. Primul pas: alegem muchia (4-5), următorul pas: (4-8), și continuăm să adăugăm noduri la arbore până când toate sunt incluse.",
+        "Value": "5 points"
+      },
+      {
+        "7": "Algoritmul descris este similar cu algoritmul lui Kruskal, nu cu Prim. Nu este corect fără o structură de date care să verifice rapid dacă adăugarea unei muchii creează un ciclu în T, ceea ce nu este menționat. Deci, algoritmul necesită modificări pentru a funcționa eficient.",
+        "Value": "7.5 points"
+      },
+      {
+        "8": "Algoritmul Ford-Fulkerson aplicat pe rețeaua de transport va crește fluxul în rețea folosind calea de creștere maximă la fiecare pas. O tăietură minimă poate fi identificată prin explorarea nodurilor accesibile din sursă fără a depăși capacitatea arcelor, determinând capacitatea tăieturii ca suma capacitaților arcelor ce leagă partea sursei de partea destinației.",
+        "Value": "12.5 points"
+      },
+      {
+        "9": [
+          {"a": "Graful este conex pentru că oricare două noduri sunt legate prin cel puțin un drum, având în vedere că fiecare nod are un grad >= n/2, deci intersecția oricărui două mulțimi de vecini nu este niciodată vidă."},
+          {"b": "Un exemplu de graf nehamiltonian cu proprietatea dată este un graf bipartit complet cu partițiile de dimensiuni (n-1)/2 și (n+1)/2, unde n este impar."},
+          {"c": "Dacă G are cel puțin combinații(n-1, 2) + 2 muchii, prin aplicarea principiului cutiei, rezultă că există un ciclu hamiltonian, deoarece fiecare nod are suficiente legături pentru a forma un ciclu complet."}
+        ],
+        "Value": "15 points"
+      },
+      {
+        "10": "Algoritmul de determinare a lungimii maxime a unui subsir comun între 'cerceta' și 'retea' construiește o matrice în care fiecare celulă reprezintă lungimea maximă a subsirului comun până la acele litere. Matricea este umplută progresiv, fiecare celulă fiind calculată pe baza celor vecine (sus, stânga, diagonal).",
+        "Value": "7.5 points"
+      },
+      {
+        "11": "Algoritmul Dijkstra modificat pentru a include costuri (dinamită) determină cel mai ieftin drum prin mină. Se actualizează costurile minimale de acces la fiecare cameră, în funcție de costul tunelurilor (dinamita necesară) și se determină dacă există un drum până la camera cu cristalul rar.",
+        "Value": "15 points"
+      }
+    ]
+  }
+}
