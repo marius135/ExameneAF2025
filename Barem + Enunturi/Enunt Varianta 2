@@ -1,7 +1,7 @@
 {
   "Examen la Algoritmi Fundamentali - Varianta 2": {
     "Data": "28.01.2025",
-    "Graf_1_7": {
+    "Graf_1_6": {
       "Orientat": "Neorientat",
       "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
       "Muchii": [
@@ -19,7 +19,7 @@
         {"x": "7", "y": "8", "w": "2"}
       ]
     },
-    "Graf_9": {
+    "Graf_8": {
       "Orientat": "Orientat",
       "Noduri": ["1", "2", "3", "4", "5", "6", "7"],
       "Muchii": [
