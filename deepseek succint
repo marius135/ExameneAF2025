@@ -1,0 +1,145 @@
+{
+  "Examen la Algoritmi Fundamentali - Varianta 2": {
+    "Data": "28.01.2025",
+    "Graf_tasks_1_to_6": {
+      "Orientat": "Neorientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Muchii": [
+        {"x": "1", "y": "2", "w": "1"},
+        {"x": "2", "y": "6", "w": "10"},
+        {"x": "2", "y": "3", "w": "2"},
+        {"x": "1", "y": "3", "w": "4"},
+        {"x": "3", "y": "6", "w": "11"},
+        {"x": "3", "y": "5", "w": "12"},
+        {"x": "5", "y": "4", "w": "1"},
+        {"x": "3", "y": "4", "w": "5"},
+        {"x": "4", "y": "8", "w": "3"},
+        {"x": "8", "y": "9", "w": "6"},
+        {"x": "9", "y": "7", "w": "5"},
+        {"x": "7", "y": "8", "w": "2"}
+      ]
+    },
+    "Graf_9": {
+      "Orientat": "Orientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7"],
+      "Muchii": [
+        {"x": "1", "y": "2", "c": "5", "w": "10"},
+        {"x": "1", "y": "5", "c": "6", "w": "6"},
+        {"x": "4", "y": "2", "c": "3", "w": "3"},
+        {"x": "5", "y": "4", "c": "0", "w": "3"},
+        {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "3", "y": "6", "c": "3", "w": "3"},
+        {"x": "5", "y": "3", "c": "6", "w": "7"},
+        {"x": "6", "y": "7", "c": "8", "w": "10"},
+        {"x": "3", "y": "7", "c": "3", "w": "7"}
+      ]
+    },
+    "Tasks": [
+      {
+        "1": {
+          "Subgraf_indus_bipartit": {
+            "Noduri": ["1", "2", "4", "8", "9"],
+            "Bipartitie": {
+              "A": ["1", "4", "9"],
+              "B": ["2", "8"]
+            }
+          }
+        }
+      },
+      {
+        "2": {
+          "Distante_de_la_4": {
+            "1": 2,
+            "2": 2,
+            "3": 1,
+            "4": 0,
+            "5": 1,
+            "6": 2,
+            "7": 2,
+            "8": 1,
+            "9": 2
+          },
+          "Arbore_BFS": {
+            "Muchii": [
+              "4-3", "4-5", "4-8",
+              "3-1", "3-2", "3-6",
+              "8-9", "8-7"
+            ]
+          }
+        }
+      },
+      {
+        "3": {
+          "Admite_lant_eulerian": "Nu",
+          "Muchii_eliminate": ["3-4"],
+          "Lant_eulerian": ["2-1-3-6-2-3-4-5-3-5-4-8-9-7-8-4"],
+          "Conditie": "Un graf neorientat are lanț eulerian dacă și numai dacă are exact 0 sau 2 noduri cu grad impar."
+        }
+      },
+      {
+        "4": {
+          "Noduri_critice": ["3", "4", "8"],
+          "Algoritm": "Algoritmul lui Tarjan pentru identificarea punctelor de articulare prin DFS, verificând condițiile pentru fiecare nod."
+        }
+      },
+      {
+        "5": {
+          "Floyd-Warshall": {
+            "j=1": "Nu se modifică nicio valoare.",
+            "j=2": "D[1][3] = 3 (1->2->3), D[1][6] = 11 (1->2->6).",
+            "j=3": "D[2][4] = 7 (2->3->4), D[1][5] = 15 (1->3->5), D[2][5] = 14 (2->3->5)."
+          }
+        }
+      },
+      {
+        "6": {
+          "Arbore_Prim": {
+            "Muchii": [
+              "4-5 (1)", "4-8 (3)", "8-7 (2)",
+              "7-9 (5)", "4-3 (5)", "3-2 (2)",
+              "2-1 (1)", "2-6 (10)"
+            ],
+            "Cost_total": 29
+          }
+        }
+      },
+      {
+        "7": {
+          "Corectitudine": "Nu. Algoritmul nu asigură conectarea tuturor componentelor în mod optim, riscând cicluri sau componente netratate.",
+          "Explicatie": "Selectarea componentelor bazată pe nodul 'i' poate ignora componente neconectate, ducând la alegerea neoptimă a muchiilor."
+        }
+      },
+      {
+        "8": {
+          "Taietura_minima": {
+            "Bipartiție": ["1", "5", "3"], 
+            "Arce_directe": ["1-2", "5-3", "3-7"],
+            "Capacitate": 16
+          }
+        }
+      },
+      {
+        "9": {
+          "a": "Presupunem graful neconex ⇒ există componentă cu mărime ≤ n/2 ⇒ grad minim ≥ n/2 ⇒ contradicție.",
+          "b": "Exemplu: K_{3,3} fără o muchie. Sume grade neadiacente = 3 + 3 = 6 ≥ 6 (n=6).",
+          "c": "Graful este Hamiltonian conform teoremei lui Ore: m ≥ C(n-1,2) + 2 ⇒ condiții suficiente pentru Hamiltonianitate."
+        }
+      },
+      {
+        "10": {
+          "LCS": {
+            "Matrice": "Calculată prin DP cu litere comune 'r', 'e', 't', 'e', 'a'.",
+            "Lungime_maxima": 5,
+            "Subsir": "r e t e a"
+          }
+        }
+      },
+      {
+        "11": {
+          "Algoritm": "Modelare ca graf ponderat (camere = noduri, tuneluri = arce, cost = 1 dacă camera este prăbușită). Algoritmul Dijkstra pentru drumul de cost minim de la s la t.",
+          "Complexitate": "O(m + n log n) cu heap Fibonacci."
+        }
+      }
+    ]
+  }
+}
