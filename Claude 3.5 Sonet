@@ -1,0 +1,168 @@
+# Algorithms Exam Solutions - Variant 2
+Date: 28.01.2025
+
+## Task 1 (5 points) - Maximum Bipartite Induced Subgraph
+A bipartite induced subgraph with maximum number of nodes would be:
+- Set A: {4, 8}
+- Set B: {3, 5, 9}
+
+This forms a connected bipartite subgraph with 5 nodes. We can verify it's bipartite as all edges connect nodes from different sets, and it's induced as we've included all edges between these nodes from the original graph.
+
+## Task 2 (5 points) - BFS from Node 4
+BFS traversal starting from node 4:
+1. Level 0: 4
+2. Level 1: 3, 5, 8
+3. Level 2: 2, 6, 7, 9
+4. Level 3: 1
+
+Distances from node 4:
+- d(4,4) = 0
+- d(4,3) = d(4,5) = d(4,8) = 1
+- d(4,2) = d(4,6) = d(4,7) = d(4,9) = 2
+- d(4,1) = 3
+
+The BFS tree would include edges:
+- Level 0->1: 4->3, 4->5, 4->8
+- Level 1->2: 3->2, 3->6, 8->7, 8->9
+- Level 2->3: 2->1
+
+## Task 3 (7.5 points) - Eulerian Path
+The graph has odd degree vertices (1, 6, 7, 9), so it doesn't admit an Eulerian path in its current form.
+
+Theorem: A connected undirected graph has an Eulerian path if and only if it has either:
+1. All vertices have even degree (Eulerian circuit), or
+2. Exactly two vertices have odd degree (Eulerian path)
+
+To make it have an Eulerian path, we need to remove one edge to leave exactly two odd-degree vertices. We can remove edge (3,6) to achieve this.
+
+After removal, an Eulerian path would be:
+1 -> 2 -> 3 -> 4 -> 5 -> 3 -> 2 -> 6 -> 3 -> 4 -> 8 -> 7 -> 9 -> 8
+
+## Task 4 (7.5 points) - Critical Nodes
+A node is critical if its removal increases the number of connected components in the graph.
+
+Algorithm to find critical nodes:
+1. Use DFS to number vertices in order of discovery (discovery[v])
+2. For each vertex v, compute low[v] = min{discovery[v], discovery[u] where u is adjacent to some descendant of v}
+3. A non-root vertex v is critical if it has a child u where low[u] ≥ discovery[v]
+4. The root is critical if it has more than one child in the DFS tree
+
+Critical nodes in the graph: {3, 4, 8}
+- Node 3 connects components {1,2,6} with {4,5}
+- Node 4 connects components {1,2,3,5,6} with {7,8,9}
+- Node 8 connects components {1,2,3,4,5,6} with {7,9}
+
+## Task 5 (5 points) - Floyd-Warshall Algorithm
+For j=1 (using vertex 1 as intermediate):
+D[2,3] = min(D[2,3], D[2,1] + D[1,3]) = min(2, 1+4) = 2
+D[3,2] = min(D[3,2], D[3,1] + D[1,2]) = min(2, 4+1) = 2
+
+For j=2 (using vertex 2 as intermediate):
+D[1,6] = min(D[1,6], D[1,2] + D[2,6]) = min(∞, 1+10) = 11
+D[3,6] = min(D[3,6], D[3,2] + D[2,6]) = min(11, 2+10) = 11
+
+For j=3 (using vertex 3 as intermediate):
+D[1,4] = min(D[1,4], D[1,3] + D[3,4]) = min(∞, 4+5) = 9
+D[1,5] = min(D[1,5], D[1,3] + D[3,5]) = min(∞, 4+12) = 16
+
+## Task 6 (5 points) - Prim's Algorithm
+Starting from vertex 4:
+
+1. Add vertex 4 to tree
+2. Add edge (4,5) with weight 1
+3. Add edge (4,3) with weight 5
+4. Add edge (3,2) with weight 2
+5. Add edge (2,1) with weight 1
+6. Add edge (4,8) with weight 3
+7. Add edge (8,7) with weight 2
+8. Add edge (8,9) with weight 6
+
+Final MST weight = 20
+
+## Task 7 (7.5 points) - MST Algorithm Correctness
+The algorithm is not correct. Counter-example:
+Consider a graph with V={1,2,3} and edges:
+- (1,2) with weight 10
+- (2,3) with weight 1
+- (1,3) with weight 2
+
+When i=1, the algorithm would choose edge (1,2) as it's the only edge with vertex 1, even though it's not in any MST.
+
+The algorithm fails because it doesn't consider all possible edges at each step, only those connected to the current vertex i. This violates the key principle that an MST can be built by repeatedly selecting the minimum weight edge that doesn't create a cycle.
+
+## Task 8 (12.5 points) - Ford-Fulkerson/Edmonds-Karp Algorithm
+Starting with given flow f, we find augmenting paths:
+
+1. Path 1->5->3->7 with bottleneck 3
+   - Residual capacities: f(1,5)=6→9, f(5,3)=0→3, f(3,7)=3→6
+   
+2. Path 1->2->4->6->7 with bottleneck 2
+   - Residual capacities: f(1,2)=5→7, f(2,4)=3→5, f(4,6)=3→5, f(6,7)=8→10
+
+No more augmenting paths exist.
+
+Minimum cut:
+- S = {1,2,5}
+- T = {3,4,6,7}
+Cut capacity = 16 (sum of capacities of forward edges minus backward edges)
+
+## Task 9 (15 points) - Graph Theory Proofs
+
+a) Let's prove by contradiction. Assume G is not connected. Then there exist vertices x,y that aren't connected by any path. Let A be the connected component containing x. Since |A| < n, there must be at least n/2 edges from x to vertices in A (by degree condition). But then |A| > n/2. Similarly for y's component B, |B| > n/2. But then |A| + |B| > n, contradiction.
+
+b) Example: Take two complete graphs Kn/2 and connect all but one pair of vertices between them. The missing edge's endpoints have sum of degrees = (n-2) + (n-2) = 2n-4 ≥ n for n≥4, but the graph is not Hamiltonian.
+
+c) If m ≥ (n-1)(n-2)/2 + 2, then by Ore's theorem, the graph must contain a Hamiltonian cycle. Proof sketch:
+1. Assume G is not Hamiltonian
+2. By Ore's theorem, there must be two non-adjacent vertices u,v with d(u) + d(v) < n
+3. This means at most n-2 edges incident to {u,v}
+4. Remaining vertices can have at most (n-2)(n-3)/2 edges between them
+5. Total edges ≤ (n-2) + (n-2)(n-3)/2 < (n-1)(n-2)/2 + 2
+6. Contradiction
+
+## Task 10 (7.5 points) - Longest Common Subsequence
+For strings X[1..m] and Y[1..n], define L[i,j] as length of LCS of X[1..i] and Y[1..j].
+
+Recurrence:
+```
+L[i,j] = 0 if i=0 or j=0
+L[i,j] = L[i-1,j-1] + 1 if X[i]=Y[j]
+L[i,j] = max(L[i-1,j], L[i,j-1]) otherwise
+```
+
+For "cerceta" and "retea":
+
+|   | ε | r | e | t | e | a |
+|---|---|---|---|---|---|---|
+| ε | 0 | 0 | 0 | 0 | 0 | 0 |
+| c | 0 | 0 | 0 | 0 | 0 | 0 |
+| e | 0 | 0 | 1 | 1 | 1 | 1 |
+| r | 0 | 1 | 1 | 1 | 1 | 1 |
+| c | 0 | 1 | 1 | 1 | 1 | 1 |
+| e | 0 | 1 | 2 | 2 | 2 | 2 |
+| t | 0 | 1 | 2 | 3 | 3 | 3 |
+| a | 0 | 1 | 2 | 3 | 3 | 4 |
+
+LCS length = 4
+One LCS is "etea"
+
+## Task 11 (15 points) - Mine Exploration Problem
+This is essentially a shortest path problem where the weight of each edge is 1 if the destination room is collapsed (needs dynamite) and 0 otherwise.
+
+Algorithm:
+1. Use modified Dijkstra's algorithm with priority queue
+2. Distance represents minimum dynamite needed
+3. For each vertex v, maintain d[v] = minimum dynamite needed to reach v
+4. Priority queue stores pairs (v,d[v])
+5. When processing edge (u,v):
+   - New_cost = d[u] + (1 if v is collapsed, 0 otherwise)
+   - If New_cost < d[v], update d[v] and add (v,d[v]) to queue
+
+Complexity:
+- Time: O(E log V) - same as Dijkstra's
+- Space: O(V) for distances and O(V) for priority queue
+
+The algorithm is optimal because:
+1. It follows the optimal substructure property
+2. The greedy choice of minimum dynamite path is always safe
+3. No negative weights possible (can't use negative dynamite)
