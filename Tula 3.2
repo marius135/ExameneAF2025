@@ -1,0 +1,56 @@
+Desigur, voi detalia soluțiile pentru problemele 10 și 11.
+
+### 10. Determinarea lungimii maxime a unui subșir comun
+
+**Algoritmul:**
+
+1. **Inițializare:** Se creează o matrice 2D de dimensiuni `(m+1)x(n+1)`, unde `m` și `n` sunt lungimile celor două cuvinte. Această matrice va stoca lungimile maxime ale subșirurilor comune pentru fiecare subșir al celor două cuvinte.
+
+2. **Relația de recurență:** 
+   - Dacă caracterele curente sunt egale, adaugă 1 la valoarea diagonală stânga-sus (adică, `dp[i][j] = dp[i-1][j-1] + 1`).
+   - Altfel, ia maximul dintre valoarea din stânga și cea de deasupra (`dp[i][j] = max(dp[i-1][j], dp[i][j-1])`).
+
+**Aplicarea pe cuvintele "cerceta" și "retea":**
+
+```
+     r  e  t  e  a
+   0  0  0  0  0  0
+c  0  0  0  0  0  0
+e  0  0  1  1  1  1
+r  0  1  1  1  1  1
+c  0  1  1  1  1  1
+e  0  1  1  1  2  2
+t  0  1  1  2  2  2
+a  0  1  1  2  2  3
+```
+
+**Explicații:**
+- În fiecare celulă, se aplică regula descrisă mai sus.
+- De exemplu, la `dp[2][2]` (pentru "e" din "cerceta" și "e" din "retea"), caracterele sunt egale, deci `dp[2][2] = dp[1][1] + 1 = 1`.
+- La `dp[3][4]` (pentru "r" din "cerceta" și "e" din "retea"), caracterele nu sunt egale, deci `dp[3][4] = max(dp[2][4], dp[3][3]) = 1`.
+
+**Rezultat:** Lungimea maxima a unui subșir comun este `dp[7][5] = 3`, adică subșirul comun "eta".
+
+### 11. Algoritmul pentru drumul minim cu dinamită
+
+**Algoritmul:**
+
+1. **Modelarea problemei:** Considerăm o reprezentare a grafului unde nodurile sunt camerele și muchiile sunt tunelurile. Costul fiecărei muchii reprezintă cantitatea de dinamită necesară pentru a trece prin tunel.
+
+2. **Aplicarea algoritmului Dijkstra modificat:**
+   - Inițializăm o coadă de priorități și un vector de distanțe, unde distanța la nodul de start este 0, iar la toate celelalte noduri este infinit.
+   - În coada de priorități, adăugăm nodul de start cu distanța 0.
+   - Cat timp coada nu este goală:
+     - Extragem nodul cu cea mai mică distanță curentă.
+     - Pentru fiecare vecin al nodului curent, calculăm noua distanță posibilă (distanța curentă + costul muchiei).
+     - Dacă noua distanță este mai mică decât distanța înregistrată, actualizăm distanța și adăugăm vecinul în coada de priorități.
+   - Continuăm până când am vizitat toate nodurile sau coada este goală.
+
+**Complexitate:**
+
+- **Timp:** O((V+E) log V), unde V este numărul de noduri și E este numărul de muchii. Aceasta deoarece fiecare nod este extras din coada de priorități o singură dată și fiecare muchie este procesată o singură dată.
+- **Spațiu:** O(V), pentru stocarea distanțelor și a coadei de priorități.
+
+**Implementare și discuții:**
+
+Pentru a implementa această soluție, trebuie să avem o structură de date eficientă pentru coada de priorități (de exemplu, un heap) și să urmăm pașii descriși. Acest algoritm modificat al lui Dijkstra garantează găsirea drumului minim de la nodul de start la orice alt nod, luând în calcul costurile asociate muchiilor (cantitatea de dinamită necesară). În acest context, "drumul minim" se referă la drumul care minimizează consumul de dinamită, nu neapărat numărul de noduri traversate.
