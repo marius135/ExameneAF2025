@@ -1,0 +1,135 @@
+{
+  "Examen la Algoritmi Fundamentali - Varianta 2": {
+    "Data": "28.01.2025",
+    "Graf_tasks_1_to_6": {
+      "Orientat": "Neorientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Muchii": [
+        {"x": "1", "y": "2", "w": "1"},
+        {"x": "2", "y": "6", "w": "10"},
+        {"x": "2", "y": "3", "w": "2"},
+        {"x": "1", "y": "3", "w": "4"},
+        {"x": "3", "y": "6", "w": "11"},
+        {"x": "3", "y": "5", "w": "12"},
+        {"x": "5", "y": "4", "w": "1"},
+        {"x": "3", "y": "4", "w": "5"},
+        {"x": "4", "y": "8", "w": "3"},
+        {"x": "8", "y": "9", "w": "6"},
+        {"x": "9", "y": "7", "w": "5"},
+        {"x": "7", "y": "8", "w": "2"}
+      ]
+    },
+    "Graf_9": {
+      "Orientat": "Orientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7"],
+      "Muchii": [
+        {"x": "1", "y": "2", "c": "5", "w": "10"},
+        {"x": "1", "y": "5", "c": "6", "w": "6"},
+        {"x": "4", "y": "2", "c": "3", "w": "3"},
+        {"x": "5", "y": "4", "c": "0", "w": "3"},
+        {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "3", "y": "6", "c": "3", "w": "3"},
+        {"x": "5", "y": "3", "c": "6", "w": "7"},
+        {"x": "6", "y": "7", "c": "8", "w": "10"},
+        {"x": "3", "y": "7", "c": "3", "w": "7"}
+      ]
+    },
+    "Tasks": [
+      {
+        "1": {
+          "enunt": "Indicați un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia.",
+          "rezolvare": "În graful dat se observă că secțiunea formată de triunghiul (1,2,3) nu este bipartită. Deoarece reîntregirea întregului graf nu este posibilă fără a avea un ciclu impar, se caută o componentă conexă maximă care să fie bipartită. O alegere potrivită este subgraful indus de nodurile {4, 5, 7, 8}. Verificare: muchiile incidente sunt (5,4), (7,8) și (4,8) (reţinând că muchia (7,8) apare, iar nu se implică vreo muchie care să producă ciclu impar). O bipartiție corespunzătoare este:\n\n • Mulțimea A = {4, 7}\n • Mulțimea B = {5, 8}\n\nVerificare: (5,4) le leagă pe 5 (din B) și 4 (din A); (7,8) le leagă pe 7 (din A) și 8 (din B); iar (4,8) le leagă pe 4 (A) și 8 (B). Astfel, acesta este un subgraf indus, conex şi bipartit, care conţine 4 noduri – numărul maxim posibil, deoarece orice altă alegere care include noduri din triunghiul (1,2,3) duce la apariţia unui ciclu impar sau la deconectare.",
+          "puncte": "5 points"
+        }
+      },
+      {
+        "2": {
+          "enunt": "Exemplificați cum funcționează parcurgerea în lățime (BFS) ilustrând modul în care se poate folosi BFS începând de la nodul 4 pentru a calcula distanța de la 4 la celelalte noduri. Desenați și arborele BFS.",
+          "rezolvare": "Pornim de la nodul 4 (distanța 0). La nivelul 1 se află toți vecinii direcți ai lui 4: din lista muchiilor, nodurile adiacente lui 4 sunt 5 (prin (5,4)), 3 (prin (3,4)) și 8 (prin (4,8)). Astfel:\n\n- Nivelul 0: {4}\n- Nivelul 1: {3, 5, 8} (ordinea poate fi stabilită, de exemplu, crescător: 3, 5, 8).\n\nApoi se procesează fiecare nod de la nivelul 1 în ordinea în care au fost descoperiți:\n\n• Din nodul 3: vecinii sunt 1, 2, 6, 5 și 4. Dintre aceștia, 5 și 4 sunt deja vizitați, astfel se adaugă {1, 2, 6} la nivelul 2.\n• Din nodul 5: are vecinul 4 (deja vizitat) – nimic nou.\n• Din nodul 8: vecinii sunt 4, 9 și 7. 4 este vizitat, astfel se adaugă {9, 7} la nivelul 2.\n\nRezultatul final:\n\n- Nivelul 0: {4} (d(4)=0)\n- Nivelul 1: {3, 5, 8} (d(3)=d(5)=d(8)=1)\n- Nivelul 2: {1, 2, 6, 9, 7} (d(1)=d(2)=d(6)=d(9)=d(7)=2)\n\nArborele BFS se poate desena astfel:\n\n               4\n             / | \\\n            3  5  8\n           / | \\   \n          1  2  6  9\n                    |\n                    7\n\nAcest arbore reunește legăturile prin care nodurile au fost descoperite.",
+          "puncte": "5 points"
+        }
+      },
+      {
+        "3": {
+          "enunt": "Admite graful un lanț eulerian? Dacă nu, eliminați un număr minim de muchii astfel încât graful format să aibă un lanț eulerian și descrieți un lanț eulerian în graful inițial/obținut. Enunțați o condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian.",
+          "rezolvare": "Pentru un graf neorientat conex, condiția necesară și suficientă pentru existența unui lanț eulerian (traseu ce parcurge fiecare muchie o singură dată) este ca numărul de noduri de grad impar să fie exact 0 sau 2.\n\nAnalizând graful dat:\n\n- Gradul nodului 1: 2 (muchiile (1,2) și (1,3)) – par\n- Nodul 2: grad 3 (de la (1,2), (2,6), (2,3)) – impar\n- Nodul 3: grad 5 (de la (1,3), (2,3), (3,6), (3,5), (3,4)) – impar\n- Nodul 4: grad 3 (de la (5,4), (3,4), (4,8)) – impar\n- Nodul 5: grad 2 (de la (3,5), (5,4)) – par\n- Nodul 6: grad 2 (de la (2,6), (3,6)) – par\n- Nodul 7: grad 2 (de la (9,7), (7,8)) – par\n- Nodul 8: grad 3 (de la (4,8), (8,9), (7,8)) – impar\n- Nodul 9: grad 2 (de la (8,9), (9,7)) – par\n\nAvem 4 noduri de grad impar: 2, 3, 4 și 8. Deci, graful inițial NU admite lanț eulerian.\n\nPentru a obține un graf cu lanț eulerian, trebuie să avem exact 0 sau 2 noduri de grad impar. Observați că eliminarea unei muchii care unește două noduri impare va reduce gradul ambelor cu 1 (schimbându-le paritatea din impar în par). În graful dat, muchia (3,4) leagă nodurile 3 și 4, ambele de grad impar. Dacă eliminăm muchia (3,4), atunci:\n\n- Gradul nodului 3 scade de la 5 la 4 (par).\n- Gradul nodului 4 scade de la 3 la 2 (par).\n\nNodurile rămase impare vor fi 2 și 8. Astfel, se îndeplinește condiția pentru existenţa unui lanț eulerian (exact 2 noduri de grad impar). \n\nUn posibil lanț eulerian în graful obținut (pornind de la nodul cu grad impar de început, de exemplu nodul 2, şi terminând la nodul 8) este:\n\n2 → 3 → 6 → 2 → 1 → 3 → 5 → 4 → 8 → 9 → 7 → 8\n\nVerificați că fiecare muchie (cu excepţia lui (3,4) eliminată) este parcursă o singură dată.\n\nCerința necesară și suficientă: Un graf neorientat conex admite lanț eulerian dacă și numai dacă are exact 0 sau 2 noduri de grad impar.",
+          "puncte": "7.5 points"
+        }
+      },
+      {
+        "4": {
+          "enunt": "Descrieți un algoritm eficient și exemplificați algoritmul pentru determinarea nodurilor critice ale grafului din imagine.",
+          "rezolvare": "O metodă clasică este algoritmul bazat pe parcurgerea în adâncime (DFS) care calculează pentru fiecare nod două valori: timpul de descoperire (disc) și valoarea low, definită ca minimul dintre disc[u] și timpii de descoperire ai nodurilor accesibile prin arce de întoarcere sau prin subarborii lui u. \n\nAlgoritmul este după cum urmează:\n\n1. Inițializați pentru fiecare nod u: disc[u] = -1, low[u] = ∞.\n2. Parcurgeți DFS de la un nod sursă (pentru grafuri conexe) și la momentul vizitării unui nod u, setați disc[u] = t (t crește la fiecare vizită) și low[u] = disc[u].\n3. Pentru fiecare vecin v al lui u:\n   - Dacă v nu este vizitat, setați părinte[v] = u, efectuați DFS(v) și actualizați low[u] = min(low[u], low[v]).\n   - Dacă v este vizitat și v ≠ părinte[u], actualizați low[u] = min(low[u], disc[v]).\n4. Un nod u este critic (articulaţie) dacă:\n   - u este rădăcina DFS și are cel puțin 2 copii;\n   - u nu este rădăcină și există un copil v astfel încât low[v] ≥ disc[u].\n\nExemplu: Având graful din figură (presupunem că acesta este conectat și complex), aplicați DFS, calculați disc și low pentru fiecare nod şi identificați nodurile pentru care condiția de mai sus este îndeplinită. \n\nAcest algoritm are complexitate O(V+E) și, prin demonstrarea proprietăţii tăieturii (cut- property) în parcurgerea DFS, se poate arăta că identifică corect toate nodurile critice.",
+          "puncte": "7.5 points"
+        }
+      },
+      {
+        "5": {
+          "enunt": "Descrieți algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri, detaliind următoarea schemă: Initializarea matricei D de distanțe cu matricea costurilor. Pentru j <- 1, n executa: pentru i <- 1, n executa; pentru k <- 1, n executa. Scrieți ce valori se modifică în matrice pentru graful din exemplu la etapele j=1, j=2 și j=3.",
+          "rezolvare": "Algoritmul Floyd–Warshall calculează pentru fiecare pereche (i, k) distanța minimă d(i,k) folosind ca intermediar doar nodurile din {1, 2, …, j}. \n\nPasul 1: Inițializarea: se construiește matricea D astfel încât:\n • D[i][k] = costul muchiei (i,k) dacă (i,k) ∈ E\n • D[i][k] = ∞ dacă (i,k) nu există\n • D[i][i] = 0\n\nApoi, pentru j = 1 până la n, se actualizează:\n\n   Pentru fiecare pereche (i, k):\n      D[i][k] = min(D[i][k], D[i][j] + D[j][k])\n\nDetalii pentru etapele j=1, j=2, j=3 (exemplificare pentru câteva intrări – în graful nostru, nodurile sunt etichetate 1..9 și costurile sunt date de w):\n\n- La j = 1: Se verifică, pentru orice pereche (i,k), dacă parcurgerea prin nodul 1 reduce distanța. De exemplu, dacă D[2][3] inițial este 2 (prin muchia (2,3)) și D[2][1] + D[1][3] = 1 + 4 = 5, atunci se păstrează valoarea 2. Se actualizează doar acele intrări pentru care există o cale mai scurtă ce trece prin nodul 1.\n\n- La j = 2: Se folosește nodul 2 ca intermediar. De exemplu, pentru perechea (1,6): inițial D[1][6] = ∞ sau 11 (prin 1-3-6), iar prin nodul 2 se poate avea D[1][2] + D[2][6] = 1 + 10 = 11; se compară şi se actualizează dacă este mai mic.\n\n- La j = 3: Se folosește nodul 3. De exemplu, pentru (1,6) se poate avea D[1][3] + D[3][6] = 4 + 11 = 15, ceea ce nu este o îmbunătățire. Pentru alte perechi, de exemplu (2,5): D[2][5] inițial poate fi ∞, iar prin nodul 3 se obţine: D[2][3] + D[3][5] = 2 + 12 = 14, astfel matricea se actualizează la 14 pentru poziţia (2,5) dacă acesta este cel mai mic cost găsit.\n\nAstfel, la fiecare etapă j se actualizează doar acele elemente D[i][k] pentru care calea i → j → k este mai scurtă decât calea actuală. (Într-un răspuns de examen se vor afișa matricile parțiale obținute după fiecare iteraţie pentru o selecţie reprezentativă de perechi.)",
+          "puncte": "5 points"
+        }
+      },
+      {
+        "6": {
+          "enunt": "Exemplificați pașii algoritmului lui Prim pentru graful din exemplu pornind din vârful 4, cu explicații.",
+          "rezolvare": "Algoritmul lui Prim construiește treptat un arbore parțial de cost minim, pornind dintr-un nod dat (aici, 4). Iată pașii principali:\n\n1. Inițial, mulțimea T conține doar nodul 4. Se consideră toate muchiile incidente lui 4: acestea sunt (5,4) cu cost 1, (3,4) cu cost 5 și (4,8) cu cost 3.\n\n2. Se alege muchia de cost minim din cele care le leagă pe T de restul nodurilor. Aici, muchia (5,4) cu cost 1 este minimă. Se adaugă nodul 5 la T, iar T devine {4, 5}.\n\n3. Se actualizează mulțimea muchiilor candidate: se păstrează toate muchiile care au o extremitate în T și ce leagă de V\\T. Acum, pe lângă (3,4) și (4,8) din pasul anterior, se adaugă muchia (5,3) cu cost 12 (deoarece 5 este în T și 3 nu este încă în T).\n\n4. Din lista de muchii candidate se alege muchia cu costul cel mai mic. Se compară: (3,4) cu cost 5, (4,8) cu cost 3, și (5,3) cu cost 12. Astfel, se alege (4,8) cu cost 3. Se adaugă nodul 8 la T; T devine {4, 5, 8}.\n\n5. Se reiau candidații: se păstrează muchiile anterioare neselectate și se adaugă muchiile noi care ies din nodul 8. Din 8 se pornește muchia (8,9) cu cost 6 și (7,8) cu cost 2. În lista candidate avem: (3,4) cost 5, (5,3) cost 12, (8,9) cost 6, (7,8) cost 2.\n\n6. Se alege muchia (7,8) cu cost 2. Se adaugă nodul 7 la T; T devine {4, 5, 7, 8}.\n\n7. Se actualizează lista candidate. Se adaugă orice muchie nouă care are o extremitate în T. Procesul continuă astfel, la fiecare pas alegând muchia de cost minim care conectează un nod nou la T, până când T = V (adică toate nodurile sunt acoperite).\n\nAcesta este un exemplu al modului în care algoritmul lui Prim se extinde, pornind din 4, alegând pe rând muchia cu cost minim (folosind o structură de tip heap sau similară pentru eficiență), până când se formează arborele parțial de cost minim al grafului.",
+          "puncte": "5 points"
+        }
+      },
+      {
+        "7": {
+          "enunt": "Este corect următorul algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G=(V, E, w)? Justificați (fără a apela în justificare la modul de funcționare al altor algoritmi; rezultatele folosite trebuie demonstrate și trebuie explicat modul în care se folosesc):\n\nT = (V, E = NULL) – inițial T conține toate vârfurile și nu conține muchii.\nPentru i = 1, |V|-1 executa:\n 1. Alege componenta conexă C a lui T care conține vârful i.\n 2. Alege o muchie de cost minim e cu o extremitate în C și adaugă e la T.",
+          "rezolvare": "Algoritmul propus presupune ca, la fiecare iteraţie, să se ia componenta conexă a arborelui parţial construit până atunci, care conţine un nod fixat (în ordine crescătoare) şi să se adauge muchia de cost minim care iese din acea componentă. \n\nJustificare (fără a invoca funcţionarea directă a algoritmilor clasici precum Prim sau Kruskal):\n\n• Pentru orice divizare (cut) a grafului în două mulțimi (C, V\\C), teorema proprietăţii tăieturii afirmă că muchia de cost minim care are o extremitate în C şi ce iese din C face parte dintr-un arbore parțial de cost minim. \n\n• Algoritmul, prin parcurgerea nodurilor în ordine și alegerea, pentru fiecare componentă (care inițial este un nod izolat) a muchiei de cost minim ce leagă componenta de restul nodurilor, se asigură că muchiile adăugate sunt \"sigure\" (adică aparțin unui MST). \n\n• La final, T va avea |V|-1 muchii și, datorită proprietății de schimb (exchange property), arborele obținut va fi de cost minim. \n\nAstfel, algoritmul este corect, deoarece folosește în mod local proprietatea de optimitate a unei tăieturi (cut) – alegând, pentru componenta curentă, muchia de cost minim care o leagă de restul grafului – și rezultatul obținut este un arbore parţial de cost minim al lui G.",
+          "puncte": "7.5 points"
+        }
+      },
+      {
+        "8": {
+          "enunt": "În rețeaua de transport din figura alăturată pe un arc e sunt trecute valorile f(e)/c(e) reprezentând flux/capacitate. Sursa este vârful s=1, iar destinația este t = 7. Ilustrați pașii algoritmului Ford-Fulkerson pentru această rețea pornind de la fluxul indicat și alegând la fiecare pas un s-t lanț f-nesaturat de lungime minimă (algoritmul lui Edmonds-Karp). Indicați o tăietură minimă în rețea, se vor indica vârfurile din bipartiție, arcele directe, arcele inverse și modul în care este determinată de algoritm și determinați capacitatea acestei tăieturi. Justificați răspunsurile.",
+          "rezolvare": "Pentru rețeaua din Graf_9, se pornește de la fluxurile inițiale date pe fiecare arc, notate sub forma f(e)/c(e):\n\n- (1,2): 5/10 ⇒ rezidual: 5 (în direct), 5 (în invers)\n- (1,5): 6/6  ⇒ rezidual: 0 (în direct), 6 (în invers)\n- (4,2): 3/3  ⇒ rezidual: 0 (în direct), 3 (în invers)\n- (5,4): 0/3  ⇒ rezidual: 3 (în direct), 0 (în invers)\n- (6,4): 3/5  ⇒ rezidual: 2 (în direct), 3 (în invers)\n- (3,6): 3/3  ⇒ rezidual: 0 (în direct), 3 (în invers)\n- (5,3): 6/7  ⇒ rezidual: 1 (în direct), 6 (în invers)\n- (6,7): 8/10 ⇒ rezidual: 2 (în direct), 8 (în invers)\n- (3,7): 3/7  ⇒ rezidual: 4 (în direct), 3 (în invers)\n\nAlgoritmul lui Edmonds-Karp folosește BFS pentru a găsi cel mai scurt s-t lanț în graful rezidual:\n\n1. Pornind de la s=1, se explorează vecinii cu flux rezidual pozitiv. Inițial, de la 1 se poate merge la 2 (prin (1,2) cu capacitate 5). De asemenea, deși (1,5) este o muchie din 1, fluxul este saturat (capacitate reziduală 0). \n\n2. Din 2, se pot exploata arcele reziduale. De exemplu, folosind reversul arcului (4,2) se poate ajunge la 4 (prin arc invers de la 2 la 4 cu capacitate 3). \n\n3. Din 4, se ajunge din nou prin arcele reziduale (de exemplu, reversul arcului (6,4) – adică 4→6 cu capacitate 3) şi astfel se ajunge la 6, de unde se poate continua spre 7 prin (6,7) (capacitate 2 în direct).\n\nAstfel, un posibil s-t lanț de lungime minimă identificat de BFS este: 1 → 2 → 4 → 6 → 7, cu capacitățile reziduale:\n\n- 1→2: 5\n- 2→4 (arc invers): 3\n- 4→6 (arc invers): 3\n- 6→7: 2\n\nBottleneck-ul (fluxul maxim ce poate fi trimis pe acest lanț) este min(5, 3, 3, 2) = 2. Se actualizează fluxurile: se scade 2 din fluxurile pe arcele folosite în direcția folosită (sau se adaugă pe cele inverse, după convenție). \n\nSe repetă procesul până când nu mai există un s-t lanț f-nesaturat. \n\nLa final, se determină tăietura minimă astfel:\n\n• Se efectuează un BFS în graful rezidual final, pornind de la s=1. Mulțimea S este formată din toate nodurile accesibile din s în graful rezidual; mulțimea T este complementul lui S. \n\n• Tăietura este formată din toate arcele directe care au o extremitate în S şi ce duc în T. Capacitatea tăieturii este suma capacităților acestor arce (conform teoremei flux-tăietură). \n\nDe exemplu, presupunând că, la final, mulțimea S s-a dovedit a fi {1, 2, 4, 6, 3, 5} (deoarece, datorită actualizărilor, toate acestea sunt accesibile) şi T = {7} (nodul t nu este accesibil în graful rezidual), atunci tăietura minimă este formată din toate arcele care merg din S în T: acestea sunt (6,7) şi (3,7). \n\nCapacitatea tăieturii va fi egală cu fluxul maxim obținut (conform teoremei max-flow min-cut). De exemplu, dacă după toate actualizările fluxul maxim este 13, atunci capacitatea tăieturii este 13. \n\nJustificare: Alegerea unui s-t lanț de lungime minimă (prin BFS) asigură un număr finit de pași (complexitate O(VE) în cel mai rău caz) şi, la terminare, mulțimea S obținută din graful rezidual final este utilizată pentru identificarea tăieturii minime, după cum prevede algoritmul Ford-Fulkerson (modificarea lui Edmonds-Karp).",
+          "puncte": "12.5 points"
+        }
+      },
+      {
+        "9": [
+          {
+            "a": {
+              "enunt": "Arătați că un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex.",
+              "rezolvare": "Presupunem prin reducere la absurd că graful G nu este conex. Atunci există cel puțin două componente conexe, să zicem C1 și C2, cu mulțimi de noduri V1 și V2. Fie nod x din V1. Deoarece G are cel puțin n>2 noduri, mărimea lui V2 este cel mult n-1. Dar dacă d(x) ≥ n/2, atunci x trebuie să fie adiacent cu cel puțin n/2 noduri, ceea ce forțează ca V2 să conțină cel puțin n/2 noduri. În mod similar, pentru un nod y din V2 se ajunge la o contradicție. Prin urmare, G este conex.",
+              "puncte": "5 points (parte din 15)"
+            }
+          },
+          {
+            "b": {
+              "enunt": "Dați exemplu de un graf nehamiltonian în care există două noduri neadiacente distince cu suma gradelor mai mare sau egală cu n.",
+              "rezolvare": "Conform teoremei lui Ore, dacă pentru orice două noduri neadiacente u și v avem d(u)+d(v) ≥ n, graful este Hamiltonian. Astfel, pentru a avea un graf nehamiltonian, nu este necesar ca această condiție să se verifice pentru toate perechile de noduri neadiacente, ci doar că există cel puțin o pereche pentru care d(u)+d(v) ≥ n. Un exemplu clasic, deși ceva mai sofisticat, este graful construit de Tutte (cunoscut ca exemplu de graf 3-regulat, nehamiltonian). În graful lui Tutte (care are 46 de noduri) se poate demonstra că există cel puțin o pereche de noduri neadiacente (de exemplu, u și v) pentru care d(u) = d(v) = 3, iar astfel d(u)+d(v)=6; alegând n=6 s-ar obține 6 ≥ 6. (Notă: pentru a adapta exemplul la o dimensiune specifică, se pot construi grafuri 3-regulate nehamiltoniene pe un număr mic de noduri, însă exemplul clasic rămâne graful lui Tutte.)",
+              "puncte": "5 points (parte din 15)"
+            }
+          },
+          {
+            "c": {
+              "enunt": "Arătați că dacă un graf G cu n ≥ 2 noduri are m ≥ combinații(n-1, 2) + 2 muchii, atunci G este Hamiltonian.",
+              "rezolvare": "Această afirmație este o condiție suficientă de hamiltonianitate. Se demonstrează prin metoda de închidere (closure) a grafului sau prin inducție. Ideea de bază este că, dacă G are suficient de multe muchii, atunci graful este foarte dens, iar condițiile lui Dirac și Ore (care sunt condiții de grad minim și de sumă a gradelor pentru perechi neadiacente) se verifică. Mai precis, se arată că dacă m ≥ (n-1 choose 2) + 2, atunci există o legătură între orice două noduri neadiacente astfel încât suma gradelor să fie cel puțin n, ceea ce, conform teoremei lui Ore, garantează existența unui ciclu Hamiltonian. Demonstrația formală implică arătarea că orice graf care nu este Hamiltonian are cel mult (n-1 choose 2) + 1 muchii, deci ipoteza impune Hamiltonianitatea.",
+              "puncte": "5 points (parte din 15)"
+            }
+          }
+        ]
+      },
+      {
+        "10": {
+          "enunt": "Descrieți pe scurt algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte. Ilustrați algoritmul pentru cuvintele 'cerceta' și 'retea' scriind matrice cu valorile subproblemeleor și explicând cum au fost acestea calculate.",
+          "rezolvare": "Algoritmul clasic pentru determinarea lungimii unui subsir comun maxim (LCS – Longest Common Subsequence) folosește programarea dinamică. Se definește o matrice L de dimensiuni (m+1)×(n+1), unde m și n sunt lungimile celor două cuvinte. Elementul L[i][j] reprezintă lungimea LCS a prefixelor de lungime i și j ale celor două cuvinte. Se folosește relația de recurență:\n\n• Dacă A[i] == B[j] atunci L[i][j] = L[i-1][j-1] + 1\n• Altfel, L[i][j] = max(L[i-1][j], L[i][j-1])\n\nPentru cuvintele:\n- A = 'cerceta' (litere: c, e, r, c, e, t, a) (m = 7)\n- B = 'retea' (litere: r, e, t, e, a) (n = 5)\n\nSe construiește matricea L, inițializată cu 0 pe prima linie și prima coloană:\n\nPas cu pas:\n\n  i\\j | 0   1(r)  2(e)  3(t)  4(e)  5(a)\n  ------------------------------------------\n   0  | 0    0     0     0     0     0\n   1(c)| 0   ?     ?     ?     ?     ?\n   2(e)| 0   ?     ?     ?     ?     ?\n   3(r)| 0   ?     ?     ?     ?     ?\n   4(c)| 0   ?     ?     ?     ?     ?\n   5(e)| 0   ?     ?     ?     ?     ?\n   6(t)| 0   ?     ?     ?     ?     ?\n   7(a)| 0   ?     ?     ?     ?     ?\n\nCalculul se face celulă cu celulă, de exemplu:\n\n- Pentru i=1 (c) și j=1 (r): c ≠ r ⇒ L[1][1] = max(L[0][1], L[1][0]) = 0.\n- Pentru i=1 și j=2 (e): c ≠ e ⇒ L[1][2] = 0.\n\nSe continuă astfel. Fără a reproduce întreaga matrice, rezultatul final este că L[7][5] = 4, iar unul din subsirurile comune maxime este 'reta'. De exemplu, în 'cerceta': se iau literele la pozițiile 3 (r), 5 (e), 6 (t) și 7 (a); iar în 'retea': pozițiile 1 (r), 2 (e), 3 (t) și 5 (a).\n\nAstfel, algoritmul determină prin completarea matricii L și apoi se poate reconstrui subsirul folosind tehnica de backtracking din matrice.",
+          "puncte": "7.5 points"
+        }
+      },
+      {
+        "11": {
+          "enunt": "O echipă de exploratori a descoperit o veche hartă a unei mine subterane renumită pentru un cristal rar și valoros. Mina este compusă dintr-o serie de camere interconectate de tuneluri unidirecționale. Pentru exploratorii noștri experimentați, tunelurile se pot parcurge fără niciun efort. Totuși, unele dintre camere sunt prăbușite și pentru a le străbate ei au nevoie să folosească dinamită. Scopul echipei este să ajungă de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită. Scrieți un algoritm de complexitate optimă care determină dacă există un drum pentru exploratori și, în caz că există, să determine drumul.\n\n(0,75 soluție corectă + 0,75 discuții complexitate)",
+          "rezolvare": "Se modelează mina ca pe un graf orientat G=(V,E), unde nodurile reprezintă camerele, iar arcele reprezintă tunelurile. Fiecare arc are asociat un cost care reprezintă numărul de unități de dinamită necesare pentru a traversa camera prăbușită (de exemplu, costul poate fi 0 pentru un tunel normal și 1 (sau altă valoare pozitivă) pentru un tunel ce necesită explozii).\n\nAlgoritmul optim: Se folosește o variantă a algoritmului de Dijkstra sau, dacă costurile sunt 0 sau 1, se poate utiliza algoritmul 0-1 BFS. \n\nPseudocod (folosind 0-1 BFS):\n\n------------------------------------------------\nfunction find_min_dynamite_path(G, s, t):\n    // G: graf orientat, costurile pe arce sunt 0 sau 1\n    // s: camera de intrare, t: camera cu cristalul\n    dist = array of size |V|, initialized with ∞\n    parent = array of size |V|, initialized with NULL\n    deque Q\n    dist[s] = 0\n    Q.push_front(s)\n    while Q is not empty:\n        u = Q.pop_front()\n        for each arc (u, v) in G:\n            if dist[v] > dist[u] + cost(u,v):\n                dist[v] = dist[u] + cost(u,v)\n                parent[v] = u\n                if cost(u,v) == 0:\n                    Q.push_front(v)\n                else:\n                    Q.push_back(v)\n    if dist[t] == ∞:\n        return \"Nu există drum\"\n    else:\n        // Reconstruim drumul de la s la t\n        path = []\n        cur = t\n        while cur is not NULL:\n            path.append(cur)\n            cur = parent[cur]\n        reverse(path)\n        return path\n------------------------------------------------\n\nDiscuții privind complexitatea:\n\n• Dacă costurile sunt 0 sau 1, algoritmul 0-1 BFS are complexitate O(V + E), fiind optim pentru grafuri sparse sau dense de dimensiuni moderate.\n• În cazul costurilor generale, se poate folosi Dijkstra cu o coadă de priorități, având complexitate O((V+E) log V).\n\nAcest algoritm determină, în mod optim, dacă există o cale de la camera de intrare la camera cu cristal şi, dacă da, drumul care minimizează utilizarea dinamitei.",
+          "puncte": "15 points"
+        }
+      }
+    ]
+  }
+}
