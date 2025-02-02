@@ -28,6 +28,7 @@
         {"x": "4", "y": "2", "c": "3", "w": "3"},
         {"x": "5", "y": "4", "c": "0", "w": "3"},
         {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "2", "y": "6", "c": "8", "w": "9"},
         {"x": "3", "y": "6", "c": "3", "w": "3"},
         {"x": "5", "y": "3", "c": "6", "w": "7"},
         {"x": "6", "y": "7", "c": "8", "w": "10"},
@@ -36,31 +37,42 @@
     },
     "Tasks": [
       {
-        "1": "Indicați un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia."
+        "1": 5p "Indicați un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia."
       },
       {
-        "2": "Exemplificați cum funcționează parcurgerea în lățime (BFS) ilustrând modul în care se poate folosi BFS începând de la nodul 4 pentru a calcula distanța de la 4 la celelalte noduri. Desenați și arborele BFS."
+        "2": 5p "Exemplificați (cu explicații) cum funcționează parcurgerea în lățime bf(4), ilustrând si modul în care se poate folosi bf(4) pentru a calcula distanța de la 4 la celelalte noduri. Desenați și arborele BFS."
       },
       {
-        "3": "Admite graful un lanț eulerian? Dacă nu, eliminați un număr minim de muchii astfel încât graful format să aibă un lanț eulerian și descrieți un lanț eulerian în graful inițial/obținut. Enunțați o condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian."
+        "3": 7,5p "Admite graful un lanț eulerian? Dacă nu eliminați un număr minim de muchii astfel încât graful format să aibă un lanț eulerian, descriind și strategia după care ați ales muchiile eliminate. Indicați un lanșeulerian în graful inițial/obținut. Enunțați o condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian."
       },
       {
-        "4": "Descrieți un algoritm eficient și exemplificați algoritmul pentru determinarea nodurilor critice ale grafului din imagine."
+        "4": 7,5p "Descrieți un algoritm eficient de determinare a nodurilor critice ale unui graf neorientat și exemplificați (cu explicații) algoritmul pentru graful din imagine."
       },
       {
-        "5": "Descrieți algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri, detaliind următoarea schemă: Initializarea matricei D de distanțe cu matricea costurilor. Pentru j <- 1, n executa: pentru i <- 1, n executa; pentru k <- 1, n executa. Scrieți ce valori se modifică în matrice pentru graful din exemplu la etapele j=1, j=2 și j=3."
+        "5": 5p "Descrieți algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri, detaliind următoarea schemă: Initializarea matricei D de distanțe cu matricea costurilor. Inițializarea matricei D de distanțe cu matricea costurilor
+pentru j ←  1, n execută
+	pentru i ←  1, n execută
+pentru k ←  1, n execută
+             ............
+. Scrieți ce valori se modifică în matrice pentru graful din exemplu la etapele j=1, j=2 și j=3."
       },
       {
-        "6": "Exemplificați pașii algoritmului lui Prim pentru graful din exemplu pornind din vârful 4, cu explicații."
+        "6": 5p "Exemplificați pașii algoritmului lui Prim pentru graful din exemplu (cu explicații) pornind din vârful 4."
       },
       {
-        "7": "Este corect următorul algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G=(V, E, w)? Justificați (fără a apela în justificare la modul de funcționare al altor algoritmi; rezultatele folosite trebuie demonstrate și trebuie explicat modul în care se folosesc): T = (V, E = NULL) - inițial T conține toate vârfurile și nu conține muchii. Pentru i = 1, |V|-1 executa: 1. Alege componenta conexă C a lui T care conține vârful i. 2. Alege o muchie de cost minim e cu o extremitate în C și adaugă e la T."
+        "7": 5p "Este corect următorul algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G = (V, E, w)? Justificați (fără a apela în justificare la modul de funcționare al altor algoritmi; rezultatele folosite trebuie demonstrate și trebuie explicat modul în care se folosesc) 
+T = (V, E = ∅) – inițial V conține toate vârfurile și nu conține nicio muchie 
+pentru i = 1, |V|-1 
+1. Alege componenta conexă C al lui T care conține vârful i 
+2. Alege o muchie de cost minim e cu o extremitate în C și cealaltă nu și adaugă e la T 
+"
       },
       {
-        "8": "În rețeaua de transport din figura alăturată pe un arc e sunt trecute valorile f(e)/c(e) reprezentând flux/capacitate. Sursa este vârful s=1, iar destinația este t = 7. Ilustrați pașii algoritmului Ford-Fulkerson pentru această rețea pornind de la fluxul indicat și alegând la fiecare pas un s-t lanț f-nesaturat de lungime minimă (algoritmul lui Edmonds-Karp). Indicați o tăietură minimă în rețea, se vor indica vârfurile din bipartiție, arcele directe, arcele inverse și modul în care este determinată de algoritm și determinați capacitatea acestei tăieturi. Justificați răspunsurile."
+        "8": 12,5p În rețeaua de transport din figura alăturată pe un arc e sunt trecute valorile f(e)/c(e) reprezentând flux/capacitate. Sursa este vârful s=1, iar destinația t=7. 
+Ilustrați pașii algoritmului Ford-Fulkerson pentru această rețea pornind de la fluxul indicat și alegând la fiecare pas un s-t lanț f-nesaturat de lungime minimă (algoritmul Edmonds-Karp). Indicați o tăietură (s-t tăietură) minimă în rețea (se vor indica vârfurile din bipartiție, arcele directe, arcele inverse și modul în care este determinată de algoritm) și determinați capacitatea acestei tăieturi. Justificați răspunsurile.
       },
       {
-        "9": [
+        "9": 15p [
           {
             "a": "Arătați că un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex."
           },
@@ -73,10 +85,10 @@
         ]
       },
       {
-        "10": "Descrieți pe scurt algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte. Ilustrați algoritmul pentru cuvintele 'cerceta' și 'retea' scriind matrice cu valorile subproblemeleor și explicând cum au fost acestea calculate."
+        "10": 7,5p "Descrieți pe scurt algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte. Ilustrați algoritmul pentru cuvintele 'cerceta' și 'retea' scriind matrice cu valorile subproblemeleor și explicând cum au fost acestea calculate."
       },
       {
-        "11": "O echipă de exploratori a descoperit o veche hartă a unei mine subterane renumită pentru un cristal rar și valoros. Mina este compusă dintr-o serie de camere interconectate de tuneluri unidirecționale. Pentru exploratorii noștri experimentați, tunelurile se pot parcurge fără niciun efort. Totuși, unele dintre camere sunt prăbușite și pentru a le străbate ei au nevoie să folosească dinamită. Scopul echipei este să ajungă de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită. Scrieți un algoritm de complexitate optimă care determină dacă există un drum pentru exploratori și, în caz că există, să determine drumul."
+        "11": 15p "O echipă de exploratori a descoperit o veche hartă a unei mine subterane renumită pentru un cristal rar și valoros. Mina este compusă dintr-o serie de camere interconectate de tuneluri unidirecționale. Pentru exploratorii noștri experimentați, tunelurile se pot parcurge fără niciun efort. Totuși, unele dintre camere sunt prăbușite și pentru a le străbate ei au nevoie să folosească dinamită. Scopul echipei este să ajungă de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită. Scrieți un algoritm de complexitate optimă care determină dacă există un drum pentru exploratori și, în caz că există, să determine drumul."
       }
     ]
   }
