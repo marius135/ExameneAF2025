@@ -1,0 +1,174 @@
+"Examen la Algoritmi Fundamentali - Varianta 2": {
+"Data": "28.01.2025",
+"Rezolvari": [
+{
+"1": "Un subgraf indus bipartit conex cu număr maxim de noduri este format din nodurile {1, 3, 5, 7, 9} și {2, 4, 6, 8}. O bipartiție a acestuia este ({1, 3, 5, 7, 9}, {2, 4, 6, 8})."
+},
+{
+"2": "Pentru a calcula distanța de la nodul 4 la celelalte noduri folosind parcurgerea în lățime (BFS), vom proceda astfel: 
+
+- Vom începe de la nodul 4 și vom vizita toți vecinii săi, adică nodurile 3, 5 și 8. 
+- Apoi, vom vizita toți vecinii nodurilor 3, 5 și 8 care nu au fost încă vizitați, adică nodurile 1, 2, 6 și 9. 
+- În continuare, vom vizita toți vecinii nodurilor 1, 2, 6 și 9 care nu au fost încă vizitați, adică nodul 7. 
+- Arborele BFS va avea următoarea structură: 
+  - Nivelul 0: 4 
+  - Nivelul 1: 3, 5, 8 
+  - Nivelul 2: 1, 2, 6, 9 
+  - Nivelul 3: 7"
+},
+{
+"3": "Graful nu are un lanț eulerian deoarece există noduri cu grad impar (de exemplu, nodul 1 are grad 3). 
+Pentru a elimina un număr minim de muchii astfel încât graful format să aibă un lanț eulerian, putem elimina muchia (1, 3). 
+Un lanț eulerian în graful obținut este: 1 -> 2 -> 6 -> 3 -> 5 -> 4 -> 8 -> 9 -> 7 -> 8 -> 4 -> 5 -> 3 -> 1. 
+O condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian este ca toate nodurile să aibă grad par."
+},
+{
+"4": "Un algoritm eficient pentru determinarea nodurilor critice ale grafului este următorul: 
+
+- Vom începe de la un nod arbitrar și vom efectua o parcurgere în adâncime (DFS) a grafului. 
+- În timpul parcurgerii, vom marca fiecare nod ca fiind vizitat. 
+- Dacă întâlnim un nod care are mai mult de un copil nevizitat, atunci acel nod este critic. 
+- Dacă întâlnim un nod care are un copil nevizitat și care este o frunză a arborelui DFS, atunci acel nod este critic. 
+- Vom repeta acest proces pentru toate nodurile grafului. 
+Nodurile critice ale grafului sunt: 3, 5, 8."
+},
+{
+"5": "Algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri este următorul: 
+
+- Vom crea o matrice D de dimensiune n x n, unde D[i][j] reprezintă distanța minimă între nodurile i și j. 
+- Inițial, vom seta D[i][j] = costul muchiei (i, j) dacă există o muchie între i și j, și D[i][j] = infinit în caz contrar. 
+- Apoi, vom itera de n ori, și la fiecare iterație vom considera un nod k. 
+- Pentru fiecare pereche de noduri i și j, vom verifica dacă distanța minimă între i și j poate fi îmbunătățită prin intermediul nodului k. 
+- Dacă da, vom actualiza D[i][j] cu noua distanță minimă. 
+La etapele j=1, j=2 și j=3, matricea D se va modifica astfel: 
+
+- La etapa j=1, D[1][3] = 4, D[1][5] = 12, D[2][5] = 11. 
+- La etapa j=2, D[1][6] = 10, D[2][6] = 10, D[3][6] = 11. 
+- La etapa j=3, D[1][7] = 15, D[2][7] = 15, D[3][7] = 16."
+},
+{
+"6": "Pașii algoritmului lui Prim pentru graful din exemplu pornind din vârful 4 sunt următorii: 
+
+- Vom începe de la vârful 4 și vom adăuga muchia (4, 3) la arbore. 
+- Apoi, vom adăuga muchia (3, 1) la arbore. 
+- În continuare, vom adăuga muchia (1, 2) la arbore. 
+- Vom repeta acest proces până când toate nodurile vor fi incluse în arbore. 
+Arborele obținut va avea următoarea structură: 
+  - Nivelul 0: 4 
+  - Nivelul 1: 3 
+  - Nivelul 2: 1 
+  - Nivelul 3: 2 
+  - Nivelul 4: 5, 6 
+  - Nivelul 5: 7, 8, 9"
+},
+{
+"7": "Algoritmul de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G=(V, E, w) este următorul: 
+
+- Vom crea un arbore T care conține toate vârfurile din V și nu conține muchii. 
+- Apoi, vom itera de |V|-1 ori, și la fiecare iterație vom considera un nod i. 
+- Vom alege componenta conexă C a lui T care conține vârful i. 
+- Vom alege o muchie de cost minim e cu o extremitate în C și o vom adăuga la T. 
+Acest algoritm este corect deoarece la fiecare iterație se alege o muchie de cost minim care conectează două componente conexe diferite ale arborelui T."
+},
+{
+"8": "Pașii algoritmului Ford-Fulkerson pentru rețeaua de transport din figura alăturată sunt următorii: 
+
+- Vom începe de la sursa s=1 și vom căuta un s-t lanț f-nesaturat de lungime minimă. 
+- Vom găsi lanțul 1 -> 2 -> 4 -> 7 și vom actualiza fluxul pe acest lanț. 
+- Apoi, vom căuta un alt s-t lanț f-nesaturat de lungime minimă. 
+- Vom găsi lanțul 1 -> 5 -> 4 -> 7 și vom actualiza fluxul pe acest lanț. 
+- Vom repeta acest proces până când nu vom mai găsi niciun s-t lanț f-nesaturat de lungime minimă. 
+Fluxul maxim obținut va fi 11. 
+O tăietură minimă în rețea va fi (1, 3, 5), (2, 4, 6, 7). 
+Vârfurile din bipartiție vor fi (1, 3, 5) și (2, 4, 6, 7). 
+Arcele directe vor fi (1, 2), (1, 5), (3, 6), (5, 4). 
+Arcele inverse vor fi (2, 1), (4, 5), (6, 3), (7, 4). 
+Capacitatea acestei tăieturi va fi 11."
+},
+{
+"9": [
+{
+"a": "Un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex deoarece orice două noduri x și y pot fi conectate printr-un lanț de lungime cel mult 2."
+},
+{
+"b": "Un exemplu de graf nehamiltonian în care există două noduri neadiacente distince cu suma gradelor mai mare sau egală cu n este un graf cu 5 noduri și 6 muchii, unde nodurile 1 și 2 au grad 3, nodul 3 are grad 2, iar nodurile 4 și 5 au grad 1."
+},
+{
+"c": "Dacă un graf G cu n >= 2 noduri are m>= combinații(n-1, 2) + 2 muchii, atunci G este Hamiltonian deoarece orice două noduri x și y pot fi conectate printr-un lanț Hamiltonian."
+}
+]
+},
+{
+"10": "Algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte este următorul: 
+
+- Vom crea o matrice M de dimensiune (n+1) x (m+1), unde M[i][j] reprezintă lungimea maximei a unui subsir comun al prefixelor de lungime i și j ale celor două cuvinte. 
+- Vom inițializa M[0][j] = 0 și M[i][0] = 0 pentru orice i și j. 
+- Apoi, vom itera de n ori, și la fiecare iterație vom considera un caracter c1 din primul cuvânt. 
+- Vom itera de m ori, și la fiecare iterație vom considera un caracter c2 din al doilea cuvânt. 
+- Dacă c1 = c2, vom seta M[i][j] = M[i-1][j-1] + 1. 
+- Altfel, vom seta M[i][j] = max(M[i-1][j], M[i][j-1]). 
+- Vom repeta acest proces până când vom umple toată matricea M. 
+- Lungimea maximei a unui subsir comun va fi M[n][m]. 
+Pentru cuvintele 'cerceta' și 'retea', matricea M va fi: 
+
+  - M[0][j] = 0 pentru orice j 
+  - M[i][0] = 0 pentru orice i 
+  - M[1][1] = 1 (c = c) 
+  - M[1][2] = 1 (c != e) 
+  - M[1][3] = 1 (c != r) 
+  - M[1][4] = 1 (c != t) 
+  - M[1][5] = 1 (c != e) 
+  - M[1][6] = 1 (c != a) 
+  - M[2][1] = 1 (e != c) 
+  - M[2][2] = 2 (e = e) 
+  - M[2][3] = 2 (e != r) 
+  - M[2][4] = 2 (e != t) 
+  - M[2][5] = 2 (e = e) 
+  - M[2][6] = 2 (e != a) 
+  - M[3][1] = 1 (r != c) 
+  - M[3][2] = 2 (r != e) 
+  - M[3][3] = 3 (r = r) 
+  - M[3][4] = 3 (r != t) 
+  - M[3][5] = 3 (r != e) 
+  - M[3][6] = 3 (r != a) 
+  - M[4][1] = 1 (c != c) 
+  - M[4][2] = 2 (c != e) 
+  - M[4][3] = 3 (c != r) 
+  - M[4][4] = 4 (c != t) 
+  - M[4][5] = 4 (c != e) 
+  - M[4][6] = 4 (c != a) 
+  - M[5][1] = 1 (e != c) 
+  - M[5][2] = 2 (e = e) 
+  - M[5][3] = 3 (e != r) 
+  - M[5][4] = 4 (e != t) 
+  - M[5][5] = 5 (e = e) 
+  - M[5][6] = 5 (e != a) 
+  - M[6][1] = 1 (t != c) 
+  - M[6][2] = 2 (t != e) 
+  - M[6][3] = 3 (t != r) 
+  - M[6][4] = 4 (t = t) 
+  - M[6][5] = 5 (t != e) 
+  - M[6][6] = 5 (t != a) 
+  - M[7][1] = 1 (a != c) 
+  - M[7][2] = 2 (a != e) 
+  - M[7][3] = 3 (a != r) 
+  - M[7][4] = 4 (a != t) 
+  - M[7][5] = 5 (a != e) 
+  - M[7][6] = 6 (a = a) 
+Lungimea maximei a unui subsir comun va fi M[7][6] = 6."
+},
+{
+"11": "Algoritmul de determinare a drumului minim pentru exploratorii noștri experimentați este următorul: 
+
+- Vom crea o matrice D de dimensiune n x n, unde D[i][j] reprezintă distanța minimă între camera i și camera j. 
+- Inițial, vom seta D[i][j] = costul muchiei (i, j) dacă există o muchie între i și j, și D[i][j] = infinit în caz contrar. 
+- Apoi, vom itera de n ori, și la fiecare iterație vom considera o cameră k. 
+- Pentru fiecare pereche de camere i și j, vom verifica dacă distanța minimă între i și j poate fi îmbunătățită prin intermediul camerei k. 
+- Dacă da, vom actualiza D[i][j] cu noua distanță minimă. 
+- Vom repeta acest proces până când vom umple toată matricea D. 
+- Drumul minim va fi dat de elementele matricei D. 
+Complexitatea acestui algoritm este O(n^3), unde n este numărul de camere."
+}
+]
+}
+}
