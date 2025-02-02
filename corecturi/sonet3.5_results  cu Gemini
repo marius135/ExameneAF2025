@@ -189,7 +189,8 @@ Task 9b	0.2	Exemplu graf nehamiltonian vag, lipsesc detalii și verificări.
 Task 9c	0.2	Teorema lui Ore - schiță de demonstrație foarte incompletă.
 Task 10	0.75	LCS - Recurență, matrice DP și concluzii complet corecte.
 Task 11	1.1	Mina - Soluție Dijkstra validă, explicație și justificare optimalitate sumare, analiză complexitate corectă pentru Dijkstra.
-Total	5.05	
+Oficiu 1p
+Total	6.05	
 Observații generale:
 
 Lucrarea prezintă o înțelegere parțială a algoritmilor fundamentali. Unele răspunsuri (Task 2, 7, 9a, 10) sunt bune sau foarte bune. Altele (Task 1, 3, 4, 5, 6, 9b, 9c, 11) sunt parțiale sau conțin erori semnificative. Task 8 este complet greșit. Este necesară o aprofundare a algoritmilor grafurilor (în special flux maxim și algoritmi de drumuri minime) și o mai mare atenție la detalii și calcule precise în exemplificări. Punctajul total este 5.05 din 7.5 puncte (dacă adunăm punctajele maxime posibile din barem). Dacă punctajul maxim posibil este 10 (cum sugerează notațiile "5 points", "7.5 points", "12.5 points", "15 points"), atunci punctajul ar fi 5.05 din 10. Verifică baremul total pentru a confirma.
