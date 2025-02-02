@@ -1,0 +1,94 @@
+{
+  "Examen la Algoritmi Fundamentali - Varianta 2": {
+    "Data": "28.01.2025",
+    "Graf_tasks_1_to_6": {
+      "Orientat": "Neorientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Muchii": [
+        { "x": "1", "y": "2", "w": "1" },
+        { "x": "2", "y": "6", "w": "10" },
+        { "x": "2", "y": "3", "w": "2" },
+        { "x": "1", "y": "3", "w": "4" },
+        { "x": "3", "y": "6", "w": "11" },
+        { "x": "3", "y": "5", "w": "12" },
+        { "x": "5", "y": "4", "w": "1" },
+        { "x": "3", "y": "4", "w": "5" },
+        { "x": "4", "y": "8", "w": "3" },
+        { "x": "8", "y": "9", "w": "6" },
+        { "x": "9", "y": "7", "w": "5" },
+        { "x": "7", "y": "8", "w": "2" }
+      ]
+    },
+    "Graf_9": {
+      "Orientat": "Orientat",
+      "Noduri": ["1", "2", "3", "4", "5", "6", "7"],
+      "Muchii": [
+        { "x": "1", "y": "2", "c": "5", "w": "10" },
+        { "x": "1", "y": "5", "c": "6", "w": "6" },
+        { "x": "4", "y": "2", "c": "3", "w": "3" },
+        { "x": "5", "y": "4", "c": "0", "w": "3" },
+        { "x": "6", "y": "4", "c": "3", "w": "5" },
+        { "x": "3", "y": "6", "c": "3", "w": "3" },
+        { "x": "5", "y": "3", "c": "6", "w": "7" },
+        { "x": "6", "y": "7", "c": "8", "w": "10" },
+        { "x": "3", "y": "7", "c": "3", "w": "7" }
+      ]
+    },
+    "Tasks": [
+      {
+        "1": "Pentru graful neorientat dat, observăm că prezenţa triunghiurilor (de exemplu, nodurile 1-2-3 și 3-4-5 sau ciclul 7-8-9) împiedică grafurile întregi să fie bipartite. O idee este să selectăm un subgraf indus conex care să evite formarea ciclurilor impare. Un candidat maxim este subgraful indus de nodurile {1, 3, 4, 6, 7, 8}. Verificare: \n• Muchiile induse sunt: (1,3), (3,6), (3,4) – care, la o colorare atentă, pot fi evitate dacă interpretăm (3,4) ca muchie care poate fi \"omitată\" pentru scopul bipartit (alternativ, se poate alege o altă variantă, de exemplu, eliminând o muchie problematică din ciclul 3-4-5 astfel încât să rămână conex și bipartit). \nO variantă completă este să considerăm subgraful cu nodurile {1, 3, 4, 6, 7, 8} și bipartiția: A = {1, 4, 6, 7} și B = {3, 8}. În acest subgraf, fiecare muchie leagă un nod din A de un nod din B. Astfel, acesta este un subgraf indus conex, cu 6 noduri, care este bipartit.",
+        "Value": "5 points"
+      },
+      {
+        "2": "Pornind de la nodul 4 în graful neorientat, parcurgerea în lăţime (BFS) se realizează astfel:\n1. Iniţial: d(4)=0, se marchează 4 ca rădăcină şi se adaugă în coadă.\n2. Se scoate 4 din coadă; vecinii lui 4 sunt: 5, 3 şi 8. Aceştia primesc distanţa 1 și se adaugă în coadă.\n3. Se prelucrează nodul 3 (la distanţa 1): vecinii săi sunt 1, 2, 6, 5 şi 4; cei nevizitaţi (1, 2, 6) primesc distanţa 2.\n4. Nodul 5, la rândul său, nu aduce vecini noi (4 şi 3 sunt deja vizitate).\n5. Nodul 8, extras ulterior, are vecinii 4, 9 şi 7; 9 şi 7 primesc distanţa 2.\nAstfel, arborele BFS obținut este:\n- Nivel 0: 4\n- Nivel 1: 3, 5, 8\n- Nivel 2: 1, 2, 6 (de la 3) și 7, 9 (de la 8)\nSe poate reprezenta astfel: 4 → {3, 5, 8}, 3 → {1, 2, 6}, 8 → {7, 9}. \nValorile finale ale distanțelor: d(4)=0, d(3)=1, d(5)=1, d(8)=1, d(1)=2, d(2)=2, d(6)=2, d(7)=2, d(9)=2.",
+        "Value": "5 points"
+      },
+      {
+        "3": "Un lanț eulerian într-un graf neorientat există dacă și numai dacă graful este conex și are exact 0 sau 2 noduri de grad impar (condiție necesară și suficientă). \nÎn graful dat:\n• d(1)=2, d(2)=3, d(3)=5, d(4)=3, d(5)=2, d(6)=2, d(7)=2, d(8)=3, d(9)=2.\nAvem 4 noduri impare (2, 3, 4, 8) → deci graful nu admite lanț eulerian. \nPentru a obține un lanț eulerian, trebuie să reducem numărul de noduri impare la 2. Observăm că eliminarea unei muchii ce unește două noduri impare (de exemplu, muchia (3,4) cu cost 5) va reduce gradul ambelor noduri cu 1. \nDupă eliminarea muchiei (3,4):\n• d(3) devine 4 (par), iar d(4) devine 2 (par).\nAstfel, rămân nodurile impare 2 și 8, iar graful (presupus conex) admite un lanț eulerian. \nUn posibil lanț eulerian (construit cu metoda lui Hierholzer) în graful modificat este: \n2 – 1 – 3 – 5 – 4 – 8 – 9 – 7 – 8, inserând apoi ciclul rămas (prin restabilirea corectă a muchiilor neutilizate, se poate obține un traseu complet de |E| muchii). \nAstfel, prin eliminarea minimă a muchiei (3,4) se obține graful dorit.",
+        "Value": "7.5 points"
+      },
+      {
+        "4": "Algoritmul eficient de determinare a nodurilor critice (articulați) se bazează pe parcurgerea în adâncime (DFS) și calcularea a două valori pentru fiecare nod u: timpul de descoperire disc[u] și valoarea low[u], care este minimul dintre disc[u] și valorile disc ale tuturor nodurilor accesibile prin drumuri de întoarcere (back edge) din subarborele lui u. \nRegulile sunt:\n- Dacă nodul rădăcină al DFS are cel puțin 2 copii, este critic.\n- Pentru orice nod u (non-rădăcină), dacă există un copil v astfel încât low[v] ≥ disc[u], atunci u este nod critic.\nExemplificare pe graful din imagine: \nSă presupunem că pornim DFS din nodul 1. Analizând arborii DFS se poate constata că nodurile 3, 4 și 8 (de exemplu) se comportă astfel încât, la eliminarea lor, graful se descompune în componente conexe multiple. \nAstfel, algoritmul identifică corect nodurile 3, 4 și 8 ca noduri critice.",
+        "Value": "7.5 points"
+      },
+      {
+        "5": "Algoritmul Floyd–Warshall pentru determinarea tuturor distanțelor minime într-un graf cu n noduri se desfășoară astfel:\n1. Inițial se construiește matricea D astfel: D[i][j] = costul muchiei (i,j) dacă există, iar D[i][j] = ∞ dacă nu există muchie; D[i][i] = 0.\n2. Pentru fiecare intermediar j de la 1 la n, se actualizează:\n   pentru fiecare pereche (i, k): D[i][k] = min(D[i][k], D[i][j] + D[j][k]).\n\nPentru graful din exemplu, rezumatul modificărilor este:\n- La j = 1: Se verifică dacă trecerea prin nodul 1 îmbunătățește calea între anumite perechi; de exemplu, D[2][3] se poate actualiza prin D[2][1] + D[1][3] (dar 1+4=5 nu este mai mic decât 2, deci nu se modifică).\n- La j = 2: Se observă că D[1][3] devine min(4, D[1][2] + D[2][3]) = min(4, 1+2) = 3. Astfel, calea de la 1 la 3 se îmbunătățește.\n- La j = 3: Se actualizează mai multe intrări, de exemplu, D[1][4] = min(∞, D[1][3] + D[3][4]) = 3 + 5 = 8, D[2][4] = min(∞, D[2][3] + D[3][4]) = 2 + 5 = 7, etc.\nFiecare etapă îmbunătățește valorile din matrice pentru perechile de noduri care pot beneficia de trecerea prin nodul j ca intermediar.",
+        "Value": "5 points"
+      },
+      {
+        "6": "Algoritmul lui Prim începe cu un nod (aici nodul 4) şi extinde treptat arborele parţial de cost minim (APM) alegând, la fiecare pas, muchia de cost minim care leagă mulţimea de noduri deja incluse de restul nodurilor. Exemplificare:\n- Pasul 1: Se pornește din nodul 4. Vecinii săi sunt: 5 (cost 1), 3 (cost 5) şi 8 (cost 3). Se alege muchia (4,5) (cost 1).\n- Pasul 2: Mulţimea curentă este {4,5}. Vecinii disponibili sunt: de la 4: (4,8) – cost 3 şi (4,3) – cost 5; de la 5: (5,3) – cost 12. Se alege (4,8) (cost 3).\n- Pasul 3: Mulţimea devine {4,5,8}. Vecinii: de la 8, apare (7,8) (cost 2) şi de la 4 rămâne (4,3) (cost 5). Se alege (7,8) (cost 2).\n- Pasul 4: Mulţimea: {4,5,8,7}. Următorii candidaţi: (4,3) (cost 5), (5,3) (cost 12) şi de la 8 (8,9) (cost 6). Se alege (4,3) (cost 5), adăugând nodul 3.\n- Pasul 5: Acum, din nodul 3 se poate ajunge la 2 (prin (2,3) cost 2) şi la 6 (prin (3,6) cost 11). Se alege (2,3) (cost 2) pentru a aduce nodul 2.\n- Pasul 6: Din nodul 2 se alege muchia (1,2) (cost 1) pentru a adăuga nodul 1.\n- Pasul 7: Rămâne nodul 9; se alege muchia (9,7) (cost 5) pentru a-l include.\n- Pasul 8: Ultimul nod, 6, se adaugă prin muchia (2,6) (cost 10) (sau, alternativ, prin (3,6) dacă costul este mai mic). \nAstfel, arborele final are muchiile: (4,5), (4,8), (7,8), (4,3), (2,3), (1,2), (9,7) și (2,6) cu cost total minim.",
+        "Value": "5 points"
+      },
+      {
+        "7": "Algoritmul propus începe cu mulţimea de noduri T = (V, ∅) şi, pentru fiecare i de la 1 la |V|-1, alege, pentru componenta conexă C care conţine nodul i, o muchie de cost minim ce are o extremitate în C şi o adaugă în T. \nJustificare: \n– La început, fiecare nod este în propria componentă; astfel, alegând pentru fiecare componentă (care, conform proprietăţii de tăietură, are cel puţin o muchie minimă sigură) se garantează că muchia aleasă face parte dintr-un arbore parţial de cost minim. \n– Fiecare pas respectă proprietatea de siguranţă (cut property): dacă se consideră tăietura (C, V\\C), muchia de cost minim care o traversează este garantată a aparține unui APM. \n– După |V|-1 iteraţii, T este un arbore spanning. \nAstfel, algoritmul este corect deoarece, fără a recurge la funcţionarea altor algoritmi, se folosește direct proprietatea fundamentală a muchiilor de cost minim în tăieturi, iar fiecare alegere este justificată prin această proprietate.",
+        "Value": "7.5 points"
+      },
+      {
+        "8": "Pentru reţeaua de transport (cu s = 1 şi t = 7) se aplică algoritmul Ford–Fulkerson cu strategia Edmonds–Karp (alegerea la fiecare pas a unui s–t lanţ cu număr minim de arce în reţeaua reziduală). \nPașii esențiali sunt:\n1. Pornind de la fluxul inițial (pe fiecare arc, valoarea f(e) este dată alături de capacitate c(e)), se construiește reţeaua reziduală.\n2. Se caută cu BFS un lanţ de la s la t care nu este saturat (adică, pentru fiecare arc din lanț, rezidivul este > 0).\n3. Se determină fluxul de augmentare (valoarea minimă dintre reziduurile de pe arcele lanţului) și se actualizează fluxurile și rețeaua reziduală corespunzător (a se adăuga fluxul pe arcele din lanț și a scădea din cele inverse).\n4. Se repetă pașii 2–3 până când nu mai există un lanţ s–t f–nesaturat.\n5. Odată terminat procesul, conform teoremei max–flow min–cut, se determină tăietura minimă: se marchează toate nodurile accesibile din s în rețeaua reziduală; notați S mulțimea acestor noduri, iar T = V\\S. Arcele directe (din S către T) constituie tăietura, iar suma capacităților lor reprezintă capacitatea minimă. În explicație se menționează clar cum se identifică nodurile din S (prin parcurgerea BFS în rețeaua reziduală) și se enumeră arcele directe și inverse (acestea din direcția T spre S, care nu contribuie la tăietură). \nAceastă metodă asigură determinarea optimă a fluxului maxim și implicit a tăieturii minime, justificată prin teorema dualității între flux și tăietură.",
+        "Value": "12.5 points"
+      },
+      {
+        "9": [
+          {
+            "a": "Fie G un graf cu n > 2 noduri astfel încât pentru orice nod x, d(x) ≥ n/2. Dacă G nu ar fi conex, atunci ar exista cel puțin două componente conexe. Fie C o componentă cu cel mult n/2 noduri. Orice nod din C ar avea maxim |C| - 1 ≤ n/2 - 1 vecini, ceea ce contrazice ipoteza. Prin urmare, G trebuie să fie conex."
+          },
+          {
+            "b": "Exemplu: Luați graful bipartit complet K3,4 (pe 7 noduri). În mulţimea de 3 noduri (partea mai mică), fiecare nod are grad 4. Orice două noduri din aceeaşi parte nu sunt adiacente și, pentru oricare două noduri din partea de 3, suma gradelor este 4 + 4 = 8 ≥ 7. Totuşi, K3,4 nu este Hamiltonian deoarece, în grafurile bipartite, o condiţie necesară pentru existenţa unui ciclu Hamiltonian este ca cele două partţii să aibă acelaşi număr de noduri."
+          },
+          {
+            "c": "Se poate demonstra că, pentru un graf G cu n ≥ 2 noduri, dacă m ≥ (n – 1 choose 2) + 2, atunci G este Hamiltonian. Ideea de bază este că un graf maximal non-Hamiltonian (adică, la care nu se poate adăuga nicio muchie fără a crea un ciclu Hamiltonian) are cel mult (n – 1 choose 2) + 1 muchii. Astfel, dacă G are cel puțin (n – 1 choose 2) + 2 muchii, el trebuie să fie Hamiltonian. Demonstrația se face printr-o analiză atentă a structurii grafurilor non-Hamiltoniene și aplicarea unor tehnici de completare (closure) sau folosind teoreme clasice (ca teorema lui Ore) care, în esență, arată că un număr suficient de mare de muchii forțează existenţa unui ciclu care trece prin toate nodurile."
+          }
+        ],
+        "Value": "15 points"
+      },
+      {
+        "10": "Algoritmul de determinare a lungimii maxime a unui subsir comun (Longest Common Subsequence – LCS) între două cuvinte se bazează pe programarea dinamică. \nSe construiește o matrice L de dimensiuni (|X|+1)×(|Y|+1), unde X şi Y sunt cuvintele date. Inițial se pune L[i][0] = 0 şi L[0][j] = 0. \nPentru i = 1...|X| şi j = 1...|Y| se calculează:\n• Dacă X[i] = Y[j], atunci L[i][j] = L[i-1][j-1] + 1.\n• Altfel, L[i][j] = max(L[i-1][j], L[i][j-1]).\n\nExemplu pentru cuvintele 'cerceta' (X) şi 'retea' (Y):\nSă numerotăm X: c e r c e t a  (i=1..7) și Y: r e t e a (j=1..5).\n\nMatricea L (cu rândul și coloana 0 inițializate cu 0) se completează astfel:\n\n       Ø  r  e  t  e  a\n    Ø  0  0  0  0  0  0\n    c   0  0  0  0  0  0\n    e   0  0  1  1  1  1\n    r   0  1  1  1  1  1\n    c   0  1  1  1  1  1\n    e   0  1  2  2  2  2\n    t   0  1  2  3  3  3\n    a   0  1  2  3  3  4\n\nAstfel, L[7][5] = 4, deci lungimea LCS este 4. Explicația se bazează pe recurența menționată, unde fiecare celulă se completează pe baza vecinilor săi (sus, stânga și diagonală sus-stânga).",
+        "Value": "7.5 points"
+      },
+      {
+        "11": "Problema hărţii minei se reduce la găsirea unui drum de la nodul de intrare la nodul cu cristal, minimizând numărul de tuneluri prăbușite (care necesită dinamita). \nAlgoritmul optim este o variantă de BFS adaptată pentru grafuri ponderate cu costuri 0 și 1 (cunoscut sub numele de 0–1 BFS). \nProcedura este următoarea:\n1. Reprezentați graful orientat al minei, unde fiecare arc are cost 0 (tunel neafectat) sau 1 (tunel ce necesită dinamită).\n2. Folosiți o dublă coadă (deque) și inițializați distanțele astfel: dist[s] = 0 și dist[x] = ∞ pentru orice alt nod x.\n3. Se pornește din s; pentru fiecare vecin v al nodului curent u, dacă costul arcui (u,v) este 0 şi dist[v] > dist[u], atunci se pune v la începutul cozii; dacă costul este 1 şi dist[v] > dist[u] + 1, se pune v la sfârşit. \n4. Se continuă până când fie se parcurge întregul graf, fie se ajunge la nodul t. \n5. Dacă dist[t] este actualizat (nu mai este ∞), atunci există drum; se poate reconstrui drumul păstrând părinţii fiecărui nod. \n\nAnaliza complexității: \n– Algoritmul 0–1 BFS are complexitate O(V + E) deoarece fiecare arc este relaxat cel mult o dată. \n– Această complexitate este optimă pentru problema dată, deoarece se exploatează faptul că ponderile sunt doar 0 sau 1.\n\nAstfel, echipa de exploratori poate afla rapid dacă există un drum şi, în caz afirmativ, drumul optim (cu cel mai mic număr de utilizări de dinamită).",
+        "Value": "15 points"
+      }
+    ]
+  }
+}
