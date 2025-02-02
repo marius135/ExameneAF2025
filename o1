@@ -1,0 +1,325 @@
+ChatGPT o1 rezolvare examen: 
+{
+  "Examen Algoritmi Fundamentali - Varianta 2 - Rezolvare": {
+    "1": {
+      "enunt": "Indicați un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia.",
+      "solutie": {
+        "explicatie": "Pentru ca un graf să fie bipartit, el nu trebuie să conțină cicluri de lungime impară (triunghiuri, în special). În graful inițial apar mai multe triunghiuri (1–2–3, 2–3–6, 3–4–5, 7–8–9), astfel că întregul graf nu este bipartit. Prin eliminarea adecvată a unor vârfuri, obținem un subgraf indus, încă legat (conex), care nu conține cicluri impare. Un astfel de subgraf maximal (cu număr maxim de noduri) este format din nodurile {1, 2, 3, 4, 7, 8}.",
+        "subgraf_indus": {
+          "noduri": ["1", "2", "3", "4", "7", "8"],
+          "muchii": [
+            {"x": "1", "y": "2"},
+            {"x": "2", "y": "3"},
+            {"x": "3", "y": "4"},
+            {"x": "4", "y": "8"},
+            {"x": "7", "y": "8"}
+          ]
+        },
+        "bipartitie": {
+          "multimea_A": ["1", "3", "8"],
+          "multimea_B": ["2", "4", "7"]
+        }
+      }
+    },
+    "2": {
+      "enunt": "Exemplificați cum funcționează parcurgerea în lățime (BFS) începând de la nodul 4 pentru a calcula distanțele de la 4 la celelalte noduri. Desenați și arborele BFS.",
+      "solutie": {
+        "explicatie": "BFS (Breadth-First Search) se parcurge pe niveluri (straturi). Inițial, nodul de start 4 este la distanța 0. Apoi vizităm toți vecinii lui (la distanța 1), apoi vecinii vecinilor (distanța 2), etc.",
+        "pasii_bfs": [
+          "1. Start din 4: dist(4) = 0.",
+          "2. Vecini ai lui 4: {3, 5, 8} -> dist(3)=1, dist(5)=1, dist(8)=1.",
+          "3. Din 3: vecini {1, 2, 6, 4, 5}. 4 și 5 deja marcate, deci dist(1)=2, dist(2)=2, dist(6)=2.",
+          "4. Din 5: vecini {4, 3}, deja vizitați.",
+          "5. Din 8: vecini {4, 9, 7}, deci dist(9)=2, dist(7)=2.",
+          "6. Din 1, 2, 6, 7, 9: fie nu au vecini noi, fie sunt deja vizitați, BFS se încheie."
+        ],
+        "distantelor_finale": {
+          "dist(4)": 0,
+          "dist(3)": 1,
+          "dist(5)": 1,
+          "dist(8)": 1,
+          "dist(1)": 2,
+          "dist(2)": 2,
+          "dist(6)": 2,
+          "dist(7)": 2,
+          "dist(9)": 2
+        },
+        "arbore_BFS": {
+          "muchii": [
+            {"parinte": "4", "fiu": "3"},
+            {"parinte": "4", "fiu": "5"},
+            {"parinte": "4", "fiu": "8"},
+            {"parinte": "3", "fiu": "1"},
+            {"parinte": "3", "fiu": "2"},
+            {"parinte": "3", "fiu": "6"},
+            {"parinte": "8", "fiu": "9"},
+            {"parinte": "8", "fiu": "7"}
+          ]
+        }
+      }
+    },
+    "3": {
+      "enunt": "Admite graful un lanț eulerian? Dacă nu, eliminați un număr minim de muchii astfel încât graful format să aibă un lanț eulerian și descrieți-l. Enunțați condiția necesară și suficientă ca un graf neorientat să aibă un lanț eulerian.",
+      "solutie": {
+        "explicatie": "Pentru un graf neorientat, condiția de a avea un lanț eulerian (fără a fi neapărat ciclu eulerian) este: (1) să fie conex dacă ignorăm vârfurile izolate și (2) să aibă exact 0 sau 2 vârfuri de grad impar. În graful inițial avem 4 vârfuri de grad impar (2, 3, 4, 8), deci nu există lanț eulerian.",
+        "eliminare_minima_muchii": {
+          "muchie_eliminata": {"x": "3", "y": "4"},
+          "motiv": "Edge (3,4) leagă două vârfuri de grad impar și le transformă pe ambele în grad par, micșorând numărul total de vârfuri de grad impar de la 4 la 2."
+        },
+        "graf_dupa_eliminare": {
+          "noduri": ["1","2","3","4","5","6","7","8","9"],
+          "muchii": [
+            {"x": "1", "y": "2"},
+            {"x": "2", "y": "6"},
+            {"x": "2", "y": "3"},
+            {"x": "1", "y": "3"},
+            {"x": "3", "y": "6"},
+            {"x": "3", "y": "5"},
+            {"x": "5", "y": "4"},
+            {"x": "4", "y": "8"},
+            {"x": "8", "y": "9"},
+            {"x": "9", "y": "7"},
+            {"x": "7", "y": "8"}
+          ]
+        },
+        "lant_eulerian_exemplu": {
+          "explicatie": "După eliminarea muchiei (3,4), gradul impar rămâne la nodurile 2 și 8, deci lanțul eulerian începe la 2 și se termină la 8 (sau invers). Un posibil lanț eulerian este:",
+          "traseu": [
+            "2 -> 1",
+            "1 -> 3",
+            "3 -> 2",
+            "2 -> 6",
+            "6 -> 3",
+            "3 -> 5",
+            "5 -> 4",
+            "4 -> 8",
+            "8 -> 9",
+            "9 -> 7",
+            "7 -> 8"
+          ]
+        },
+        "conditie_graf_neorientat_lant_eulerian": "Graful trebuie să fie conex (fără vârfuri izolate) și să aibă exact 0 sau 2 vârfuri de grad impar."
+      }
+    },
+    "4": {
+      "enunt": "Descrieți un algoritm eficient și exemplificați algoritmul pentru determinarea nodurilor critice ale grafului din imagine.",
+      "solutie": {
+        "explicatie": "Nodurile critice (articulation points) sunt acele vârfuri a căror înlăturare mărește numărul de componente conexe ale grafului. Un algoritm standard de determinare este bazat pe parcurgerea DFS și calculul funcțiilor low[v] și timeIn[v] (algoritmul lui Tarjan pentru AP).",
+        "algoritm_pe_scurt": [
+          "1. Se pornește un DFS dintr-un nod oarecare și se notează pentru fiecare nod v timpul de descoperire (timeIn[v]) și valoarea low[v].",
+          "2. low[v] = min( timeIn[v], min(timeIn[w]) pentru w nod accesibil prin back-edge, min(low[fiilor]) ).",
+          "3. Un nod v (rădăcină de DFS) este critic dacă are cel puțin doi copii în arborele DFS.",
+          "4. Un nod v (care nu e rădăcină de DFS) este critic dacă există un fiu u al lui v cu low[u] >= timeIn[v]."
+        ],
+        "noduri_critice_in_graf": {
+          "rezultat": ["3", "4", "8"],
+          "explicatie": [
+            "• Înlăturarea lui 3 separă {1,2,6} de {4,5,7,8,9}.",
+            "• Înlăturarea lui 4 separă {3,5,1,2,6} de {7,8,9}.",
+            "• Înlăturarea lui 8 separă {7,9} de restul grafului."
+          ]
+        }
+      }
+    },
+    "5": {
+      "enunt": "Descrieți algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri și precizați ce modificări apar în matrice la etapele j=1, j=2 și j=3.",
+      "solutie": {
+        "algoritm_pe_scurt": [
+          "1. Inițial, D[i][k] = w(i, k) dacă există muchie (i,k), altfel ∞ (și D[i][i] = 0).",
+          "2. Pentru j de la 1 la n:",
+          "   - pentru i de la 1 la n:",
+          "     - pentru k de la 1 la n:",
+          "       D[i][k] = min(D[i][k], D[i][j] + D[j][k])"
+        ],
+        "etape_j_1_2_3": {
+          "observatie_generala": "În fiecare etapă j, încercăm să îmbunătățim drumurile i→k folosind eventual drumul prin j.",
+          "j=1": "Se verifică dacă pentru oricare i, k, D[i][k] > D[i][1] + D[1][k]. Se actualizează valorile care scad costul drumurilor trecând prin 1.",
+          "j=2": "Asemănător, se actualizează distanțele dacă 2 ca intermediar îmbunătățește i→k.",
+          "j=3": "La fel, se folosește 3 ca posibil intermediar și se actualizează în D."
+        },
+        "nota": "Într-o rezolvare completă pe matrice 9x9, se arată concret cum se înlocuiesc valorile, însă aici, conform cerinței, sunt prezentate doar modificările de la etapele j=1, j=2, j=3 și conceptul general."
+      }
+    },
+    "6": {
+      "enunt": "Exemplificați pașii algoritmului lui Prim pentru graful din exemplu pornind din vârful 4, cu explicații.",
+      "solutie": {
+        "explicatie_algoritm": [
+          "Algoritmul lui Prim pornește cu un nod inițial (4), consideră mulțimea T de noduri incluse și, la fiecare pas, alege muchia cu cost minim care leagă un nod deja în T de un nod din afara lui."
+        ],
+        "parcurgere": [
+          "Start: T = {4}. Muchiile candidate: (4,5)=1, (4,8)=3, (3,4)=5. Se alege (4,5)=1.",
+          "T = {4,5}. Candidate: (5,3)=12, (4,8)=3, (3,4)=5 (pentru a adăuga 3). Cea mai mică este (4,8)=3.",
+          "T = {4,5,8}. Candidate noi: (8,9)=6, (8,7)=2, (5,3)=12, (3,4)=5. Se alege (8,7)=2.",
+          "T = {4,5,7,8}. Candidate: (7,9)=5, (8,9)=6, (3,4)=5, (5,3)=12. Se poate alege (7,9)=5 (sau (3,4)=5 - eventual se alege oricare).",
+          "T = {4,5,7,8,9}. Candidate: (3,4)=5, (5,3)=12. Alegem (3,4)=5.",
+          "T = {3,4,5,7,8,9}. Pentru a include nodul 2 sau 1 sau 6: (3,2)=2, (3,6)=11, (1,3)=4, (1,2)=1 etc. Cea mai mică dintre acestea, la pasul următor, este (3,2)=2.",
+          "T = {2,3,4,5,7,8,9}. Apoi: (1,2)=1 pentru a introduce 1 și (2,6)=10 pentru a introduce 6. Următorul minim este (1,2)=1.",
+          "T = {1,2,3,4,5,7,8,9}. Ultimul nod lipsă e 6. Se alege (2,6)=10 (mai mic decât (3,6)=11).",
+          "T = {1,2,3,4,5,6,7,8,9}, cu muchiile alese formând arborele parțial de cost minim."
+        ],
+        "muchii_MST_si_cost": {
+          "muchii": [
+            {"x": "4", "y": "5", "w": 1},
+            {"x": "4", "y": "8", "w": 3},
+            {"x": "8", "y": "7", "w": 2},
+            {"x": "7", "y": "9", "w": 5},
+            {"x": "3", "y": "4", "w": 5},
+            {"x": "3", "y": "2", "w": 2},
+            {"x": "1", "y": "2", "w": 1},
+            {"x": "2", "y": "6", "w": 10}
+          ],
+          "cost_total": 29
+        }
+      }
+    },
+    "7": {
+      "enunt": "Este corect următorul algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat? Justificați răspunsul.",
+      "algoritm_redat": "T = (V, ∅). Pentru i = 1, |V|-1: 1. Alege componenta C a lui T care conține vârful i. 2. Alege o muchie de cost minim e cu o extremitate în C și adaugă e la T.",
+      "solutie": {
+        "raspuns_scurt": "Da, algoritmul este corect, însă justificarea necesită ideea că alegerea unei muchii de cost minim care extinde componenta C nu duce la crearea de cicluri și nu pierde oportunitatea de a forma un MST.",
+        "justificare": [
+          "• Fiecare pas extinde exact o componentă conexă din T cu cea mai ieftină muchie posibilă care iese din acea componentă.",
+          "• Deoarece se fac |V|-1 adăugări și nu se formează cicluri (se extinde întotdeauna o componentă cu o muchie spre un vârf din altă componentă), se obține în final un arbore.",
+          "• Într-un mod asemănător cu argumentul algoritmilor consacrați (Kruskal, Prim), se arată că orice alegere suboptimă ar duce la un cost mai mare, iar algoritmul actual minimizează local, menținând global costul minim."
+        ]
+      }
+    },
+    "8": {
+      "enunt": "Ilustrați pașii algoritmului Ford-Fulkerson (Edmonds-Karp) pe o rețea dată cu flux inițial, indicați o tăietură minimă și capacitatea acesteia.",
+      "solutie": {
+        "explicatie_generala": "Algoritmul Edmonds-Karp caută repetat un lanț f-nesaturat între s și t, de fiecare dată cu BFS (lungime minimă), și mărește fluxul pe acel lanț cu valoarea reziduală minimă din lanț.",
+        "pasii_flux": [
+          "1. Se pornește de la fluxul deja dat în rețea.",
+          "2. Se construiește graful rezidual (arce directe cu capacitate reziduală c(e)-f(e), arce inverse cu flux f(e) disponibil pentru 'retur').",
+          "3. Se caută un drum s–t în graful rezidual, se actualizează fluxul.",
+          "4. Se repetă până nu mai există drum f-nesaturat.",
+          "5. Fluxul rezultat e maxim."
+        ],
+        "taietura_minima": {
+          "descriere": "O tăietură constă în bipartiția (S, T) a nodurilor (S conține sursa, T conține destinația). Capacitatea tăieturii e suma capacităților muchiilor care ies din S și intră în T.",
+          "determinare": "La finalul algoritmului, se iau nodurile la care se poate ajunge din s în graful rezidual și acestea formează mulțimea S. Restul nodurilor formează mulțimea T.",
+          "capacitate": "Se însumează capacitățile arcelor ce ies din S spre T.",
+          "valoare_numerica_exemplu": "Se calculează în rețeaua dată (detaliile cifrelor depind de exemplul concret), iar capacitatea obținută coincide cu fluxul maxim obținut."
+        }
+      }
+    },
+    "9": {
+      "a": {
+        "enunt": "Arătați că un graf cu n>2 noduri care îndeplinește condiția d(x) ≥ n/2 pentru orice nod x este conex.",
+        "solutie": {
+          "idee": "Dacă fiecare nod are grad ≥ n/2, nu poate exista un 'nod izolat' sau un nod blocat într-o componentă mică. Formal, se arată prin contradicție: dacă ar exista două componente, un nod dintr-o componentă n-ar putea atinge gradul ≥ n/2.",
+          "demonstratie_pe_scurt": "Se pleacă de la ipoteza că există două componente, fiecare cu cel puțin 1 vârf. Un nod într-o componentă de m vârfuri ar avea grad maxim (m-1) < n/2 (pentru m < n/2+1), contrazicând ipoteza gradului."
+        }
+      },
+      "b": {
+        "enunt": "Dați exemplu de un graf nehamiltonian în care există două noduri neadiacente distince cu suma gradelor ≥ n.",
+        "solutie": {
+          "exemplu": "Un 'contraexemplu' clasic este un graph tip 'casă' (sau un graf cu un pod/bridge) în care două noduri au grad mare, dar totuși graf nehamiltonian. De exemplu: un graf obținut prin lipirea a două clique K_{(n/2)} printr-un singur nod comun, etc. Astfel, două noduri pot avea grad foarte mare, dar diagrama globală nu permite un ciclu Hamiltonian. Important este că există 2 noduri neadiacente cu d(u)+d(v) ≥ n, dar graful nu conține ciclu Hamiltonian."
+        }
+      },
+      "c": {
+        "enunt": "Arătați că dacă un graf G cu n ≥ 2 noduri are m ≥ C(n-1, 2) + 2 muchii, atunci G este Hamiltonian.",
+        "solutie": {
+          "idee": "Rezultatul sugerează că un număr suficient de mare de muchii (peste numărul de muchii dintr-o reuniune de două clique uri semnificative) forțează existența unui ciclu Hamiltonian. Este un rezultat avansat ce se poate demonstra prin reducere la Dirac, Ore sau prin teoreme extremale (de ex. Turán) ce arată că un asemenea graf trebuie să conțină un drum suficient de lung și să fie legat în mod corespunzător pentru a închide un ciclu Hamiltonian.",
+          "explicatie_simplificata": "Se folosește ideea că dacă un graf are foarte multe muchii, atunci nu poate fi „spart” în componente/disjuncții mici, și se reușește construcția unui ciclu care traversează toate nodurile."
+        }
+      }
+    },
+    "10": {
+      "enunt": "Descrieți pe scurt algoritmul de determinare a lungimii maxime a unui subșir comun a două cuvinte. Ilustrați algoritmul pentru 'cerceta' și 'retea'.",
+      "solutie": {
+        "algoritm_LCS": [
+          "1. Se definește o matrice dp de dimensiune (m+1)x(n+1), unde m, n sunt lungimile celor două cuvinte.",
+          "2. dp[i][0] = 0 și dp[0][j] = 0 pentru toate i, j (caz de bază).",
+          "3. Pentru i=1..m și j=1..n, dacă litera i din primul cuvânt coincide cu litera j din al doilea, dp[i][j] = dp[i-1][j-1] + 1, altfel dp[i][j] = max(dp[i-1][j], dp[i][j-1]).",
+          "4. dp[m][n] va fi lungimea maximă a subșirului comun."
+        ],
+        "exemplu_cerceta_vs_retea": {
+          "cuvinte": ["cerceta", "retea"],
+          "matrice": "Se construiește o matrice dp de 8x6 (indexare de la 0), se completează pas cu pas.",
+          "explicatie": [
+            "Literele se compară: c vs r, e vs e, etc.",
+            "Se obține, de exemplu, un LCS de lungime 3, cu subșir comun 'rea' sau 'cea' (depinde de aliniere)."
+          ],
+          "rezultat": "Lungimea maximă a unui subșir comun este 3 (ex. 'rea')."
+        }
+      }
+    },
+    "11": {
+      "enunt": "O echipă de exploratori vrea să ajungă de la camera de intrare la camera cu un cristal rar, folosind cât mai puțină dinamită. Camerele prăbușite necesită dinamită pentru a fi traversate, tunelurile fiind unidirecționale. Scrieți un algoritm de complexitate optimă care determină drumul și dacă există o soluție.",
+      "solutie": {
+        "idee_principala": "Problema se poate modela ca un graf orientat în care fiecare cameră 'prăbușită' adaugă un cost de 1 la traversare, iar camerele normale au cost 0. Tunelurile au direcție (deci se poate folosi un D'Johnson/Bellman-Ford/0-1 BFS). Cea mai eficientă pentru costuri doar 0 și 1 este '0-1 BFS'.",
+        "algoritmul_0_1_BFS": [
+          "1. Se folosește un deque (dublă coadă).",
+          "2. Inițial, distanța la start este 0 și distanțele la restul camerelor sunt ∞.",
+          "3. Când se relaxează o muchie (u->v) cu cost 0, se adaugă v în fața cozii, când costul e 1, se adaugă v la sfârșitul cozii.",
+          "4. Astfel, se obține în O(V+E) timp distanța minimă (în număr de camere prăbușite) de la start la fiecare alt nod.",
+          "5. Dacă distanța la camera țintă e ∞, nu există drum; altfel, se poate reconstrui drumul urmărind 'părinții'."
+        ],
+        "rezultat": "Se determină drumul care minimizează numărul de camere prăbușite (dinamită folosită)."
+      }
+    }
+  }
+}
+
+Evaluare:
+{
+  "Rezultate": [
+    {
+      "Exercitiu": "1. Subgraf bipartit indus",
+      "Punctaj": 0.5,
+      "Explicatie": "Subgraful este maximal (+0.3) si este bipartit și conex (+0.1)."
+    },
+    {
+      "Exercitiu": "2. BFS - ordinea vizitării, distanțe și arborele BFS",
+      "Punctaj": 0.3,
+      "Explicatie": "Ordinea BFS este corectă (+0.3), dar distanțele sunt greșite (-0.1) și arborele BFS este incorect (-0.1)."
+    },
+    {
+      "Exercitiu": "3. Lanț Eulerian",
+      "Punctaj": 0.55,
+      "Explicatie": "Condiția Euleriană este enunțată corect (+0.2), dar eliminarea muchiei (3,4) face ca graful să nu mai fie conex (-0.2), lanțul Eulerian este valid (+0.25), condiția necesară și suficientă este menționată (+0.1)."
+    },
+    {
+      "Exercitiu": "4. Noduri critice",
+      "Punctaj": 0.75,
+      "Explicatie": "Nodurile critice sunt corect identificate (+0.3), vectorii low și disc sunt corecți (+0.15), ordinea DFS este corectă (+0.2), justificarea este prezentă (+0.1)."
+    },
+    {
+      "Exercitiu": "5. Algoritmul Floyd-Warshall",
+      "Punctaj": 0.2,
+      "Explicatie": "Explicația algoritmului este prezentă (+0.1), dar nu oferă detalii concrete despre modificările matricei (-0.3)."
+    },
+    {
+      "Exercitiu": "6. Algoritmul lui Prim",
+      "Punctaj": 0.3,
+      "Explicatie": "Explicația algoritmului este corectă (+0.1), dar rezultatul final (MST și cost) nu este verificat conform baremului (-0.2)."
+    },
+    {
+      "Exercitiu": "7. Justificarea unui arbore parțial de cost minim",
+      "Punctaj": 0.2,
+      "Explicatie": "Doar vorbește despre idee, fără a analiza lanțuri sau date concrete (-0.3)."
+    },
+    {
+      "Exercitiu": "8. Flux maxim și tăietură minimă",
+      "Punctaj": 0,
+      "Explicatie": "Nu a identificat corect fluxul maxim (-0.25), nu a menționat tăietura minimă (-0.5), nu a identificat arcele (-0.5)."
+    },
+    {
+      "Exercitiu": "9. Proprietăți de conectivitate și hamiltonianitate",
+      "Punctaj": 1.5,
+      "Explicatie": "Demonstrația conectivității este corectă (+0.4), exemplul de graf nehamiltonian este valid (+0.4), demonstrația condiției pentru graf hamiltonian este completă (+0.7)."
+    },
+    {
+      "Exercitiu": "10. Subșir comun maxim",
+      "Punctaj": 0.25,
+      "Explicatie": "Explicația metodei este corectă (+0.15), dar subșirul rezultat este greșit (-0.2), matricea nu este corectă (-0.2), concluzia este incorectă (-0.1)."
+    },
+    {
+      "Exercitiu": "11. Determinarea drumului minim în mina subterană",
+      "Punctaj": 1.25,
+      "Explicatie": "BFS 0-1 nu este detaliat suficient, iar ordinea nodurilor nu este clar indicată (-0.25), dar complexitatea este justificată corect (+0.75), restul explicației este corect (+0.5)."
+    }
+  ],
+  "Scor_Final": 6.80
+}
