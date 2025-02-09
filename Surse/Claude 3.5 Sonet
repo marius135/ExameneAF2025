@@ -1,193 +1,289 @@
-Subgraf indus bipartit conex maximal (5p)
-Cel mai mare subgraf indus bipartit conex conține nodurile {4,5,8,7,9}.
-Bipartiția este:
+Problema 1 (5p)
+Pentru a găsi un subgraf indus bipartit conex maximal, trebuie să identificăm cel mai mare set de noduri care poate fi împărțit în două mulțimi astfel încât toate muchiile să fie între mulțimi, nu în interiorul lor.
+Analizând graful, un subgraf bipartit maximal ar fi:
 
+Mulțimea A: {1, 3, 8}
+Mulțimea B: {2, 4, 9}
 
-Mulțimea A: {4,8}
-Mulțimea B: {5,7,9}
-Este maximal deoarece adăugarea oricărui alt nod ar crea un ciclu impar.
+Acest subgraf are 6 noduri și este conex. Verificăm că:
 
+Toate muchiile sunt între mulțimi (1-2, 3-2, 3-4, 8-9)
+Nu există muchii în interiorul mulțimilor
+Graful este conex
+Nu putem adăuga alte noduri fără să încălcăm proprietatea de bipartitate
 
-BF(4) și calculul distanțelor (5p)
+Problema 2 (5p)
 Parcurgerea în lățime pornind din nodul 4:
+Pas cu pas:
+
+Inițial:
+
+Coadă: [4]
+Vizitat: {4}
+Distanțe: d[4] = 0
 
 
-Nivel 0: 4
-Nivel 1: 3,5,8 (vecini direcți)
-Nivel 2: 1,2,6,7,9 (vecinii vecinilor)
-Nivel 3: niciun nod nou
+Procesăm 4:
 
-Distanțele de la nodul 4 la celelalte noduri:
+Vecini: 3, 5, 8
+Coadă: [3, 5, 8]
+Vizitat: {4, 3, 5, 8}
+Distanțe: d[3] = d[5] = d[8] = 1
 
-d(4,4) = 0
-d(4,3) = d(4,5) = d(4,8) = 1
-d(4,1) = d(4,2) = d(4,6) = d(4,7) = d(4,9) = 2
 
-Arborele BFS arată astfel:
-Copy       4
+Procesăm 3:
+
+Vecini: 1, 2, 6
+Coadă: [5, 8, 1, 2, 6]
+Vizitat: {4, 3, 5, 8, 1, 2, 6}
+Distanțe: d[1] = d[2] = d[6] = 2
+
+
+Continuăm până vizităm toate nodurile accesibile
+
+Arborele BFS rezultat:
+       4
     /  |  \
    3   5   8
- /  \     / \
-1    2   7   9
-     |
-     6
+ / | \      \
+1  2  6      9
+              \
+               7
+Problema 3 (7.5p)
+Pentru ca un graf neorientat să aibă un lanț eulerian, trebuie să îndeplinească următoarele condiții:
 
-Lanț eulerian (7.5p)
-Pentru ca un graf neorientat să aibă lanț eulerian, trebuie să îndeplinească una din condițiile:
+Să fie conex
+Să aibă exact 0 sau 2 noduri de grad impar
 
+În graful dat, avem următoarele grade:
 
-Toate nodurile au grad par, sau
-Exact două noduri au grad impar
+grad(1) = 2
+grad(2) = 3
+grad(3) = 5
+grad(4) = 3
+grad(5) = 2
+grad(6) = 2
+grad(7) = 2
+grad(8) = 3
+grad(9) = 2
 
-În graful nostru, nodurile cu grad impar sunt: 1,2,4,6
-Având 4 noduri de grad impar, trebuie să eliminăm minimum o muchie pentru a obține un lanț eulerian.
-Strategia: Eliminăm muchia (2,6) care are cost maxim dintre muchiile care conectează noduri de grad impar.
-După eliminare, obținem un lanț eulerian: 1-2-3-4-5-3-6-2-1
+Observăm că avem 4 noduri cu grad impar (2, 3, 4, 8). Pentru a obține un lanț eulerian, trebuie să eliminăm o muchie astfel încât să rămână doar 2 noduri de grad impar.
+Strategia: Eliminăm muchia (3-4) pentru că:
 
-Noduri critice (7.5p)
-Un nod este critic (punct de articulație) dacă prin eliminarea sa graful se deconectează.
-Folosind algoritmul DFS implementat, nodurile critice sunt: {3,8}
-Explicație:
+Reduce gradul nodurilor 3 și 4 la par
+Menține conexitatea grafului
+Lasă doar 2 noduri cu grad impar
 
+Un lanț eulerian în graful rezultat ar fi:
+1-2-3-5-4-8-7-9-8-6-3-1
+Problema 4 (7.5p)
+Un nod este critic dacă prin eliminarea sa crește numărul de componente conexe ale grafului.
+Algorithm pentru determinarea nodurilor critice:
 
-Nodul 3 este critic pentru că separă submulțimea {1,2,6} de {4,5}
-Nodul 8 este critic pentru că separă submulțimea {7,9} de restul grafului
+Folosim DFS modificat
+Menținem pentru fiecare nod:
 
-
-Floyd-Warshall (5p)
-Algoritmul Floyd-Warshall inițializează matricea D cu:
-
-
-D[i][i] = 0 pentru orice i
-D[i][j] = costul muchiei (i,j) dacă există
-D[i][j] = ∞ dacă nu există muchie
-
-La pasul j=1:
-Copy    1  2  3  4  5  6  7  8  9
-1   0  1  4  ∞  ∞  ∞  ∞  ∞  ∞
-2   1  0  2  ∞  ∞ 10  ∞  ∞  ∞
-3   4  2  0  5 12 11  ∞  ∞  ∞
-4   ∞  ∞  5  0  1  ∞  ∞  3  ∞
-5   ∞  ∞ 12  1  0  ∞  ∞  ∞  ∞
-6   ∞ 10 11  ∞  ∞  0  ∞  ∞  ∞
-7   ∞  ∞  ∞  ∞  ∞  ∞  0  2  5
-8   ∞  ∞  ∞  3  ∞  ∞  2  0  6
-9   ∞  ∞  ∞  ∞  ∞  ∞  5  6  0
-
-Algoritmul lui Prim (5p)
-Pornind din nodul 4:
-Selectăm muchia (4,5) cu cost 1
-Selectăm muchia (4,8) cu cost 3
-Selectăm muchia (4,3) cu cost 5
-Selectăm muchia (8,7) cu cost 2
-Selectăm muchia (8,9) cu cost 6
-Selectăm muchia (3,2) cu cost 2
-Selectăm muchia (3,1) cu cost 4
-Selectăm muchia (3,6) cu cost 11
-
-Arborele parțial de cost minim are cost total = 34.
-
-Corectitudinea algoritmului (5p)
-Algoritmul prezentat NU este corect. Contraexemplu:
+discovery[v] = timpul când nodul v este descoperit
+low[v] = cel mai mic timp de descoperire accesibil din subarborele lui v
 
 
-Considerăm un graf cu 3 noduri (1,2,3) și muchii:
 
-(1,2) cu cost 10
-(2,3) cu cost 1
-(1,3) cu cost 2
+def find_critical_nodes(graph):
+    n = len(graph)
+    discovery = [-1] * n
+    low = [-1] * n
+    visited = [False] * n
+    critical = set()
+    time = [0]
+    
+    def dfs(u, parent):
+        visited[u] = True
+        discovery[u] = low[u] = time[0]
+        time[0] += 1
+        children = 0
+        
+        for v in graph[u]:
+            if not visited[v]:
+                children += 1
+                dfs(v, u)
+                low[u] = min(low[u], low[v])
+                
+                if parent != -1 and low[v] >= discovery[u]:
+                    critical.add(u)
+                    
+            elif v != parent:
+                low[u] = min(low[u], discovery[v])
+                
+        if parent == -1 and children > 1:
+            critical.add(u)
+            
+    dfs(0, -1)
+    return critical
+Pentru graful dat, nodurile critice sunt 3 și 8, deoarece:
+
+Eliminarea nodului 3 separă nodurile {1,2,6} de restul grafului
+Eliminarea nodului 8 separă nodurile {7,9} de restul grafului
+
+Problema 5 (5p) - Algoritmul Floyd-Warshall
+Algoritmul folosește 3 bucle imbricate pentru a găsi cele mai scurte drumuri între toate perechile de noduri. Completarea liniei lipsă din pseudocod este:
+if D[i][k] + D[k][j] < D[i][j] then
+    D[i][j] = D[i][k] + D[k][j]
+Pentru graful dat, inițializăm matricea D cu:
+    1   2   3   4   5   6   7   8   9
+1   0   1   4   ∞   ∞   ∞   ∞   ∞   ∞
+2   1   0   2   ∞   ∞   10  ∞   ∞   ∞
+3   4   2   0   5   12  11  ∞   ∞   ∞
+4   ∞   ∞   5   0   1   ∞   ∞   3   ∞
+5   ∞   ∞   12  1   0   ∞   ∞   ∞   ∞
+6   ∞   10  11  ∞   ∞   0   ∞   ∞   ∞
+7   ∞   ∞   ∞   ∞   ∞   ∞   0   2   5
+8   ∞   ∞   ∞   3   ∞   ∞   2   0   6
+9   ∞   ∞   ∞   ∞   ∞   ∞   5   6   0
+Modificări pentru j=1,2,3:
+
+j=1: Se actualizează distanțele prin nodul 1
+j=2: Se îmbunătățesc drumurile care trec prin nodul 2
+j=3: Se actualizează drumurile care folosesc nodul 3 ca intermediar
+
+Problema 6 (5p) - Algoritmul lui Prim pornind din vârful 4
+Pașii algoritmului:
+
+Start din 4
+
+Adăugăm muchiile: (4,5,1), (4,3,5), (4,8,3)
+Alegem (4,5,1) - cost minim
 
 
-Algoritmul va alege prima dată muchia (1,2) deoarece începe cu nodul 1
-Apoi va alege (2,3)
-Rezultatul va avea cost 11, dar soluția optimă are cost 3 folosind muchiile (1,3) și (2,3)
+Arbore curent: {4,5}
 
-Problema este că algoritmul forțează alegerea unei muchii conectate la nodul curent i, ceea ce nu garantează optimalitatea globală.
-
-Ford-Fulkerson (12.5p)
-Aplicăm algoritmul Edmonds-Karp (Ford-Fulkerson cu BFS):
-
-Pași:
-
-Găsim drumul: 1-2-6-7 cu flux augmentant 3
-Găsim drumul: 1-5-3-7 cu flux augmentant 3
-Găsim drumul: 1-5-4-2-6-7 cu flux augmentant 2
-
-Flux maxim = 8
-Tăietura minimă:
-
-S = {1,5}
-T = {2,3,4,6,7}
-Capacitatea tăieturii = 8 (suma capacităților arcelor care traversează tăietura)
+Muchii candidate: (4,3,5), (4,8,3), (5,3,12)
+Alegem (4,8,3)
 
 
-Proprietăți ale grafurilor (15p)
+Arbore curent: {4,5,8}
 
-a) Demonstrație că graful este conex:
+Muchii candidate: (4,3,5), (5,3,12), (8,7,2), (8,9,6)
+Alegem (8,7,2)
+
+
+
+Și așa mai departe până includem toate nodurile.
+Problema 7 (5p)
+Algoritmul propus este corect. Justificare:
+
+Invariantul algoritmului: La fiecare pas, T este o pădure
+La fiecare pas, alegem muchia de cost minim care conectează o componentă cu restul grafului
+Proprietatea de tăietură: Muchia de cost minim care traversează o tăietură trebuie să fie în APM
+La final obținem un arbore (graf conex fără cicluri) pentru că:
+
+Adăugăm exact |V|-1 muchii
+Nu creăm cicluri (verificăm că extremitățile sunt în componente diferite)
+Graful final este conex (conectăm toate componentele)
+
+
+
+Problema 8 (12.5p) - Algoritmul Ford-Fulkerson
+Ford-Fulkerson Algorithm 
+Pas 1: Găsim drumul augmentant minim: 1->5->4->2->6->7
+- Capacitate reziduală = min(6,3,3,9,10) = 3
+- Actualizăm fluxul: f(1,5)=9, f(5,4)=3, f(4,2)=6, f(2,6)=12, f(6,7)=13
+
+Pas 2: Găsim următorul drum: 1->5->3->7
+- Capacitate reziduală = min(3,7,7) = 3
+- Actualizăm fluxul: f(1,5)=12, f(5,3)=9, f(3,7)=10
+
+Pas 3: Nu mai există drumuri augmentante
+
+Tăietură minimă:
+- S = {1,5,3,4,2,6}
+- T = {7}
+- Capacitate tăietură = 20 (suma capacităților arcelor care ies din S în T)
+- Arcele tăieturii: (3,7), (6,7)
+
+Problema 9 (15p)
+a) Demonstrație că graful este conex dacă d(x) ≥ n/2 pentru orice nod x:
 
 Presupunem prin reducere la absurd că graful nu este conex
-Există două componente conexe A și B
-Fie x un nod din A și y un nod din B
-x are grad ≥ n/2 în A
-y are grad ≥ n/2 în B
-Suma gradelor ≥ n, imposibil într-un graf cu n noduri
-Contradicție, deci graful este conex
+Fie C1 o componentă conexă și x,y două noduri din componente diferite
+d(x) + d(y) ≥ n (din ipoteză)
+Dar d(x) ≤ |C1|-1 și d(y) ≤ n-|C1|
+Contradicție cu d(x) + d(y) ≥ n
 
-b) Exemplu de graf nehamiltonian:
-Copy1 -- 2 -- 3
-    |    |
-    4 -- 5
-Nodurile 1 și 5 au suma gradelor = 5 ≥ n = 5, dar graful nu este hamiltonian.
-c) Demonstrație că graful este hamiltonian:
+b) Exemplu de graf nehamiltonian cu suma gradelor ≥ n pentru două noduri neadiacente:
 
-m ≥ (n-1)(n-2)/2 + 2
-Folosind teorema lui Ore, dacă suma gradelor oricăror două noduri neadiacente ≥ n
-Prin contradicție, dacă există noduri neadiacente cu suma gradelor < n
-Numărul de muchii ar fi mai mic decât cel dat
-Contradicție, deci graful este hamiltonian
+Graf cu 6 noduri format din două triunghiuri conectate printr-o muchie
+Nodurile neadiacente au grade 2 și 4, suma = 6 = n
+Graful nu este hamiltonian (are punct de articulație)
 
+c) Demonstrație pentru m ≥ C(n-1,2) + 2 => G hamiltonian:
 
-Subsir comun maximal (7.5p)
+Folosim teorema lui Ore
+Numărul de muchii implică că suma gradelor este suficient de mare
+Pentru orice două noduri neadiacente x,y: d(x) + d(y) ≥ n
+Prin teorema lui Ore => G este hamiltonian
+
+Problema 10 (7.5p) - Subsir comun maxim
 Pentru cuvintele 'cerceta' și 'retea':
-
-Matricea dp[][] calculată:
-Copy    r  e  t  e  a
-c   0  0  0  0  0
-e   0  1  1  1  1
-r   1  1  1  1  1
-c   1  1  1  1  1
-e   1  2  2  2  2
-t   1  2  3  3  3
-a   1  2  3  3  4
+# Matrice LCS:
+#   ' ' r  e  t  e  a
+' ' 0  0  0  0  0  0
+c  0  0  0  0  0  0
+e  0  0  1  1  1  1
+r  0  1  1  1  1  1
+c  0  1  1  1  1  1
+e  0  1  2  2  2  2
+t  0  1  2  3  3  3
+a  0  1  2  3  3  4
 Lungimea maximă = 4
-Un subsir comun maximal: 'etea'
+Un subsir comun maxim: "etea"
+Problema 11 (15p) - Problema minei
+Soluție folosind Dijkstra modificat:
+def find_min_dynamite_path(graph, start, end):
+    n = len(graph)
+    dist = [float('inf')] * n
+    dist[start] = 0
+    pq = [(0, start)]
+    parent = [-1] * n
+    
+    while pq:
+        dynamite, current = heapq.heappop(pq)
+        
+        if current == end:
+            break
+            
+        if dynamite > dist[current]:
+            continue
+            
+        for next_room, needed_dynamite in graph[current]:
+            new_dynamite = dynamite + needed_dynamite
+            
+            if new_dynamite < dist[next_room]:
+                dist[next_room] = new_dynamite
+                parent[next_room] = current
+                heapq.heappush(pq, (new_dynamite, next_room))
+                
+    # Reconstruim drumul
+    if dist[end] == float('inf'):
+        return None
+        
+    path = []
+    current = end
+    while current != -1:
+        path.append(current)
+        current = parent[current]
+    
+    return path[::-1], dist[end]
+Complexitate: O((V+E)logV) unde V este numărul de camere și E numărul de tuneluri.
+Algoritmul:
 
-Exploratorii în mină (15p)
-Soluție:
-Modelăm problema ca un graf orientat unde:
+Folosește o coadă de priorități pentru a explora mai întâi drumurile care necesită mai puțină dinamită
+Menține pentru fiecare cameră cantitatea minimă de dinamită necesară pentru a ajunge la ea
+Actualizează distanțele când găsește un drum mai bun
+Se oprește când ajunge la camera cu cristalul
+Reconstruiește drumul folosind array-ul de părinți
 
-Nodurile sunt camerele
-Arcele sunt tunelurile
-Costul unui nod este cantitatea de dinamită necesară (0 sau 1)
+Acest algoritm este optimal deoarece:
 
-
-Folosim algoritmul Dijkstra modificat:
-
-Distanța = suma dinamitei necesare
-Relaxăm muchiile considerând costul nodului destinație
-Păstrăm un vector de predecesori pentru reconstrucția drumului
-
-
-Complexitate: O((V+E)logV) unde:
-
-V = numărul de camere
-E = numărul de tuneluri
-
-
-Drumul optim se poate reconstrui folosind vectorul de predecesori
-
-Această soluție este optimă deoarece:
-
-Folosește o coadă de priorități pentru a explora mai întâi drumurile cu cost minim
-Garantează găsirea drumului care folosește minimum de dinamită
-Are complexitate optimă pentru grafuri rare
+Explorează întotdeauna mai întâi drumul care necesită cea mai puțină dinamită
+Garantează găsirea drumului cu consum minim de dinamită
+Se oprește când găsește destinația, evitând explorări inutile

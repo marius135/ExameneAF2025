@@ -2,6 +2,11 @@
   "baremNumar": 2,
   "probleme": [
     {
+      "problemId": "0",
+      "totalPoints": 10,
+      "criteria": "Din oficiu"
+    },
+    {
       "idProblema": "1",
       "titlu": "Subgraf indus bipartit conex cu număr maxim de noduri și bipartiția acestuia",
       "puncteTotale": 5,
