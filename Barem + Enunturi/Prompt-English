@@ -1,0 +1,600 @@
+Here are the subjects for an Algorithms Exam:
+{
+  "Fundamental Algorithms Exam - Variant 2": {
+    "Date": "28.01.2025",
+    "Instructions": "For subjects 1-6, the neighbors of a vertex are considered in lexicographical order.",
+    "Graph_1_6": {
+      "Oriented": "Undirected",
+      "Nodes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Edges": [
+        {"x": "1", "y": "2", "w": "1"},
+        {"x": "2", "y": "6", "w": "10"},
+        {"x": "2", "y": "3", "w": "2"},
+        {"x": "1", "y": "3", "w": "4"},
+        {"x": "3", "y": "6", "w": "11"},
+        {"x": "3", "y": "5", "w": "12"},
+        {"x": "5", "y": "4", "w": "1"},
+        {"x": "3", "y": "4", "w": "5"},
+        {"x": "4", "y": "8", "w": "3"},
+        {"x": "8", "y": "9", "w": "6"},
+        {"x": "9", "y": "7", "w": "5"},
+        {"x": "7", "y": "8", "w": "2"}
+      ]
+    },
+    "Graph_8": {
+      "Oriented": "Directed",
+      "Nodes": ["1", "2", "3", "4", "5", "6", "7"],
+      "Edges": [
+        {"x": "1", "y": "2", "c": "5", "w": "10"},
+        {"x": "1", "y": "5", "c": "6", "w": "6"},
+        {"x": "4", "y": "2", "c": "3", "w": "3"},
+        {"x": "5", "y": "4", "c": "0", "w": "3"},
+        {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "2", "y": "6", "c": "8", "w": "9"},
+        {"x": "3", "y": "6", "c": "3", "w": "3"},
+        {"x": "5", "y": "3", "c": "6", "w": "7"},
+        {"x": "6", "y": "7", "c": "8", "w": "10"},
+        {"x": "3", "y": "7", "c": "3", "w": "7"}
+      ]
+    },
+    "Tasks": [
+      {
+        "1": "5p Indicate a connected bipartite induced subgraph with the maximum number of nodes and a bipartition of it."
+      },
+      {
+        "2": "5p Exemplify (with explanations) how breadth-first search bf(4) works, illustrating how bf(4) can be used to calculate the distance from 4 to the other nodes. Draw the BFS tree as well."
+      },
+      {
+        "3": "7,5p Does the graph admit an Eulerian path? If not, remove a minimum number of edges so that the resulting graph has an Eulerian path, describing the strategy you used to choose the removed edges. Indicate an Eulerian path in the initial/obtained graph. State a necessary and sufficient condition for an undirected graph to have an Eulerian path."
+      },
+      {
+        "4": "7,5p Describe an efficient algorithm for determining the critical nodes of an undirected graph and exemplify (with explanations) the algorithm for the graph in the image."
+      },
+      {
+        "5": "5p Describe the Floyd-Warshall algorithm for determining distances in a weighted undirected graph with n vertices, detailing the following scheme: Initialize the distance matrix D with the cost matrix. \nfor j ← 1, n do\n\tfor i ← 1, n do\n\t\tfor k ← 1, n do\n\t\t\t............\nWrite what values are modified in the matrix for the graph in the example at stages j=1, j=2 and j=3."
+      },
+      {
+        "6": "5p Exemplify the steps of Prim's algorithm for the graph in the example (with explanations) starting from vertex 4."
+      },
+      {
+        "7": "5p Is the following algorithm for determining a minimum spanning tree of a connected weighted graph G = (V, E, w) correct? Justify (without appealing to the functioning of other algorithms in the justification; the used results must be demonstrated and it must be explained how they are used)\nT = (V, E = ∅) – initially V contains all the vertices and contains no edge\nfor i = 1, |V|-1\n1. Choose the connected component C of T that contains vertex i\n2. Choose an edge of minimum cost e with one end in C and the other not and add e to T"
+      },
+      {
+        "8": "12,5p In the transport network in the adjacent figure, the values f(e)/c(e) are passed on an arc e, representing flow/capacity. The source is vertex s=1, and the destination t=7. \nIllustrate the steps of the Ford-Fulkerson algorithm for this network starting from the indicated flow and choosing at each step an s-t f-unsaturated path of minimum length (the Edmonds-Karp algorithm). Indicate a minimum cut (s-t cut) in the network (the vertices in the bipartition, the direct arcs, the reverse arcs and how it is determined by the algorithm will be indicated) and determine the capacity of this cut. Justify the answers."
+      },
+      {
+        "9": "15p [\n          {\n            \"a\": \"Show that a graph with n>2 nodes that satisfies the condition d(x) >= n/2 for any node x is connected.\"\n          },\n          {\n            \"b\": \"Give an example of a non-Hamiltonian graph in which there are two distinct non-adjacent nodes with the sum of degrees greater than or equal to n.\"\n          },\n          {\n            \"c\": \"Show that if a graph G with n ≥ 2 nodes has m≥ combinations(n-1, 2) + 2 edges, then G is Hamiltonian.\"\n          }\n        ]"
+      },
+      {
+        "10": "7,5p Briefly describe the algorithm for determining the maximum length of a common subsequence of two words. Illustrate the algorithm for the words 'cerceta' and 'retea' by writing the matrix with the values of the subproblems and explaining how they were calculated."
+      },
+      {
+        "11": "15p A team of explorers has discovered an old map of an underground mine renowned for a rare and valuable crystal. The mine is composed of a series of chambers interconnected by unidirectional tunnels. For our experienced explorers, the tunnels can be traversed without any effort. However, some of the chambers have collapsed, and to cross them, they need to use dynamite. The team's goal is to get from the entrance chamber to the chamber containing the rare crystal using as little dynamite as possible. Write an algorithm of optimal complexity that determines if there is a path for the explorers and, if there is, determines the path."
+      }
+    ]
+  }
+}
+and the marking scheme for it:
+{
+    "gradeNumber": 2,
+    "problems": [
+      {
+        "problemId": "0",
+        "totalPoints": 10,
+        "criteria": "By default"
+      },
+      {
+        "problemId": "1",
+        "title": "Connected bipartite induced subgraph with maximum number of nodes and its bipartition",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Identify Maximal Connected Bipartite Subgraph",
+            "points": 4,
+            "conditions": [
+              {
+                "description": "The indicated subgraph must be bipartite, connected, and maximal (with the largest possible number of nodes from a connected bipartite subgraph of the original graph). A correct subgraph is the one induced by the nodes {1, 3, 4, 6, 8, 9} (having 6 nodes).",
+                "points": 4
+              },
+              {
+                "description": "If the indicated subgraph is bipartite and connected, but not maximal, at most 1 points are awarded.",
+                "points": 1
+              }
+            ]
+          },
+          {
+            "name": "Verify Bipartition",
+            "points": 1,
+            "conditions": [
+              {
+                "description": "The bipartition of the indicated subgraph must be correctly identified. Each edge in the subgraph must have its ends in different sets. For the nodes {1, 3, 4, 6, 8, 9}, a correct bipartition is A = {1, 4, 6, 9} and B = {3, 8}.",
+                "points": 1
+              }
+            ]
+          }
+        ],
+        "examples": [
+          {
+            "type": "Correct Answer",
+            "subgraph": "{1, 3, 4, 6, 8, 9}",
+            "bipartition": {
+              "A": ["1", "4", "6", "9"],
+              "B": ["3", "8"]
+            },
+            "points": 5
+          },
+          {
+            "type": "Partially Correct Answer",
+            "subgraph": "{4, 5, 8}",
+            "bipartition": {
+              "A": ["4"],
+              "B": ["5", "8"]
+            },
+            "points": 2
+          },
+          {
+            "type": "Incorrect Answer (Subgraph is not bipartite)",
+            "subgraph": "{1, 2, 4, 5, 6, 7, 8, 9}",
+            "bipartition": "Example: A = {1, 2, 4, 5}, B = {6, 7, 8, 9}",
+            "points": 0
+          },
+          {
+            "type": "Incorrect Answer (Subgraph is not connected)",
+            "subgraph": "{1, 6, 4, 7} ∪ {2, 5, 8}",
+            "points": "Maximum 1 (very small partial score)"
+          }
+        ],
+        "observations": "Only correct and maximal answers receive 5p, and non-maximal ones are limited to 2p."
+      },
+      {
+        "problemId": "2",
+        "title": "BFS Exploration and Distance Calculation",
+        "criteria": [
+          {
+            "name": "Correct Order of BFS(4) Exploration",
+            "points": 3,
+            "observations": "The order in which the nodes are visited is correctly mentioned. Any error reduces the score to 1p."
+          },
+          {
+            "name": "Correct Calculation of Distances",
+            "points": 1,
+            "observations": "The minimum distances from 4 to all nodes are correctly indicated. Any error reduces the score to 0p."
+          },
+          {
+            "name": "Correct Representation of the BFS Tree",
+            "points": 1,
+            "observations": "The tree must correctly reflect the BFS levels. An incorrect representation cancels this score."
+          }
+        ],
+        "exampleAnswer": {
+          "bfsOrder": "4 → 3 → 5 → 8 → 1 → 2 → 6 → 7 → 9",
+          "distances": "[∞, 2, 2, 1, 0, 1, 2, 2, 1, 2]",
+          "bfsTree": "           4\n       /   |   \\\n      3    5    8\n     /|\\       | \\\n    1 2 6      7  9"
+        }
+      },
+      {
+        "problemId": "3",
+        "title": "Eulerian Chain in Graph",
+        "criteria": [
+          {
+            "name": "Verification of the Existence Condition of an Eulerian Chain",
+            "points": 2,
+            "observations": "The condition is stated: an undirected graph admits an Eulerian chain if and only if it has exactly 0 or 2 nodes of odd degree and is connected. Any error reduces the score to 1p."
+          },
+          {
+            "name": "Minimum Removal of Edges to Obtain an Eulerian Chain",
+            "points": 2,
+            "observations": "The odd degree nodes are correctly identified, and a minimum number of edges are removed to obtain a graph with 0 or 2 odd nodes. Any minor mistake reduces the score to 1p."
+          },
+          {
+            "name": "Indicating a Valid Eulerian Chain",
+            "points": 2.5,
+            "observations": "An Eulerian chain is correctly written, which passes through each edge only once. Minor mistakes receive 1p instead of 2.5p."
+          },
+          {
+            "name": "Stating the Necessary and Sufficient Condition",
+            "points": 1,
+            "observations": "Condition: An undirected graph admits an Eulerian chain if and only if it has exactly 0 or 2 nodes of odd degree and is connected. Complete or incorrect absence of the statement is awarded 0p."
+          }
+        ],
+        "exampleAnswer": "To obtain exactly 2 odd vertices, an edge connecting two odd vertices is removed, for example (3,4). Result: vertices 2 and 8 have odd degree, and the graph admits an Eulerian chain. Example of chain: 2→1→3→2→6→3→5→4→8→7→9→8."
+      },
+      {
+        "problemId": "4",
+        "title": "Critical Nodes (Articulation Points) using DFS",
+        "totalPoints": 7.5,
+        "criteria": [
+          {
+            "name": "Defining Critical Nodes",
+            "points": 1,
+            "observations": "A node is critical if, by removing it (and the incident edges), the number of connected components of the graph increases."
+          },
+          {
+            "name": "Final Values of the disc and low Vectors",
+            "points": 1.5,
+            "observations": "Correct listing/argumentation of the values at the end of the DFS traversal."
+          },
+          {
+            "name": "Practical Application",
+            "points": 2,
+            "observations": "Mentioning the DFS visiting order (e.g., 1 → 2 → 3 → 4 → 5 → 8 → 7 → 9 → 6) and identifying the back edges (e.g., 3→1, 6→2, 9→8)."
+          },
+          {
+            "name": "Identifying Critical Nodes",
+            "points": 3,
+            "observations": "Final list: 3, 4 and 8, with short justifications (e.g., 3 is critical because a child, 4, has low[4] ≥ disc[3])."
+          }
+        ]
+      },
+      {
+        "problemId": "5",
+        "title": "Floyd-Warshall Algorithm",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Very Short Mention of the Idea",
+            "points": 1,
+            "observations": "The algorithm calculates all minimum distances between pairs of nodes by iterating through k from 1 to n. Formula: D[i][j] = min(D[i][j], D[i][k] + D[k][j])."
+          },
+          {
+            "name": "Writing the Code",
+            "points": 1,
+            "observations": "Presentation of a typical pseudocode with three for loops."
+          },
+          {
+            "name": "Displaying Matrix D after steps k=1, k=2 and k=3",
+            "points": 3,
+            "observations": "1p is awarded for each display and short explanations about the changes (e.g., D[x][y] decreases from 10 to 7)."
+          }
+        ]
+      },
+      {
+        "problemId": "6",
+        "title": "Prim's Algorithm",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Presenting the Basic Idea",
+            "points": 1,
+            "observations": "Prim's algorithm builds a minimum cost spanning tree starting from node 4, adding the cheapest edge that connects a node in the MST to a new node each time."
+          },
+          {
+            "name": "Step-by-Step Example",
+            "points": 3,
+            "observations": "Explaining the order of edge selection and updating the nodes in the MST."
+          },
+          {
+            "name": "Final Result",
+            "points": 1,
+            "observations": "Clearly listing the edges in the MST, for example: (4,5) – cost 1, (4,8) – cost 3, (8,7) – cost 2, (7,9) – cost 5, (3,4) – cost 5, (2,3) – cost 2, (1,2) – cost 1, (6,2) – cost 10."
+          }
+        ]
+      },
+      {
+        "problemId": "7",
+        "title": "Justification of an Algorithm for Obtaining a Minimum Cost Spanning Tree",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Summarizing the Algorithm",
+            "points": 1,
+            "observations": "Initially, T is empty; for each i from 1 to |V|-1, the cheapest edge that connects the component containing i to an external node is added."
+          },
+          {
+            "name": "Justification",
+            "points": 3,
+            "observations": "An inductive or cycle/exchange argument is provided, demonstrating that at each step an optimal local choice is made, so that T is a minimum cost tree."
+          },
+          {
+            "name": "Conclusion",
+            "points": 1,
+            "observations": "It is explicitly stated that the algorithm is correct."
+          }
+        ]
+      },
+      {
+        "problemId": "8",
+        "title": "Edmonds-Karp Algorithm on the Given Network",
+        "totalPoints": 12.5,
+        "criteria": [
+          {
+            "name": "Steps to Increase Flow",
+            "points": 5,
+            "steps": [
+              {
+                "step": "First Path",
+                "path": "1 → 2 → 6 → 7",
+                "bottleneck": 1,
+                "flowIncrease": 1
+              },
+              {
+                "step": "Second Path",
+                "path": "1 → 2 → 4 → 6 → 7",
+                "bottleneck": 1,
+                "flowIncrease": 1
+              },
+              {
+                "step": "Third Path",
+                "path": "1 → 2 → 4 → 6 → 3 → 7",
+                "bottleneck": 2,
+                "flowIncrease": 2
+              }
+            ],
+            "observations": "Total flow increased: 1 + 1 + 2 = 4 units."
+          },
+          {
+            "name": "Conclusion: Final Flow and Algorithm Termination",
+            "points": 2.5,
+            "observations": "The algorithm stops when there are no more s→t paths in the residual network. The final flow is calculated as the sum of the flows leaving the source (1) or entering the destination (7), for example, 15."
+          },
+          {
+            "name": "Minimum Cut",
+            "points": 5,
+            "observations": "S is determined as the set of nodes reachable from 1 in the final residual network, and T = V \\ S. Examples: S = {1, 2, 4} and T = {3, 5, 6, 7}. Both direct and inverse arcs are scored."
+          }
+        ]
+      },
+      {
+        "problemId": "9",
+        "title": "Ore's Theorem and Related Exercises",
+        "totalPoints": 15,
+        "subproblems": [
+          {
+            "subproblemId": "a",
+            "description": "Show that a graph with n > 2 nodes, in which for any node x, d(x) ≥ n/2, is connected",
+            "points": 4,
+            "criteria": {
+              "statement": "Specifying the condition: each node has degree ≥ n/2 (1p)",
+              "argument": "If there were two components, any node in one component would have a degree less than n/2 (3p)"
+            }
+          },
+          {
+            "subproblemId": "b",
+            "description": "Example of a non-Hamiltonian graph with two non-adjacent nodes whose sum of degrees is ≥ n",
+            "points": 4,
+            "criteria": {
+              "construction": "Explicitly presenting a graph, for example, a complete bipartite graph with unequal partitions (2p)",
+              "verification": "Demonstrating the existence of two non-adjacent nodes with d(u) + d(v) ≥ n and the fact that the graph is not Hamiltonian (2p)"
+            }
+          },
+          {
+            "subproblemId": "c",
+            "description": "Proof regarding Ore's Theorem",
+            "points": 7,
+            "observations": "7p for a correct and complete answer; 4-6p for a partial answer; 2-3p for an incomplete/confused answer; 0p for absence."
+          }
+        ]
+      },
+      {
+        "problemId": "5",
+        "title": "Floyd-Warshall Algorithm",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Very Short Mention of the Idea",
+            "points": 1,
+            "observations": "The algorithm calculates all minimum distances between pairs of nodes by iterating through k from 1 to n. Formula: D[i][j] = min(D[i][j], D[i][k] + D[k][j])."
+          },
+          {
+            "name": "Writing the Code",
+            "points": 1,
+            "observations": "Presentation of a typical pseudocode with three for loops."
+          },
+          {
+            "name": "Displaying Matrix D after steps k=1, k=2 and k=3",
+            "points": 3,
+            "observations": "1p is awarded for each display and short explanations about the changes (e.g., D[x][y] decreases from 10 to 7)."
+          }
+        ]
+      },
+      {
+        "problemId": "6",
+        "title": "Prim's Algorithm",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Presenting the Basic Idea",
+            "points": 1,
+            "observations": "Prim's algorithm builds a minimum cost spanning tree starting from node 4, adding the cheapest edge that connects a node in the MST to a new node each time."
+          },
+          {
+            "name": "Step-by-Step Example",
+            "points": 3,
+            "observations": "Explaining the order of edge selection and updating the nodes in the MST."
+          },
+          {
+            "name": "Final Result",
+            "points": 1,
+            "observations": "Clearly listing the edges in the MST, for example: (4,5) – cost 1, (4,8) – cost 3, (8,7) – cost 2, (7,9) – cost 5, (3,4) – cost 5, (2,3) – cost 2, (1,2) – cost 1, (6,2) – cost 10."
+          }
+        ]
+      },
+      {
+        "problemId": "7",
+        "title": "Justification of an Algorithm for Obtaining a Minimum Cost Spanning Tree",
+        "totalPoints": 5,
+        "criteria": [
+          {
+            "name": "Summarizing the Algorithm",
+            "points": 1,
+            "observations": "Initially, T is empty; for each i from 1 to |V|-1, the cheapest edge that connects the component containing i to an external node is added."
+          },
+          {
+            "name": "Justification",
+            "points": 3,
+            "observations": "An inductive or cycle/exchange argument is provided, demonstrating that at each step an optimal local choice is made, so that T is a minimum cost tree."
+          },
+          {
+            "name": "Conclusion",
+            "points": 1,
+            "observations": "It is explicitly stated that the algorithm is correct."
+          }
+        ]
+      },
+      {
+        "problemId": "8",
+        "title": "Edmonds-Karp Algorithm on the Given Network",
+        "totalPoints": 12.5,
+        "criteria": [
+          {
+            "name": "Steps to Increase Flow",
+            "points": 5,
+            "steps": [
+              {
+                "step": "First Path",
+                "path": "1 → 2 → 6 → 7",
+                "bottleneck": 1,
+                "flowIncrease": 1
+              },
+              {
+                "step": "Second Path",
+                "path": "1 → 2 → 4 → 6 → 7",
+                "bottleneck": 1,
+                "flowIncrease": 1
+              },
+              {
+                "step": "Third Path",
+                "path": "1 → 2 → 4 → 6 → 3 → 7",
+                "bottleneck": 2,
+                "flowIncrease": 2
+              }
+            ],
+            "observations": "Total flow increased: 1 + 1 + 2 = 4 units."
+          },
+          {
+            "name": "Conclusion: Final Flow and Algorithm Termination",
+            "points": 2.5,
+            "observations": "The algorithm stops when there are no more s→t paths in the residual network. The final flow is calculated as the sum of the flows leaving the source (1) or entering the destination (7), for example, 15."
+          },
+          {
+            "name": "Minimum Cut",
+            "points": 5,
+            "observations": "S is determined as the set of nodes reachable from 1 in the final residual network, and T = V \\ S. Examples: S = {1, 2, 4} and T = {3, 5, 6, 7}. Both direct and inverse arcs are scored."
+          }
+        ]
+      },
+      {
+        "problemId": "9",
+        "title": "Ore's Theorem and Related Exercises",
+        "totalPoints": 15,
+        "subproblems": [
+          {
+            "subproblemId": "a",
+            "description": "Show that a graph with n > 2 nodes, in which for any node x, d(x) ≥ n/2, is connected",
+            "points": 4,
+            "criteria": {
+              "statement": "Specifying the condition: each node has degree ≥ n/2 (1p)",
+              "argument": "If there were two components, any node in one component would have a degree less than n/2 (3p)"
+            }
+          },
+          {
+            "subproblemId": "b",
+            "description": "Example of a non-Hamiltonian graph with two non-adjacent nodes whose sum of degrees is ≥ n",
+            "points": 4,
+            "criteria": {
+              "construction": "Explicitly presenting a graph, for example, a complete bipartite graph with unequal partitions (2p)",
+              "verification": "Demonstrating the existence of two non-adjacent nodes with d(u) + d(v) ≥ n and the fact that the graph is not Hamiltonian (2p)"
+            }
+          },
+          {
+            "subproblemId": "c",
+            "description": "Proof regarding Ore's Theorem",
+            "points": 7,
+            "observations": "7p for a correct and complete answer; 4-6p for a partial answer; 2-3p for an incomplete/confused answer; 0p for absence."
+          }
+        ]
+      },
+      {
+        "problemId": "10",
+        "title": "Longest Common Subsequence (LCS)",
+        "parts": [
+          {
+            "partId": "1",
+            "description": "Very short description of the method",
+            "points": 1.5,
+            "details": "We use dynamic programming. We define a matrix dp[i][j] where dp[i][j] represents the maximum length of a common subsequence between the first i characters from the first word and the first j characters from the second. Recurrence: dp[i][0] = 0, dp[0][j] = 0; if X[i] == Y[j] then dp[i][j] = dp[i-1][j-1] + 1, otherwise dp[i][j] = max(dp[i-1][j], dp[i][j-1])."
+          },
+          {
+            "partId": "2",
+            "description": "Example",
+            "points": 4,
+            "example": {
+              "word1": "cerceta",
+              "length1": 7,
+              "word2": "retea",
+              "length2": 5,
+              "dpMatrix": [
+                ["-", "r", "e", "t", "e", "a"],
+                [0, 0, 0, 0, 0, 0],
+                ["c", 0, 0, 0, 0, 0],
+                ["e", 0, 1, 1, 1, 1],
+                ["r", 0, 1, 1, 1, 1],
+                ["c", 0, 1, 1, 1, 1],
+                ["e", 0, 1, 2, 2, 2],
+                ["t", 0, 1, 2, 3, 3],
+                ["a", 0, 1, 2, 3, 3, 4]
+              ]
+            }
+          },
+          {
+            "partId": "3",
+            "description": "Conclusion",
+            "points": 2,
+            "details": "The maximum value is dp[7][5] = 4, so the length of the longest common subsequence is 4. An example of a common subsequence could be 'r e t a'."
+          }
+        ]
+      },
+      {
+        "problemId": "11",
+        "title": "Underground Mine - Path with Minimum Dynamite",
+        "totalPoints": 15,
+        "sections": [
+          {
+            "sectionId": "A",
+            "title": "Solution Description",
+            "points": 7.5,
+            "criteria": [
+              {
+                "description": "Optimal Solution with 0-1 BFS",
+                "points": 7.5,
+                "details": "Modeling the problem as a graph with 0/1 costs (collapsed rooms have cost 1, tunnels cost 0); using a double-ended queue (deque) where nodes with cost 0 are added to the front, and those with cost 1 to the back; clear explanation of the 0-1 BFS algorithm."
+              },
+              {
+                "description": "Alternative Solution with Dijkstra",
+                "points": 5,
+                "observations": "Dijkstra's algorithm adapted for 0/1 weights; the maximum score is 5, but if the explanation is partial, a maximum of 3 points can be awarded."
+              },
+              {
+                "description": "Solution with Simple BFS",
+                "points": 2,
+                "observations": "If a simple BFS is proposed without adapting to 0/1 costs, a maximum of 2 points are awarded."
+              }
+            ]
+          },
+          {
+            "sectionId": "B",
+            "title": "Complexity Discussion",
+            "points": 7.5,
+            "criteria": [
+              {
+                "description": "Complexity Analysis of 0-1 BFS",
+                "points": 7.5,
+                "details": "The complexity O(V + E) is explained, justifying that each node is added to the deque at most once, and each edge is relaxed at most once (or a small constant number of times)."
+              },
+              {
+                "description": "Complexity Analysis of Dijkstra",
+                "points": 6,
+                "details": "Dijkstra's algorithm with a priority queue has a complexity of O(E log V); the operations of inserting and extracting from the queue are explained."
+              },
+              {
+                "description": "Other Solutions (e.g., Bellman-Ford)",
+                "points": 3,
+                "observations": "Points are awarded depending on correctness and the explained complexity (e.g., O(V^2))."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  Evaluate the following work and at the end, create a table with 3 columns: exercise, score, brief explanation. Don't forget to add 1 point automatically. Please grade according to the received marking scheme!

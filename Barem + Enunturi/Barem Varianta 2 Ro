@@ -4,29 +4,29 @@
     {
       "idProblema": "1",
       "titlu": "Subgraf indus bipartit conex cu număr maxim de noduri și bipartiția acestuia",
-      "puncteTotale": 0.5,
+      "puncteTotale": 5,
       "criterii": [
         {
           "denumire": "Identificare Subgraf Bipartit Maximal Conex",
-          "puncte": 0.4,
+          "puncte": 4,
           "conditii": [
             {
               "descriere": "Subgraful indicat trebuie să fie bipartit, conex și maximal (cu cel mai mare număr posibil de noduri dintr-un subgraf bipartit conex al grafului original). Un subgraf corect este cel indus de nodurile {1, 3, 4, 6, 8, 9} (având 6 noduri).",
-              "puncte": 0.4
+              "puncte": 4
             },
             {
-              "descriere": "Dacă subgraful indicat este bipartit și conex, dar nu este maximal, se acordă cel mult 0.1 puncte.",
-              "puncte": 0.1
+              "descriere": "Dacă subgraful indicat este bipartit și conex, dar nu este maximal, se acordă cel mult 1 puncte.",
+              "puncte": 1
             }
           ]
         },
         {
           "denumire": "Verificare Bipartiție",
-          "puncte": 0.1,
+          "puncte": 1,
           "conditii": [
             {
               "descriere": "Bipartiția subgrafului indicat trebuie să fie identificată corect. Fiecare muchie din subgraf trebuie să aibă extremitățile în mulțimi diferite. Pentru nodurile {1, 3, 4, 6, 8, 9}, o bipartiție corectă este A = {1, 4, 6, 9} și B = {3, 8}.",
-              "puncte": 0.1
+              "puncte": 1
             }
           ]
         }
@@ -39,7 +39,7 @@
             "A": ["1", "4", "6", "9"],
             "B": ["3", "8"]
           },
-          "puncte": 0.5
+          "puncte": 5
         },
         {
           "tip": "Răspuns Parțial Corect",
@@ -48,7 +48,7 @@
             "A": ["4"],
             "B": ["5", "8"]
           },
-          "puncte": 0.2
+          "puncte": 2
         },
         {
           "tip": "Răspuns Incorect (Subgraf nu este bipartit)",
@@ -59,10 +59,10 @@
         {
           "tip": "Răspuns Incorect (Subgraf nu este conex)",
           "subgraf": "{1, 6, 4, 7} ∪ {2, 5, 8}",
-          "puncte": "Maximum 0.1 (punctaj parțial foarte mic)"
+          "puncte": "Maximum 1 (punctaj parțial foarte mic)"
         }
       ],
-      "observatii": "Doar răspunsurile corecte și maxime primesc 0.5p, iar cele nemaximale sunt limitate la 0.2p."
+      "observatii": "Doar răspunsurile corecte și maxime primesc 5p, iar cele nemaximale sunt limitate la 2p."
     },
     {
       "idProblema": "2",
@@ -70,17 +70,17 @@
       "criterii": [
         {
           "denumire": "Ordinea corectă a explorării BFS(4)",
-          "puncte": 0.3,
-          "observatii": "Se menționează corect ordinea în care sunt vizitate nodurile. Orice eroare reduce punctajul la 0.1p."
+          "puncte": 3,
+          "observatii": "Se menționează corect ordinea în care sunt vizitate nodurile. Orice eroare reduce punctajul la 1p."
         },
         {
           "denumire": "Calculul corect al distanțelor",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Se indică corect distanțele minime de la 4 la toate nodurile. Orice eroare reduce punctajul la 0p."
         },
         {
           "denumire": "Reprezentarea corectă a arborelui BFS",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Arborele trebuie să reflecte corect nivelurile BFS. O reprezentare incorectă anulează acest punctaj."
         }
       ],
@@ -96,22 +96,22 @@
       "criterii": [
         {
           "denumire": "Verificarea condiției de existență a unui lanț eulerian",
-          "puncte": 0.2,
-          "observatii": "Se enunță condiția: un graf neorientat admite un lanț eulerian dacă și numai dacă are exact 0 sau 2 noduri de grad impar și este conex. Orice eroare reduce punctajul la 0.1p."
+          "puncte": 2,
+          "observatii": "Se enunță condiția: un graf neorientat admite un lanț eulerian dacă și numai dacă are exact 0 sau 2 noduri de grad impar și este conex. Orice eroare reduce punctajul la 1p."
         },
         {
           "denumire": "Eliminarea minimă a muchiilor pentru obținerea unui lanț eulerian",
-          "puncte": 0.2,
-          "observatii": "Se identifică corect nodurile de grad impar și se elimină un număr minim de muchii pentru a obține un graf cu 0 sau 2 noduri impare. Orice greșeală minoră reduce punctajul la 0.1p."
+          "puncte": 2,
+          "observatii": "Se identifică corect nodurile de grad impar și se elimină un număr minim de muchii pentru a obține un graf cu 0 sau 2 noduri impare. Orice greșeală minoră reduce punctajul la 1p."
         },
         {
           "denumire": "Indicarea unui lanț eulerian valid",
-          "puncte": 0.25,
-          "observatii": "Se scrie corect un lanț eulerian, care trece prin fiecare muchie o singură dată. Greșeli minore primesc 0.1p în loc de 0.25p."
+          "puncte": 2.5,
+          "observatii": "Se scrie corect un lanț eulerian, care trece prin fiecare muchie o singură dată. Greșeli minore primesc 1p în loc de 2.5p."
         },
         {
           "denumire": "Enunțarea condiției necesare și suficiente",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Condiția: Un graf neorientat admite un lanț eulerian dacă și numai dacă are exact 0 sau 2 noduri de grad impar și este conex. Lipsa completă sau incorectă a enunțului se acordă 0p."
         }
       ],
@@ -120,26 +120,26 @@
     {
       "idProblema": "4",
       "titlu": "Noduri critice (Articulation points) folosind DFS",
-      "puncteTotale": 0.75,
+      "puncteTotale": 7.5,
       "criterii": [
         {
           "denumire": "Definirea nodurilor critice",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Un nod este critic dacă, prin eliminarea sa (și a muchiilor incidente), crește numărul de componente conexe ale grafului."
         },
         {
           "denumire": "Valorile finale ale vectorilor disc și low",
-          "puncte": 0.15,
+          "puncte": 1.5,
           "observatii": "Listarea/argumentarea corectă a valorilor la finalul parcurgerii DFS."
         },
         {
           "denumire": "Aplicarea practică",
-          "puncte": 0.2,
+          "puncte": 2,
           "observatii": "Menționarea ordinii de vizitare DFS (ex: 1 → 2 → 3 → 4 → 5 → 8 → 7 → 9 → 6) și identificarea back edge-urilor (ex: 3→1, 6→2, 9→8)."
         },
         {
           "denumire": "Identificarea nodurilor critice",
-          "puncte": 0.3,
+          "puncte": 3,
           "observatii": "Lista finală: 3, 4 și 8, cu scurte justificări (de ex., 3 este critic deoarece un copil, 4, are low[4] ≥ disc[3])."
         }
       ]
@@ -147,43 +147,43 @@
     {
       "idProblema": "5",
       "titlu": "Algoritmul Floyd-Warshall",
-      "puncteTotale": 0.5,
+      "puncteTotale": 5,
       "criterii": [
         {
           "denumire": "Menționare foarte scurtă a ideii",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Algoritmul calculează toate distanțele minime dintre perechi de noduri iterând prin k de la 1 la n. Formula: D[i][j] = min(D[i][j], D[i][k] + D[k][j])."
         },
         {
           "denumire": "Scrierea codului",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Prezentarea unui pseudocod tipic cu trei bucle for."
         },
         {
           "denumire": "Afișarea matricei D după pașii k=1, k=2 și k=3",
-          "puncte": 0.3,
-          "observatii": "Se acordă 0.1p pentru fiecare afișare și explicații scurte despre modificări (ex: D[x][y] scade de la 10 la 7)."
+          "puncte": 3,
+          "observatii": "Se acordă 1p pentru fiecare afișare și explicații scurte despre modificări (ex: D[x][y] scade de la 10 la 7)."
         }
       ]
     },
     {
       "idProblema": "6",
       "titlu": "Algoritmul lui Prim",
-      "puncteTotale": 0.5,
+      "puncteTotale": 5,
       "criterii": [
         {
           "denumire": "Prezentarea ideii de bază",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Algoritmul lui Prim construiește un arbore parțial de cost minim pornind din nodul 4, adăugând de fiecare dată cea mai ieftină muchie care conectează un nod din MST cu un nod nou."
         },
         {
           "denumire": "Exemplificare pas cu pas",
-          "puncte": 0.3,
+          "puncte": 3,
           "observatii": "Explicarea ordinii de selecție a muchiilor și actualizarea nodurilor în MST."
         },
         {
           "denumire": "Rezultatul final",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Listarea clară a muchiilor din MST, de exemplu: (4,5) – cost 1, (4,8) – cost 3, (8,7) – cost 2, (7,9) – cost 5, (3,4) – cost 5, (2,3) – cost 2, (1,2) – cost 1, (6,2) – cost 10."
         }
       ]
@@ -191,21 +191,21 @@
     {
       "idProblema": "7",
       "titlu": "Justificarea unui algoritm de obținere a unui arbore parțial de cost minim",
-      "puncteTotale": 0.5,
+      "puncteTotale": 5,
       "criterii": [
         {
           "denumire": "Rezumatul algoritmului",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Inițial, T este gol; pentru fiecare i de la 1 la |V|-1 se adaugă cea mai ieftină muchie care conectează componenta ce conține i la un nod extern."
         },
         {
           "denumire": "Justificare",
-          "puncte": 0.3,
+          "puncte": 3,
           "observatii": "Se oferă un argument inductiv sau prin cicluri/exchange, demonstrând că la fiecare pas se face o alegere optimă local, astfel încât T este un arbore de cost minim."
         },
         {
           "denumire": "Concluzie",
-          "puncte": 0.1,
+          "puncte": 1,
           "observatii": "Se afirmă explicit că algoritmul este corect."
         }
       ]
@@ -213,11 +213,11 @@
     {
       "idProblema": "8",
       "titlu": "Algoritmul Edmonds-Karp pe rețeaua dată",
-      "puncteTotale": 1.25,
+      "puncteTotale": 12.5,
       "criterii": [
         {
           "denumire": "Pașii de creștere a fluxului",
-          "puncte": 0.5,
+          "puncte": 5,
           "pasii": [
             {
               "pas": "Primul drum",
@@ -242,12 +242,12 @@
         },
         {
           "denumire": "Concluzia: fluxul final și oprirea algoritmului",
-          "puncte": 0.25,
+          "puncte": 2.5,
           "observatii": "Algoritmul se oprește când nu mai există drum s→t în rețeaua reziduală. Fluxul final se calculează ca suma fluxurilor care ies din sursă (1) sau intră în destinație (7), de exemplu 15."
         },
         {
           "denumire": "Tăietura minimă",
-          "puncte": 0.5,
+          "puncte": 5,
           "observatii": "Se determină S ca mulțimea nodurilor accesibile din 1 în rețeaua reziduală finală, iar T = V \\ S. Exemple: S = {1, 2, 4} și T = {3, 5, 6, 7}. Se punctează atât arcele directe, cât și cele inverse."
         }
       ]
@@ -255,31 +255,31 @@
     {
       "idProblema": "9",
       "titlu": "Teorema lui Ore și exerciții conexe",
-      "puncteTotale": 1.5,
+      "puncteTotale": 15,
       "subprobleme": [
         {
           "idSubproblema": "a",
           "descriere": "Arătați că un graf cu n > 2 noduri, în care pentru orice nod x se are d(x) ≥ n/2, este conex",
-          "puncte": 0.4,
+          "puncte": 4,
           "criterii": {
-            "enunt": "Precizarea condiției: fiecare nod are grad ≥ n/2 (0.1p)",
-            "argument": "Dacă ar exista două componente, orice nod dintr-o componentă ar avea grad mai mic decât n/2 (0.3p)"
+            "enunt": "Precizarea condiției: fiecare nod are grad ≥ n/2 (1p)",
+            "argument": "Dacă ar exista două componente, orice nod dintr-o componentă ar avea grad mai mic decât n/2 (3p)"
           }
         },
         {
           "idSubproblema": "b",
           "descriere": "Exemplu de graf nehamiltonian cu două noduri neadiacente a căror sumă a gradelor e ≥ n",
-          "puncte": 0.4,
+          "puncte": 4,
           "criterii": {
-            "constructie": "Prezentarea explicită a unui graf, de exemplu un graf bipartit complet cu partiții inegale (0.2p)",
-            "verificare": "Demonstrarea existenței a două noduri neadiacente cu d(u) + d(v) ≥ n și a faptului că graful nu este hamiltonian (0.2p)"
+            "constructie": "Prezentarea explicită a unui graf, de exemplu un graf bipartit complet cu partiții inegale (2p)",
+            "verificare": "Demonstrarea existenței a două noduri neadiacente cu d(u) + d(v) ≥ n și a faptului că graful nu este hamiltonian (2p)"
           }
         },
         {
           "idSubproblema": "c",
           "descriere": "Demonstrație privind Teorema lui Ore",
-          "puncte": 0.7,
-          "observatii": "0.7p pentru răspuns corect și complet; 0.4-0.6p pentru răspuns parțial; 0.2-0.3p pentru răspuns incomplet/confuz; 0p pentru lipsă."
+          "puncte": 7,
+          "observatii": "7p pentru răspuns corect și complet; 4-6p pentru răspuns parțial; 2-3p pentru răspuns incomplet/confuz; 0p pentru lipsă."
         }
       ]
     },
@@ -290,13 +290,13 @@
         {
           "idPartea": "1",
           "descriere": "Descriere foarte scurtă a metodei",
-          "puncte": 0.15,
+          "puncte": 1.5,
           "detalii": "Folosim programare dinamică. Definim o matrice dp[i][j] unde dp[i][j] reprezintă lungimea maximă a unui subsir comun între primele i caractere din primul cuvânt și primele j caractere din al doilea. Recurrența: dp[i][0] = 0, dp[0][j] = 0; dacă X[i] == Y[j] atunci dp[i][j] = dp[i-1][j-1] + 1, altfel dp[i][j] = max(dp[i-1][j], dp[i][j-1])."
         },
         {
           "idPartea": "2",
           "descriere": "Exemplificare",
-          "puncte": 0.4,
+          "puncte": 4,
           "exemplu": {
             "cuvant1": "cerceta",
             "lungime1": 7,
@@ -318,7 +318,7 @@
         {
           "idPartea": "3",
           "descriere": "Concluzie",
-          "puncte": 0.2,
+          "puncte": 2,
           "detalii": "Valoarea maximă este dp[7][5] = 4, deci lungimea celui mai lung subsir comun este 4. Un exemplu de subsir comun ar putea fi 'r e t a'."
         }
       ]
@@ -326,48 +326,48 @@
     {
       "idProblema": "11",
       "titlu": "Mina Subterană - Drum cu Dinamită Minimă",
-      "puncteTotale": 1.5,
+      "puncteTotale": 15,
       "sectiuni": [
         {
           "idSectiune": "A",
           "titlu": "Descrierea Soluției",
-          "puncte": 0.75,
+          "puncte": 7.5,
           "criterii": [
             {
               "descriere": "Soluție Optimă cu 0-1 BFS",
-              "puncte": 0.75,
+              "puncte": 7.5,
               "detalii": "Modelarea problemei ca graf cu costuri 0/1 (camere prăbușite au cost 1, tuneluri cost 0); utilizarea unei cozi duble (deque) în care nodurile cu cost 0 se adaugă în față, iar cele cu cost 1 la spate; explicație clară a algoritmului 0-1 BFS."
             },
             {
               "descriere": "Soluție Alternativă cu Dijkstra",
-              "puncte": 0.5,
-              "observatii": "Algoritmul Dijkstra adaptat pentru ponderi 0/1; punctajul maxim este 0.5, dar dacă explicația este parțială se poate acorda maxim 0.3 puncte."
+              "puncte": 5,
+              "observatii": "Algoritmul Dijkstra adaptat pentru ponderi 0/1; punctajul maxim este 5, dar dacă explicația este parțială se poate acorda maxim 3 puncte."
             },
             {
               "descriere": "Soluție cu BFS Simplu",
-              "puncte": 0.2,
-              "observatii": "Dacă se propune un BFS simplu fără adaptarea la costurile 0/1, se acordă maximum 0.2 puncte."
+              "puncte": 2,
+              "observatii": "Dacă se propune un BFS simplu fără adaptarea la costurile 0/1, se acordă maximum 2 puncte."
             }
           ]
         },
         {
           "idSectiune": "B",
           "titlu": "Discuția Complexității",
-          "puncte": 0.75,
+          "puncte": 7.5,
           "criterii": [
             {
               "descriere": "Analiza Complexității 0-1 BFS",
-              "puncte": 0.75,
+              "puncte": 7.5,
               "detalii": "Se explică complexitatea O(V + E), justificând că fiecare nod este adăugat în deque de cel mult o dată și fiecare muchie este relaxată de cel mult o dată (sau de un număr mic constant de ori)."
             },
             {
               "descriere": "Analiza Complexității Dijkstra",
-              "puncte": 0.6,
+              "puncte": 6,
               "detalii": "Algoritmul Dijkstra cu coadă de priorități are complexitatea O(E log V); se explică operațiile de inserare și extragere din coadă."
             },
             {
               "descriere": "Alte soluții (ex. Bellman Ford)",
-              "puncte": 0.3,
+              "puncte": 3,
               "observatii": "Se acordă puncte în funcție de corectitudine și de complexitatea explicată (ex: O(V^2))."
             }
           ]

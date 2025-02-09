@@ -1,0 +1,75 @@
+{
+  "Fundamental Algorithms Exam - Variant 2": {
+    "Date": "28.01.2025",
+    "Instructions": "For subjects 1-6, the neighbors of a vertex are considered in lexicographical order.",
+    "Graph_1_6": {
+      "Oriented": "Undirected",
+      "Nodes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "Edges": [
+        {"x": "1", "y": "2", "w": "1"},
+        {"x": "2", "y": "6", "w": "10"},
+        {"x": "2", "y": "3", "w": "2"},
+        {"x": "1", "y": "3", "w": "4"},
+        {"x": "3", "y": "6", "w": "11"},
+        {"x": "3", "y": "5", "w": "12"},
+        {"x": "5", "y": "4", "w": "1"},
+        {"x": "3", "y": "4", "w": "5"},
+        {"x": "4", "y": "8", "w": "3"},
+        {"x": "8", "y": "9", "w": "6"},
+        {"x": "9", "y": "7", "w": "5"},
+        {"x": "7", "y": "8", "w": "2"}
+      ]
+    },
+    "Graph_8": {
+      "Oriented": "Directed",
+      "Nodes": ["1", "2", "3", "4", "5", "6", "7"],
+      "Edges": [
+        {"x": "1", "y": "2", "c": "5", "w": "10"},
+        {"x": "1", "y": "5", "c": "6", "w": "6"},
+        {"x": "4", "y": "2", "c": "3", "w": "3"},
+        {"x": "5", "y": "4", "c": "0", "w": "3"},
+        {"x": "6", "y": "4", "c": "3", "w": "5"},
+        {"x": "2", "y": "6", "c": "8", "w": "9"},
+        {"x": "3", "y": "6", "c": "3", "w": "3"},
+        {"x": "5", "y": "3", "c": "6", "w": "7"},
+        {"x": "6", "y": "7", "c": "8", "w": "10"},
+        {"x": "3", "y": "7", "c": "3", "w": "7"}
+      ]
+    },
+    "Tasks": [
+      {
+        "1": "5p Indicate a connected bipartite induced subgraph with the maximum number of nodes and a bipartition of it."
+      },
+      {
+        "2": "5p Exemplify (with explanations) how breadth-first search bf(4) works, illustrating how bf(4) can be used to calculate the distance from 4 to the other nodes. Draw the BFS tree as well."
+      },
+      {
+        "3": "7,5p Does the graph admit an Eulerian path? If not, remove a minimum number of edges so that the resulting graph has an Eulerian path, describing the strategy you used to choose the removed edges. Indicate an Eulerian path in the initial/obtained graph. State a necessary and sufficient condition for an undirected graph to have an Eulerian path."
+      },
+      {
+        "4": "7,5p Describe an efficient algorithm for determining the critical nodes of an undirected graph and exemplify (with explanations) the algorithm for the graph in the image."
+      },
+      {
+        "5": "5p Describe the Floyd-Warshall algorithm for determining distances in a weighted undirected graph with n vertices, detailing the following scheme: Initialize the distance matrix D with the cost matrix. \nfor j ← 1, n do\n\tfor i ← 1, n do\n\t\tfor k ← 1, n do\n\t\t\t............\nWrite what values are modified in the matrix for the graph in the example at stages j=1, j=2 and j=3."
+      },
+      {
+        "6": "5p Exemplify the steps of Prim's algorithm for the graph in the example (with explanations) starting from vertex 4."
+      },
+      {
+        "7": "5p Is the following algorithm for determining a minimum spanning tree of a connected weighted graph G = (V, E, w) correct? Justify (without appealing to the functioning of other algorithms in the justification; the used results must be demonstrated and it must be explained how they are used)\nT = (V, E = ∅) – initially V contains all the vertices and contains no edge\nfor i = 1, |V|-1\n1. Choose the connected component C of T that contains vertex i\n2. Choose an edge of minimum cost e with one end in C and the other not and add e to T"
+      },
+      {
+        "8": "12,5p In the transport network in the adjacent figure, the values f(e)/c(e) are passed on an arc e, representing flow/capacity. The source is vertex s=1, and the destination t=7. \nIllustrate the steps of the Ford-Fulkerson algorithm for this network starting from the indicated flow and choosing at each step an s-t f-unsaturated path of minimum length (the Edmonds-Karp algorithm). Indicate a minimum cut (s-t cut) in the network (the vertices in the bipartition, the direct arcs, the reverse arcs and how it is determined by the algorithm will be indicated) and determine the capacity of this cut. Justify the answers."
+      },
+      {
+        "9": "15p [\n          {\n            \"a\": \"Show that a graph with n>2 nodes that satisfies the condition d(x) >= n/2 for any node x is connected.\"\n          },\n          {\n            \"b\": \"Give an example of a non-Hamiltonian graph in which there are two distinct non-adjacent nodes with the sum of degrees greater than or equal to n.\"\n          },\n          {\n            \"c\": \"Show that if a graph G with n ≥ 2 nodes has m≥ combinations(n-1, 2) + 2 edges, then G is Hamiltonian.\"\n          }\n        ]"
+      },
+      {
+        "10": "7,5p Briefly describe the algorithm for determining the maximum length of a common subsequence of two words. Illustrate the algorithm for the words 'cerceta' and 'retea' by writing the matrix with the values of the subproblems and explaining how they were calculated."
+      },
+      {
+        "11": "15p A team of explorers has discovered an old map of an underground mine renowned for a rare and valuable crystal. The mine is composed of a series of chambers interconnected by unidirectional tunnels. For our experienced explorers, the tunnels can be traversed without any effort. However, some of the chambers have collapsed, and to cross them, they need to use dynamite. The team's goal is to get from the entrance chamber to the chamber containing the rare crystal using as little dynamite as possible. Write an algorithm of optimal complexity that determines if there is a path for the explorers and, if there is, determines the path."
+      }
+    ]
+  }
+}
