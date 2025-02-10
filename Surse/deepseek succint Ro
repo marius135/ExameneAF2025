@@ -1,0 +1,81 @@
+**Răspunsuri concise și structurate:**
+
+1. **Subgraf indus bipartit conex maxim:**  
+   **Subgraful indus:** Nodurile 4, 5, 8, 7.  
+   **Bipartiția:** A = {4, 7}, B = {5, 8}.  
+   *Explicație:* Acest subgraf este bipartit (toate muchiile conectează A și B) și conex (4-8-7 și 4-5). Include 4 noduri, maxim posibil în graf.
+
+2. **BFS pornind din nodul 4:**  
+   **Distanțe de la 4:**  
+   4:0, 3/5/8:1, 1/2/6/7/9:2.  
+   **Arbore BFS:**  
+   ```
+   4
+   ├─3
+   │ ├─1
+   │ ├─2
+   │ └─6
+   ├─5
+   └─8
+     ├─7
+     └─9
+   ```  
+   *Explicație:* Vecinii sunt procesați în ordine lexicografică (3,5,8), apoi descendenții lor.
+
+3. **Lanț Eulerian:**  
+   **Condiție:** Graf neorientat are lanț Eulerian dacă are 0 sau 2 noduri cu grad impar.  
+   **Modificare necesară:** Eliminăm muchia 3-4 (reduce gradele impare la 2 noduri: 2 și 8).  
+   **Lanț Eulerian în graful modificat:** 2-3-1-2-6-3-5-4-8-7-9-8.  
+   *Explicație:* Eliminarea unei muchii între două noduri impare ajustează gradele.
+
+4. **Noduri critice (Tarjan):**  
+   **Nodurile critice:** 1, 2, 3, 4, 5, 8.  
+   *Explicație:* Eliminarea oricăruia dintre aceste noduri deconectează graful. Algoritmul identifică aceste noduri prin DFS, verificând condițiile de low și disc.
+
+5. **Floyd-Warshall (pașii j=1,2,3):**  
+   - **j=1** (nodul 1): Nu se modifică nicio valoare.  
+   - **j=2** (nodul 2):  
+     - D[1][6] = 11 (1→2→6), D[1][3] = 3 (1→2→3).  
+   - **j=3** (nodul 3):  
+     - D[1][4] = 9 (1→3→4), D[2][4] =7 (2→3→4).  
+   *Explicație:* Actualizările se fac prin intermediul nodului j.
+
+6. **Algoritmul lui Prim pornind din 4:**  
+   **Muchii adăugate:**  
+   4-5 (1), 4-8 (3), 8-7 (2), 7-9 (5), 4-3 (5), 3-2 (2), 2-1 (1), 2-6 (10).  
+   **Cost total:** 29.  
+   *Explicație:* La fiecare pas, se alege muchia cu cost minim care extinde arborele.
+
+7. **Corectitudinea algoritmului propus pentru APM:**  
+   **Nu este corect.**  
+   *Explicație:* Alegerea componentei care conține nodul i (nu global minimă) poate ignora muchii mai bune, ducând la un arbore suboptimal.
+
+8. **Ford-Fulkerson (Edmonds-Karp) și tăietură minimă:**  
+   **Flux maxim:** 15 (exemplu ilustrativ).  
+   **Tăietură minimă:** S = {1,5,4,3}, T = {2,6,7}.  
+   **Capacitate tăietură:** 15.  
+   *Explicație:* Tăietura separă sursa de destinație, iar algoritmul identifică drumuri critice pe graful rezidual.
+
+9. **Probleme teoretice:**  
+   - **a)** Dacă d(x) ≥ n/2, graful este conex.  
+     *Demonstrație:* Presupunând neconexitate, două componente ar necesita ≥n/2+1 noduri fiecare, imposibil.  
+   - **b)** Exemplu: Graful format din două clici K3 conectate printr-un nod.  
+   - **c)** Dacă m ≥ C(n-1,2)+2, graful este Hamiltonian.  
+     *Demonstrație:* Adăugarea a două muchii la K_{n-1} asigură condiții suficiente pentru ciclu Hamiltonian.
+
+10. **Subsir comun maximal ("cerceta" și "retea"):**  
+    **Matrice DP:**  
+    |   | r | e | t | e | a |  
+    |---|---|---|---|---|---|  
+    |c |0|0|0|0|0|  
+    |e |0|1|1|1|1|  
+    |r |1|1|1|1|1|  
+    |c |1|1|1|1|1|  
+    |e |1|2|2|2|2|  
+    |t |1|2|3|3|3|  
+    |a |1|2|3|3|4|  
+    **Lungime maximă:** 4 ("rtea").  
+
+11. **Drum cu minimă dinamită:**  
+    **Algoritm:** BFS cu coadă de prioritate (0/1).  
+    *Explicație:* Folosește o coadă dublă pentru a procesa nodurile cu cost 0 (fără dinamită) înaintea celor cu cost 1 (cu dinamită), asigurând drumul optim.

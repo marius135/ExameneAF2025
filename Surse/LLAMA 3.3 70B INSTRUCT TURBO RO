@@ -1,0 +1,423 @@
+Voi rezolva fiecare cerință în detaliu:
+
+**Cerința 1: Indicați un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul de căutare în lățime (BFS) pentru a găsi un subgraf indus bipartit conex cu număr maxim de noduri.
+
+Primul pas este să alegem un nod de start. Vom alege nodul 4.
+
+Următorul pas este să aplicăm algoritmul BFS pentru a găsi toți nodurile care pot fi atinse din nodul 4.
+
+Nodurile care pot fi atinse din nodul 4 sunt: 3, 5, 8, 9, 7.
+
+Acum, vom crea un subgraf indus bipartit conex cu număr maxim de noduri. Vom alege nodurile 4, 3, 5, 8, 9, 7.
+
+Bipartiția acestui subgraf este: (4, 8, 9) și (3, 5, 7).
+
+**Cerința 2: Exemplificați (cu explicații) cum funcționează parcurgerea în lățime bf(4), ilustrând si modul în care se poate folosi bf(4) pentru a calcula distanța de la 4 la celelalte noduri. Desenați și arborele BFS.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul de căutare în lățime (BFS) pentru a găsi distanța de la nodul 4 la celelalte noduri.
+
+Primul pas este să alegem un nod de start. Vom alege nodul 4.
+
+Următorul pas este să aplicăm algoritmul BFS pentru a găsi toți nodurile care pot fi atinse din nodul 4.
+
+Nodurile care pot fi atinse din nodul 4 sunt: 3, 5, 8, 9, 7.
+
+Distanța de la nodul 4 la celelalte noduri este:
+
+* 4 -> 3: 1
+* 4 -> 5: 1
+* 4 -> 8: 1
+* 4 -> 9: 2
+* 4 -> 7: 2
+
+Arborele BFS este:
+
+4
+|
+|-- 3
+|-- 5
+|-- 8
+|-- 9
+|-- 7
+
+**Cerința 3: Admite graful un lanț eulerian? Dacă nu eliminați un număr minim de muchii astfel încât graful format să aibă un lanț eulerian, descriind și strategia după care ați ales muchiile eliminate. Indicați un lanșeulerian în graful inițial/obținut. Enunțați o condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian.**
+
+Pentru a rezolva această cerință, vom utiliza teorema lui Euler care spune că un graf neorientat are un lanț eulerian dacă și numai dacă toți nodurile au grad par.
+
+Graful dat are nodurile 1, 2, 3, 4, 5, 6, 7, 8, 9.
+
+Gradul nodurilor este:
+
+* 1: 2
+* 2: 3
+* 3: 4
+* 4: 3
+* 5: 2
+* 6: 2
+* 7: 2
+* 8: 2
+* 9: 1
+
+Graful nu are un lanț eulerian deoarece nodul 9 are grad impar.
+
+Pentru a elimina un număr minim de muchii astfel încât graful format să aibă un lanț eulerian, vom elimina muchia (9, 7).
+
+Graful obținut are nodurile 1, 2, 3, 4, 5, 6, 7, 8.
+
+Gradul nodurilor este:
+
+* 1: 2
+* 2: 3
+* 3: 4
+* 4: 3
+* 5: 2
+* 6: 2
+* 7: 1
+* 8: 2
+
+Graful obținut are un lanț eulerian.
+
+Un lanșeulerian în graful inițial/obținut este: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 1.
+
+O condiție necesară și suficientă ca un graf neorientat să aibă un lanț eulerian este ca toți nodurile să aibă grad par.
+
+**Cerința 4: Descrieți un algoritm eficient de determinare a nodurilor critice ale unui graf neorientat și exemplificați (cu explicații) algoritmul pentru graful din imagine.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul de căutare în adâncime (DFS) pentru a găsi nodurile critice ale unui graf neorientat.
+
+Primul pas este să alegem un nod de start. Vom alege nodul 4.
+
+Următorul pas este să aplicăm algoritmul DFS pentru a găsi toți nodurile care pot fi atinse din nodul 4.
+
+Nodurile care pot fi atinse din nodul 4 sunt: 3, 5, 8, 9, 7.
+
+Nodurile critice sunt nodurile care au un grad mai mare decât 1.
+
+Nodurile critice ale grafului sunt: 3, 4, 5.
+
+**Cerința 5: Descrieți algoritmul Floyd-Warshall pentru determinarea distanțelor într-un graf neorientat ponderat cu n vârfuri, detaliind următoarea schemă: Initializarea matricei D de distanțe cu matricea costurilor. Inițializarea matricei D de distanțe cu matricea costurilor pentru j ←  1, n execută pentru i ←  1, n execută pentru k ←  1, n execută ... . Scrieți ce valori se modifică în matrice pentru graful din exemplu la etapele j=1, j=2 și j=3.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul Floyd-Warshall pentru a determina distanțele într-un graf neorientat ponderat cu n vârfuri.
+
+Graful dat are 9 noduri și muchiile cu costuri.
+
+Matricea costurilor este:
+
+|  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 0 | 1 | 4 | ∞ | ∞ | ∞ | ∞ | ∞ | ∞ |
+| 2 | 1 | 0 | 2 | ∞ | ∞ | 10 | ∞ | ∞ | ∞ |
+| 3 | 4 | 2 | 0 | 5 | 12 | 11 | ∞ | ∞ | ∞ |
+| 4 | ∞ | ∞ | 5 | 0 | 1 | ∞ | ∞ | 3 | ∞ |
+| 5 | ∞ | ∞ | 12 | 1 | 0 | ∞ | ∞ | ∞ | ∞ |
+| 6 | ∞ | 10 | 11 | ∞ | ∞ | 0 | ∞ | ∞ | ∞ |
+| 7 | ∞ | ∞ | ∞ | ∞ | ∞ | ∞ | 0 | ∞ | 5 |
+| 8 | ∞ | ∞ | ∞ | 3 | ∞ | ∞ | ∞ | 0 | 6 |
+| 9 | ∞ | ∞ | ∞ | ∞ | ∞ | ∞ | 5 | 6 | 0 |
+
+La etapa j=1, se modifică următoarele valori:
+
+* D[1,2] = 1
+* D[2,1] = 1
+* D[1,3] = 4
+* D[3,1] = 4
+
+La etapa j=2, se modifică următoarele valori:
+
+* D[1,3] = 3
+* D[3,1] = 3
+* D[2,3] = 2
+* D[3,2] = 2
+
+La etapa j=3, se modifică următoarele valori:
+
+* D[1,4] = 8
+* D[4,1] = 8
+* D[3,4] = 5
+* D[4,3] = 5
+
+**Cerința 6: Exemplificați pașii algoritmului lui Prim pentru graful din exemplu (cu explicații) pornind din vârful 4.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul lui Prim pentru a găsi un arbore parțial de cost minim al unui graf conex ponderat.
+
+Graful dat are 9 noduri și muchiile cu costuri.
+
+Vom porni din vârful 4.
+
+Pașii algoritmului lui Prim sunt:
+
+1. Alegem nodul 4 ca nod de start.
+2. Găsim muchiile care au o extremitate în nodul 4 și cealaltă extremitate într-un nod care nu este în arborele parțial.
+3. Alegem muchia cu costul minim și o adăugăm la arborele parțial.
+4. Repetăm pașii 2 și 3 până când toți nodurile sunt în arborele parțial.
+
+Muchiile care au o extremitate în nodul 4 și cealaltă extremitate într-un nod care nu este în arborele parțial sunt:
+
+* (4,3) cu cost 5
+* (4,5) cu cost 1
+* (4,8) cu cost 3
+
+Alegem muchia (4,5) ca fiind cea cu costul minim.
+
+Arborele parțial este:
+
+4 -> 5
+
+Muchiile care au o extremitate în nodul 5 și cealaltă extremitate într-un nod care nu este în arborele parțial sunt:
+
+* (5,3) cu cost 12
+* (5,2) cu cost ∞
+
+Alegem muchia (5,3) ca fiind cea cu costul minim.
+
+Arborele parțial este:
+
+4 -> 5 -> 3
+
+Muchiile care au o extremitate în nodul 3 și cealaltă extremitate într-un nod care nu este în arborele parțial sunt:
+
+* (3,1) cu cost 4
+* (3,2) cu cost 2
+* (3,6) cu cost 11
+
+Alegem muchia (3,2) ca fiind cea cu costul minim.
+
+Arborele parțial este:
+
+4 -> 5 -> 3 -> 2
+
+Muchiile care au o extremitate în nodul 2 și cealaltă extremitate într-un nod care nu este în arborele parțial sunt:
+
+* (2,1) cu cost 1
+* (2,6) cu cost 10
+
+Alegem muchia (2,1) ca fiind cea cu costul minim.
+
+Arborele parțial este:
+
+4 -> 5 -> 3 -> 2 -> 1
+
+Muchiile care au o extremitate în nodul 1 și cealaltă extremitate într-un nod care nu este în arborele parțial sunt:
+
+* (1,6) cu cost ∞
+* (1,7) cu cost ∞
+* (1,8) cu cost ∞
+* (1,9) cu cost ∞
+
+Nu există muchii care să aibă o extremitate în nodul 1 și cealaltă extremitate într-un nod care nu este în arborele parțial.
+
+Arborele parțial este:
+
+4 -> 5 -> 3 -> 2 -> 1
+
+**Cerința 7: Este corect următorul algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G = (V, E, w)? Justificați (fără a apela în justificare la modul de funcționare al altor algoritmi; rezultatele folosite trebuie demonstrate și trebuie explicat modul în care se folosesc)**
+
+Pentru a rezolva această cerință, vom analiza algoritmul dat și vom justifica corectitudinea sa.
+
+Algoritmul dat este:
+
+T = (V, E = ∅) – inițial V conține toate vârfurile și nu conține nicio muchie
+pentru i = 1, |V|-1
+
+Alege componenta conexă C al lui T care conține vârful i
+
+Alege o muchie de cost minim e cu o extremitate în C și cealaltă nu și adaugă e la T
+
+Acest algoritm este corect deoarece:
+
+* La fiecare pas, se alege o muchie de cost minim care are o extremitate în componenta conexă C și cealaltă extremitate într-un nod care nu este în C.
+* Această muchie este adăugată la arborele parțial T.
+* Acest proces se repetă până când toți nodurile sunt în arborele parțial.
+
+Demonstrăm că acest algoritm produce un arbore parțial de cost minim.
+
+Fie G = (V, E, w) un graf conex ponderat.
+
+Fie T = (V, E = ∅) inițial.
+
+La fiecare pas, se alege o muchie de cost minim e cu o extremitate în componenta conexă C și cealaltă extremitate într-un nod care nu este în C.
+
+Fie e = (u, v) o muchie de cost minim care are o extremitate în C și cealaltă extremitate într-un nod care nu este în C.
+
+Atunci, există un drum de la u la v în G care trece prin e.
+
+Fie P un drum de la u la v în G care trece prin e.
+
+Atunci, costul drumului P este:
+
+w(P) = w(e) + w(P \— e)
+
+unde P \— e este drumul de la u la v care trece prin toate muchiile din P, exceptând muchia e.
+
+Deoarece e este o muchie de cost minim, avem:
+
+w(e) ≤ w(f)
+
+pentru orice muchie f care are o extremitate în C și cealaltă extremitate într-un nod care nu este în C.
+
+Atunci, avem:
+
+w(P) = w(e) + w(P \— e) ≤ w(f) + w(P \— e)
+
+pentru orice muchie f care are o extremitate în C și cealaltă extremitate într-un nod care nu este în C.
+
+Acest lucru demonstrează că drumul P este un drum de cost minim de la u la v în G.
+
+La fiecare pas, se adaugă o muchie de cost minim la arborele parțial T.
+
+Acest lucru demonstrează că arborele parțial T este un arbore parțial de cost minim al grafului G.
+
+**Cerința 8: În rețeaua de transport din figura alăturată pe un arc e sunt trecute valorile f(e)/c(e) reprezentând flux/capacitate. Sursa este vârful s=1, iar destinația t=7. Ilustrați pașii algoritmului Ford-Fulkerson pentru această rețea pornind de la fluxul indicat și alegând la fiecare pas un s-t lanț f-nesaturat de lungime minimă (algoritmul Edmonds-Karp). Indicați o tăietură (s-t tăietură) minimă în rețea (se vor indica vârfurile din bipartiție, arcele directe, arcele inverse și modul în care este determinată de algoritm) și determinați capacitatea acestei tăieturi. Justificați răspunsurile.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul Ford-Fulkerson pentru a determina fluxul maxim în rețeaua de transport.
+
+Rețeaua de transport are 7 noduri și 10 arce.
+
+Sursa este vârful s=1, iar destinația t=7.
+
+Fluxul inițial este:
+
+f(1,2) = 5
+f(1,5) = 6
+f(4,2) = 3
+f(5,4) = 0
+f(6,4) = 3
+f(2,6) = 8
+f(3,6) = 3
+f(5,3) = 6
+f(6,7) = 8
+f(3,7) = 3
+
+Pașii algoritmului Ford-Fulkerson sunt:
+
+1. Alegem un s-t lanț f-nesaturat de lungime minimă.
+2. Determinăm capacitatea lanțului.
+3. Adăugăm fluxul lanțului la fluxul curent.
+4. Repetăm pașii 1-3 până când nu mai există s-t lanțuri f-nesaturate.
+
+La primul pas, alegem lanțul 1 -> 2 -> 6 -> 7.
+
+Capacitatea lanțului este 3.
+
+Adăugăm fluxul lanțului la fluxul curent:
+
+f(1,2) = 5 + 3 = 8
+f(2,6) = 8 + 3 = 11
+f(6,7) = 8 + 3 = 11
+
+La al doilea pas, alegem lanțul 1 -> 5 -> 4 -> 2 -> 6 -> 7.
+
+Capacitatea lanțului este 2.
+
+Adăugăm fluxul lanțului la fluxul curent:
+
+f(1,5) = 6 + 2 = 8
+f(5,4) = 0 + 2 = 2
+f(4,2) = 3 + 2 = 5
+f(2,6) = 11 + 2 = 13
+f(6,7) = 11 + 2 = 13
+
+La al treilea pas, alegem lanțul 1 -> 5 -> 3 -> 6 -> 7.
+
+Capacitatea lanțului este 1.
+
+Adăugăm fluxul lanțului la fluxul curent:
+
+f(1,5) = 8 + 1 = 9
+f(5,3) = 6 + 1 = 7
+f(3,6) = 3 + 1 = 4
+f(6,7) = 13 + 1 = 14
+
+Nu mai există s-t lanțuri f-nesaturate.
+
+Fluxul maxim este 14.
+
+O tăietură (s-t tăietură) minimă în rețea este:
+
+Vârfurile din bipartiție: {1, 2, 3, 5} și {4, 6, 7}
+Arcele directe: (2,6), (3,6), (5,4)
+Arcele inverse: (6,2), (6,3), (4,5)
+
+Capacitatea tăieturii este 14.
+
+**Cerința 9: Arătați că un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex.**
+
+Pentru a rezolva această cerință, vom utiliza teorema lui Dirac care spune că un graf cu n>2 noduri este conex dacă și numai dacă orice nod are grad mai mare sau egal cu n/2.
+
+Fie G un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x.
+
+Fie x un nod din G.
+
+Atunci, d(x) >= n/2.
+
+Fie y un nod din G, y ≠ x.
+
+Atunci, d(y) >= n/2.
+
+Deoarece d(x) + d(y) >= n, există o muchie care leagă nodurile x și y.
+
+Acest lucru demonstrează că orice două noduri din G sunt conectate printr-o muchie.
+
+Deci, G este conex.
+
+**Cerința 10: Descrieți pe scurt algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte. Ilustrați algoritmul pentru cuvintele 'cerceta' și 'retea' scriind matrice cu valorile subproblemeleor și explicând cum au fost acestea calculate.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul de programare dinamică pentru a determina lungimea maximei a unui subsir comun a două cuvinte.
+
+Fie x și y două cuvinte.
+
+Fie m și n lungimile cuvintelor x și y, respectiv.
+
+Fie dp o matrice de dimensiune (m+1) x (n+1) care stochează valorile subproblemeleor.
+
+dp[i][j] reprezintă lungimea maximei a unui subsir comun a cuvintelor x[1..i] și y[1..j].
+
+Algoritmul de calcul a valorilor din matricea dp este:
+
+* dp[0][0] = 0
+* dp[i][0] = 0 pentru orice i
+* dp[0][j] = 0 pentru orice j
+* dp[i][j] = dp[i-1][j-1] + 1 dacă x[i] == y[j]
+* dp[i][j] = max(dp[i-1][j], dp[i][j-1]) altfel
+
+Pentru cuvintele 'cerceta' și 'retea', matricea dp este:
+
+|  |  | r | e | t | e | a |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | 0 | 0 | 0 | 0 | 0 | 0 |
+| c | 0 | 0 | 0 | 0 | 0 | 0 |
+| e | 0 | 0 | 1 | 1 | 2 | 2 |
+| r | 0 | 1 | 1 | 1 | 2 | 2 |
+| c | 0 | 1 | 1 | 1 | 2 | 2 |
+| e | 0 | 1 | 2 | 2 | 3 | 3 |
+| t | 0 | 1 | 2 | 3 | 3 | 3 |
+| a | 0 | 1 | 2 | 3 | 3 | 4 |
+
+Lungimea maximei a unui subsir comun a cuvintelor 'cerceta' și 'retea' este 4.
+
+**Cerința 11: O echipă de exploratori a descoperit o veche hartă a unei mine subterane renumită pentru un cristal rar și valoros. Mina este compusă dintr-o serie de camere interconectate de tuneluri unidirecționale. Pentru exploratorii noștri experimentați, tunelurile se pot parcurge fără niciun efort. Totuși, unele dintre camere sunt prăbușite și pentru a le străbate ei au nevoie să folosească dinamită. Scopul echipei este să ajungă de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită. Scrieți un algoritm de complexitate optimă care determină dacă există un drum pentru exploratori și, în caz că există, să determine drumul.**
+
+Pentru a rezolva această cerință, vom utiliza algoritmul de căutare în adâncime (DFS) pentru a găsi un drum de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită.
+
+Fie G un graf care reprezintă mina subterană.
+
+Fie s camera de intrare și t camera care conține cristalul rar.
+
+Fie d o funcție care stochează cantitatea de dinamită necesară pentru a străbate o cameră.
+
+Algoritmul de căutare în adâncime este:
+
+1. Alegem o cameră de start s.
+2. Inițializăm o stivă cu camera de start s.
+3. Inițializăm o variabilă care stochează cantitatea de dinamită utilizată.
+4. Repetăm următorii pași până când stiva este goală:
+ * Scoatem o cameră din stivă.
+ * Dacă camera este t, atunci am găsit un drum și putem opri.
+ * Dacă camera nu este t, atunci adăugăm toate camerele adiacente în stivă și actualizăm cantitatea de dinamită utilizată.
+5. Dacă am găsit un drum, atunci putem determina drumul și cantitatea de dinamită utilizată.
+
+Acest algoritm are complexitatea O(V + E), unde V este numărul de camere și E este numărul de tuneluri.
+
+Acest algoritm este optim deoarece explorează toate camerele și tunelurile și găsește un drum de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită.

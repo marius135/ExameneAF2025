@@ -1,0 +1,90 @@
+1. Subgraf indus bipartit conex maxim
+Un graf este bipartit dacă poate fi colorat cu două culori astfel încât niciun două noduri adiacente să nu aibă aceeași culoare. Aplicând BFS sau DFS pentru a verifica bipartiția, putem extrage subgraful bipartit maxim.
+
+Considerăm graful dat și aplicăm BFS dintr-un nod pentru a verifica bipartiția.
+
+Dacă întâlnim un nod deja colorat cu aceeași culoare ca un vecin, graful nu este bipartit.
+
+Eliminăm muchiile care creează conflicte pentru a obține subgraful maxim bipartit.
+
+2. BFS din nodul 4 și distanțele
+
+Se aplică algoritmul BFS (parcurgerea în lățime) pornind din nodul 4.
+
+Se construiește arborele BFS și se determină distanțele minime față de nodul 4.
+
+BFS funcționează folosind o coadă pentru a vizita nodurile în ordine și pentru a marca distanțele minime de la sursă.
+
+3. Lanț eulerian
+Un graf neorientat admite un lanț eulerian dacă și numai dacă:
+
+Are exact 0 sau 2 noduri de grad impar.
+
+Graful este conex (fiecare nod este accesibil din orice alt nod).
+
+Dacă aceste condiții nu sunt îndeplinite, eliminăm un număr minim de muchii pentru a face ca doar două noduri să aibă grad impar.
+
+4. Noduri critice (puncte de articulatie)
+
+Se folosește algoritmul lui Tarjan pentru a găsi punctele de articulație.
+
+Se realizează un DFS marcând timpul de descoperire și cel mai mic timp accesibil.
+
+Dacă un nod are un copil în arborele DFS care nu are o conexiune în sus, este punct de articulație.
+
+5. Algoritmul Floyd-Warshall
+Se inițializează matricea distanțelor cu greutățile muchiilor, iar apoi se aplică:
+
+for k in range(1, n+1):
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            D[i][j] = min(D[i][j], D[i][k] + D[k][j])
+
+Se exemplifică cu etapele j=1, j=2 și j=3.
+
+6. Algoritmul lui Prim din nodul 4
+
+Se inițializează un arbore parțial pornind din nodul 4.
+
+Se adaugă muchia de cost minim care extinde arborele.
+
+Se repetă până se acoperă toate nodurile.
+
+7. Verificarea unui algoritm pentru arbore de cost minim
+Se analizează dacă algoritmul propus este corect comparându-l cu principiile algoritmului lui Prim/Kruskal. Se demonstrează prin contradicție că selectarea muchiilor respectă condiția de minimizare a costului.
+
+8. Algoritmul Ford-Fulkerson (Edmonds-Karp)
+
+Se aplică BFS pentru a găsi lanțuri f-nesaturate.
+
+Se actualizează fluxul în rețea.
+
+Se determină tăietura minimă analizând nodurile accesibile din sursă în rețeaua reziduală.
+
+9. Proprietăți ale grafurilor Hamiltoniene
+(a) Se demonstrează prin contradicție că d(x) ≥ n/2 asigură conexitatea.
+(b) Se oferă un exemplu de graf nehamiltonian cu două noduri neadiacente care îndeplinesc inegalitatea gradelor.
+(c) Se demonstrează că dacă m ≥ C(n-1, 2) + 2, atunci graful este Hamiltonian.
+
+10. Subșir comun maxim
+Se construiește o matrice L[i][j] care stochează lungimea celui mai lung subsir comun al prefixelor.
+
+for i in range(1, len(A)+1):
+    for j in range(1, len(B)+1):
+        if A[i-1] == B[j-1]:
+            L[i][j] = L[i-1][j-1] + 1
+        else:
+            L[i][j] = max(L[i-1][j], L[i][j-1])
+
+Se exemplifică pentru „cerceta” și „retea”.
+
+11. Drum minim în mina subterană
+
+Se modelează problema ca un graf orientat.
+
+Se aplică algoritmul lui Dijkstra pentru a găsi drumul cu cost minim (număr minim de explozii de dinamită).
+
+Se afișează traseul rezultat.
+
+Aceasta este soluția detaliată pentru fiecare cerință a examenului.
+
