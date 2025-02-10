@@ -55,7 +55,7 @@
    **Tăietură minimă:** S = {1,5,4,3}, T = {2,6,7}.  
    **Capacitate tăietură:** 15.  
    *Explicație:* Tăietura separă sursa de destinație, iar algoritmul identifică drumuri critice pe graful rezidual.
-
+3
 9. **Probleme teoretice:**  
    - **a)** Dacă d(x) ≥ n/2, graful este conex.  
      *Demonstrație:* Presupunând neconexitate, două componente ar necesita ≥n/2+1 noduri fiecare, imposibil.  
