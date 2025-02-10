@@ -1,0 +1,803 @@
+Okay, let's break down this algorithms exam and provide detailed solutions.
+
+**General Notes:**
+
+*   **Lexicographical Order:** Remember to consider neighbors in lexicographical order (alphabetical or numerical order) when applicable (problems 1-6).
+*   **Efficiency:**  I'll strive to describe efficient algorithms and provide explanations for their time complexity.
+*   **Justification:**  I'll provide clear justifications for my answers and steps.
+
+**Problem 1: Bipartite Subgraph (5p)**
+
+*   **Goal:** Find a connected bipartite induced subgraph with the maximum number of nodes and a bipartition.
+
+*   **Strategy:**  Start with the entire graph and iteratively remove vertices that violate the bipartite property. A graph is bipartite if its vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other set.  This is equivalent to saying the graph contains no odd-length cycles.
+
+*   **Steps:**
+
+    1.  **Initial Graph:** The provided graph is undirected.
+    2.  **Check for Bipartiteness:**  Perform a Breadth-First Search (BFS) or Depth-First Search (DFS) and color the nodes with two colors (e.g., 0 and 1) such that adjacent nodes have different colors. If you encounter an edge where both endpoints have the same color, the graph is not bipartite.
+    3.  **Coloring using BFS starting from node 1:**
+        *   Node 1: Color 0
+        *   Node 2: Color 1 (neighbor of 1)
+        *   Node 3: Color 1 (neighbor of 1)
+        *   Node 6: Color 0 (neighbor of 2)
+        *   Node 5: Color 0 (neighbor of 3)
+        *   Node 4: Color 0 (neighbor of 3)
+        *   Node 4: Color 1 (neighbor of 5). Conflict!
+
+    4.  **Remove Vertex to Resolve Conflict:** The conflict arises because node 4 is reachable by both colors (0 and 1). We want to remove a vertex to break odd cycles. There are multiple options, such as node 3 or node 5. Remove vertex 3.
+    5.  **Updated Graph (without node 3):** Now the nodes are {1, 2, 4, 5, 6, 7, 8, 9} and edges are:  {(1,2), (2,6), (5,4), (4,8), (8,9), (9,7), (7,8)}
+    6.  **Check for Bipartiteness (again):**
+        *   Node 1: Color 0
+        *   Node 2: Color 1
+        *   Node 6: Color 0
+        *   Node 4: Color 0
+        *   Node 5: Color 1
+        *   Node 8: Color 1
+        *   Node 9: Color 0
+        *   Node 7: Color 1
+        No conflicts. The graph is now bipartite.
+    7.  **Bipartition:**
+        *   Set 1 (Color 0): {1, 6, 4, 9}
+        *   Set 2 (Color 1): {2, 5, 8, 7}
+
+*   **Result:** The largest bipartite induced subgraph consists of vertices {1, 2, 4, 5, 6, 7, 8, 9}. The bipartition is {{1, 6, 4, 9}, {2, 5, 8, 7}}.
+
+**Problem 2: Breadth-First Search (BFS) from Node 4 (5p)**
+
+*   **Goal:**  Exemplify BFS(4), show how it calculates distances, and draw the BFS tree.
+
+*   **Algorithm:** BFS explores a graph level by level.
+
+*   **Steps:**
+
+    1.  **Initialization:**
+        *   `distance[i] = infinity` for all nodes `i`.
+        *   `distance[4] = 0`.
+        *   `queue = [4]`.
+
+    2.  **BFS Execution:**
+
+        *   **Iteration 1:** `dequeue 4`. Neighbors of 4 (in lexicographical order): 3, 5, 8.
+            *   `distance[3] = distance[4] + 1 = 1`. `queue.append(3)`.
+            *   `distance[5] = distance[4] + 1 = 1`. `queue.append(5)`.
+            *   `distance[8] = distance[4] + 1 = 1`. `queue.append(8)`.
+            *   `queue = [3, 5, 8]`
+
+        *   **Iteration 2:** `dequeue 3`. Neighbors of 3: 1, 2, 4, 5, 6.
+            *   `distance[1] = distance[3] + 1 = 2`. `queue.append(1)`.
+            *   `distance[2] = distance[3] + 1 = 2`. `queue.append(2)`.
+            *   4 is already visited.
+            *   5 is already visited.
+            *   `distance[6] = distance[3] + 1 = 2`. `queue.append(6)`.
+            *   `queue = [5, 8, 1, 2, 6]`
+
+        *   **Iteration 3:** `dequeue 5`. Neighbors of 5: 3, 4.
+            *   3 is already visited.
+            *   4 is already visited.
+            *   `queue = [8, 1, 2, 6]`
+
+        *   **Iteration 4:** `dequeue 8`. Neighbors of 8: 4, 7, 9.
+            *   4 is already visited.
+            *   `distance[7] = distance[8] + 1 = 2`. `queue.append(7)`.
+            *   `distance[9] = distance[8] + 1 = 2`. `queue.append(9)`.
+            *   `queue = [1, 2, 6, 7, 9]`
+
+        *   **Iteration 5:** `dequeue 1`. Neighbors of 1: 2, 3.
+            *   2 is already visited.
+            *   3 is already visited.
+            *   `queue = [2, 6, 7, 9]`
+
+        *   **Iteration 6:** `dequeue 2`. Neighbors of 2: 1, 3, 6.
+            *   1 is already visited.
+            *   3 is already visited.
+            *   6 is already visited.
+            *   `queue = [6, 7, 9]`
+
+        *   **Iteration 7:** `dequeue 6`. Neighbors of 6: 2, 3.
+            *   2 is already visited.
+            *   3 is already visited.
+            *   `queue = [7, 9]`
+
+        *   **Iteration 8:** `dequeue 7`. Neighbors of 7: 9, 8.
+            *   9 is already visited.
+            *   8 is already visited.
+            *   `queue = [9]`
+
+        *   **Iteration 9:** `dequeue 9`. Neighbors of 9: 7, 8.
+            *   7 is already visited.
+            *   8 is already visited.
+            *   `queue = []`
+
+    3.  **Distances:**
+        *   `distance[1] = 2`
+        *   `distance[2] = 2`
+        *   `distance[3] = 1`
+        *   `distance[4] = 0`
+        *   `distance[5] = 1`
+        *   `distance[6] = 2`
+        *   `distance[7] = 2`
+        *   `distance[8] = 1`
+        *   `distance[9] = 2`
+
+    4.  **BFS Tree:** The BFS tree consists of the edges used to discover each node for the first time.
+        ```
+        4 -- 3
+        4 -- 5
+        4 -- 8
+        3 -- 1
+        3 -- 2
+        3 -- 6
+        8 -- 7
+        8 -- 9
+        ```
+
+*   **Time Complexity:** O(V + E), where V is the number of vertices and E is the number of edges.
+
+**Problem 3: Eulerian Path (7.5p)**
+
+*   **Goal:** Determine if the graph has an Eulerian path. If not, remove edges to create one, state the strategy, and provide an Eulerian path. State the necessary and sufficient condition for an undirected graph to have an Eulerian path.
+
+*   **Necessary and Sufficient Condition:** An undirected graph has an Eulerian path if and only if it is connected (except for isolated vertices) and has exactly 0 or 2 vertices of odd degree.  If there are 0 odd-degree vertices, it has an Eulerian cycle. If there are 2, it has an Eulerian path that starts at one odd-degree vertex and ends at the other.
+
+*   **Steps:**
+
+    1.  **Check Degrees:** Calculate the degree of each vertex:
+        *   1: 2
+        *   2: 3
+        *   3: 5
+        *   4: 4
+        *   5: 2
+        *   6: 3
+        *   7: 2
+        *   8: 3
+        *   9: 2
+
+    2.  **Odd Degree Vertices:**  Vertices 2, 3, 6, and 8 have odd degrees.  Since there are more than 2 vertices with odd degrees, the graph does not have an Eulerian path.
+
+    3.  **Edge Removal Strategy:** To obtain an Eulerian path, we need to reduce the number of odd-degree vertices to 0 or 2. We can do this by removing edges connecting pairs of odd-degree vertices. The goal is to minimize the number of edges removed.
+
+    4.  **Remove edges (2,3) and (6,8):**
+        *   Remove edge (2,3) to pair vertices 2 and 3. Now the odd degree vertices are 6 and 8.
+        *   Remove edge (6,8) to pair vertices 6 and 8. Now all vertices have even degree or 0.
+
+    5.  **Modified Graph:**
+        *   Nodes: 1, 2, 3, 4, 5, 6, 7, 8, 9
+        *   Edges: (1,2), (2,6), (1,3), (3,6), (3,5), (5,4), (3,4), (4,8), (8,9), (9,7), (7,8)
+
+    6.  **Degrees (Modified):**
+        *   1: 2
+        *   2: 2
+        *   3: 4
+        *   4: 4
+        *   5: 2
+        *   6: 2
+        *   7: 2
+        *   8: 2
+        *   9: 2
+        All degrees are even. So we can search for a Eulerian Cycle.
+
+    7.  **Find Eulerian Cycle (Fleury's Algorithm - avoid bridges when possible):**  Starting from an arbitrary vertex (e.g., 1).
+
+        *   Path: 1 -> 2 -> 6 -> 3 -> 1 -> 3 -> 5 -> 4 -> 3 -> 4 -> 8 -> 7 -> 9 -> 8 -> 9 ->8 is visited twice.
+
+        *   Path: 1 -> 2 -> 6 -> 3 -> 1 -> 3 -> 5 -> 4 -> 8 -> 7 -> 9 -> 8 -> 4 -> 3
+        The initial path is missing some vertexes.
+
+        * Path: 1-2-6-3-5-4-3-1-3-4-8-7-9-8
+        It does not work correctly.
+
+    8. **Find Eulerian Cycle (Hierholzer's Algorithm):**
+
+    * **Start at node 1**
+    1 -> 2 -> 6 -> 3 -> 1 *End of cycle. Not all edges are visited*
+
+    * **Start at node 3 (unvisited edge):**
+    3 -> 5 -> 4 -> 3 *End of cycle*
+
+    * **Start at node 4:**
+    4 -> 8 -> 7 -> 9 -> 8 -> 4 *End of cycle*
+
+    * **Join cycles:**
+    1 -> 2 -> 6 -> (3 -> 5 -> 4 -> 3) -> 1 -> (3 -> 4 -> 8 -> 7 -> 9 -> 8 -> 4 -> 3)
+    1 -> 2 -> 6 -> 3 -> 5 -> 4 -> 3 -> 1 -> 3 -> 4 -> 8 -> 7 -> 9 -> 8 -> 4.
+
+    * Eulerian Cycle/Path: 1 -> 2 -> 6 -> 3 -> 5 -> 4 -> 8 -> 7 -> 9 -> 8 -> 4 -> 3 -> 1
+
+*   **Time Complexity:** O(E) for checking degrees and finding the path (Fleury's or Hierholzer's algorithm).
+
+**Problem 4: Critical Nodes (7.5p)**
+
+*   **Goal:** Describe an efficient algorithm for finding critical nodes (articulation points) and exemplify it on the given graph.
+
+*   **Definition:** A critical node (articulation point) is a vertex whose removal (along with its incident edges) increases the number of connected components in the graph.
+
+*   **Algorithm (Tarjan's Algorithm):** Depth-First Search (DFS) based.
+
+    1.  **DFS Traversal:** Perform a DFS on the graph.
+    2.  **Discovery Time (dfn):**  Assign a discovery time `dfn[u]` to each node `u` when it's first visited during the DFS.
+    3.  **Low Value (low):**  Calculate a "low" value `low[u]` for each node `u`.  `low[u]` is the smallest discovery time of any node reachable from `u` by traversing zero or more tree edges (edges in the DFS tree) and then at most one back edge (an edge that is not in the DFS tree).
+
+    4.  **Articulation Point Condition:**
+        *   **Root Node:** If `u` is the root of the DFS tree and has more than one child, then `u` is an articulation point.
+        *   **Non-Root Node:** If `u` is not the root and for some child `v` of `u` in the DFS tree, `low[v] >= dfn[u]`, then `u` is an articulation point.  This means there's no back edge from `v` or any of its descendants that reaches a node higher (earlier discovery time) than `u`.
+
+*   **Steps:**
+
+    1.  **Initialization:**
+        *   `dfn[i] = -1` for all nodes `i` (not visited).
+        *   `low[i] = -1` for all nodes `i`.
+        *   `time = 0` (discovery time counter).
+        *   `articulation_points = set()`
+
+    2.  **DFS (starting from node 1):**
+
+        ```python
+        def find_articulation_points(graph):
+            n = len(graph)
+            dfn = [-1] * (n + 1)  # Discovery time
+            low = [-1] * (n + 1)  # Lowest reachable ancestor
+            time = 0
+            articulation_points = set()
+            parent = [-1] * (n + 1) # Keep track of parent node for each node in DFS tree
+
+            def dfs(u):
+                nonlocal time
+                time += 1
+                dfn[u] = time
+                low[u] = time
+
+                children = 0
+                for v in sorted(graph[u]): # Neighbors in lexicographical order
+                    if dfn[v] == -1: # Not visited
+                        children += 1
+                        parent[v] = u
+                        dfs(v)
+
+                        low[u] = min(low[u], low[v]) # Update low[u] from its child
+
+                        # Check for articulation point
+                        if parent[u] == -1 and children > 1: # u is root with > 1 children
+                            articulation_points.add(u)
+                        if parent[u] != -1 and low[v] >= dfn[u]: # Non-root articulation point
+                            articulation_points.add(u)
+                    elif v != parent[u]:
+                        low[u] = min(low[u], dfn[v]) # Update low[u] with back-edge to v
+
+            # Create Adjacency List
+            adj_list = {str(i): [] for i in range(1, 10)}
+            for edge in Graph_1_6["Edges"]:
+                u = edge["x"]
+                v = edge["y"]
+                adj_list[u].append(v)
+                adj_list[v].append(u)
+
+            graph_int = {i: [int(x) for x in adj_list[str(i)]] for i in range(1, 10)}
+            dfs(1)
+
+            return articulation_points
+        ```
+
+        *   Adjacency list created based on Graph_1_6
+        *   DFS will start at 1, since it is undirected and connected graph, starting from any vertex is fine.
+
+    3.  **Execution Trace (Simplified):**  Due to space constraints, a detailed trace is difficult. However, the key idea is to understand how `dfn` and `low` values are assigned and updated during the DFS.
+
+        *   `dfs(1)`: `dfn[1] = 1`, `low[1] = 1`
+        *   `dfs(2)`: `dfn[2] = 2`, `low[2] = 2`
+        *   `dfs(6)`: `dfn[6] = 3`, `low[6] = 3`
+        *   `dfs(3)`: `dfn[3] = 4`, `low[3] = 4`
+        *   `dfs(4)`: `dfn[4] = 5`, `low[4] = 5`
+        *   `dfs(5)`: `dfn[5] = 6`, `low[5] = 5` (back edge to 4)
+        *   `low[4]` becomes 5.
+        *   `dfs(8)`: `dfn[8] = 7`, `low[8] = 7`
+        *   `dfs(7)`: `dfn[7] = 8`, `low[7] = 7` (back edge to 8)
+        *   `dfs(9)`: `dfn[9] = 9`, `low[9] = 7` (back edge to 8)
+
+        * After the DFS is done, calculate `low[u]`
+
+            * 3: 4
+            * 4: 5
+            * 5: 5
+
+    4.  **Articulation Points:** After the DFS, you would identify: 3, 4 and 8
+
+*   **Result:** The critical nodes are {3, 4, 8}.
+
+*   **Time Complexity:** O(V + E), where V is the number of vertices and E is the number of edges, due to the DFS traversal.
+
+**Problem 5: Floyd-Warshall Algorithm (5p)**
+
+*   **Goal:** Describe the Floyd-Warshall algorithm and show the D matrix modifications for j=1, j=2, and j=3.
+
+*   **Algorithm:** Floyd-Warshall computes all-pairs shortest paths in a weighted graph.
+
+*   **Steps:**
+
+    1.  **Initialization:**  `D[i][k]` is initialized with the weight of the edge between vertices `i` and `k`. If there is no edge, `D[i][k]` is initialized with infinity.  `D[i][i] = 0`.
+
+    2.  **Iteration:**
+        ```
+        for j in range(1, n + 1):
+            for i in range(1, n + 1):
+                for k in range(1, n + 1):
+                    D[i][k] = min(D[i][k], D[i][j] + D[j][k])
+        ```
+        For each intermediate vertex `j`, the algorithm checks if going from vertex `i` to vertex `k` through `j` is shorter than the current shortest path between `i` and `k`.
+
+*   **Matrices:**
+    Create the initial weight matrix D.  If there is no edge between two vertices, the value is infinity (represented as 'inf').
+    ```
+       1    2    3    4    5    6    7    8    9
+    1  0    1    4  inf  inf  inf  inf  inf  inf
+    2  1    0    2  inf  inf   10  inf  inf  inf
+    3  4    2    0    5   12   11  inf  inf  inf
+    4 inf  inf   5    0    1  inf  inf   3  inf
+    5 inf  inf  12    1    0  inf  inf  inf  inf
+    6 inf   10   11  inf  inf   0   inf  inf  inf
+    7 inf  inf  inf  inf  inf  inf   0    2    5
+    8 inf  inf  inf   3   inf  inf   2    0    6
+    9 inf  inf  inf  inf  inf  inf   5    6    0
+    ```
+
+    *   **j = 1:** Check if going through vertex 1 improves any path.
+
+        ```
+           1    2    3    4    5    6    7    8    9
+        1  0    1    4  inf  inf  inf  inf  inf  inf
+        2  1    0    2  inf  inf   10  inf  inf  inf
+        3  4    2    0    5   12   11  inf  inf  inf
+        4 inf  inf   5    0    1  inf  inf   3  inf
+        5 inf  inf  12    1    0  inf  inf  inf  inf
+        6 inf   10   11  inf  inf   0   inf  inf  inf
+        7 inf  inf  inf  inf  inf  inf   0    2    5
+        8 inf  inf  inf   3   inf  inf   2    0    6
+        9 inf  inf  inf  inf  inf  inf   5    6    0
+        ```
+
+        *   `D[2][3] = min(D[2][3], D[2][1] + D[1][3]) = min(2, 1+4) = 2`. No change.
+        *   `D[3][2] = min(D[3][2], D[3][1] + D[1][2]) = min(2, 4+1) = 2`. No change.
+        * The matrix does not change.
+
+    *   **j = 2:** Check if going through vertex 2 improves any path.
+
+        ```
+           1    2    3    4    5    6    7    8    9
+        1  0    1    3  inf  inf  11  inf  inf  inf
+        2  1    0    2  inf  inf   10  inf  inf  inf
+        3  3    2    0    5   12   11  inf  inf  inf
+        4 inf  inf   5    0    1  inf  inf   3  inf
+        5 inf  inf  12    1    0  inf  inf  inf  inf
+        6 11   10   11  inf  inf   0   inf  inf  inf
+        7 inf  inf  inf  inf  inf  inf   0    2    5
+        8 inf  inf  inf   3   inf  inf   2    0    6
+        9 inf  inf  inf  inf  inf  inf   5    6    0
+        ```
+
+        *   `D[1][3] = min(D[1][3], D[1][2] + D[2][3]) = min(4, 1+2) = 3`. Updated
+        *   `D[1][6] = min(D[1][6], D[1][2] + D[2][6]) = min(inf, 1+10) = 11`. Updated
+        *   `D[3][1] = min(D[3][1], D[3][2] + D[2][1]) = min(4, 2+1) = 3`. Updated
+        *   `D[6][1] = min(D[6][1], D[6][2] + D[2][1]) = min(inf, 10+1) = 11`. Updated
+
+    *   **j = 3:** Check if going through vertex 3 improves any path.
+
+        ```
+           1    2    3    4    5    6    7    8    9
+        1  0    1    3    8   15   14  inf  inf  inf
+        2  1    0    2    7   14   13  inf  inf  inf
+        3  3    2    0    5   12   11  inf  inf  inf
+        4  8    7    5    0    1     16  inf  inf  inf
+        5 15   14   12    1    0     23  inf  inf  inf
+        6 14   13   11   16   23     0  inf  inf  inf
+        7 inf  inf  inf  inf  inf  inf   0    2    5
+        8 inf  inf  inf   3   inf  inf   2    0    6
+        9 inf  inf  inf  inf  inf  inf   5    6    0
+        ```
+
+        *   `D[1][4] = min(D[1][4], D[1][3] + D[3][4]) = min(inf, 3+5) = 8`. Updated
+        *   `D[1][5] = min(D[1][5], D[1][3] + D[3][5]) = min(inf, 3+12) = 15`. Updated
+        *   `D[1][6] = min(D[1][6], D[1][3] + D[3][6]) = min(11, 3+11) = 14`. Updated
+        *   `D[2][4] = min(D[2][4], D[2][3] + D[3][4]) = min(inf, 2+5) = 7`. Updated
+        *   `D[2][5] = min(D[2][5], D[2][3] + D[3][5]) = min(inf, 2+12) = 14`. Updated
+        *   `D[2][6] = min(D[2][6], D[2][3] + D[3][6]) = min(10, 2+11) = 13`. Updated
+        *   `D[4][1] = min(D[4][1], D[4][3] + D[3][1]) = min(inf, 5+3) = 8`. Updated
+        *   `D[4][2] = min(D[4][2], D[4][3] + D[3][2]) = min(inf, 5+2) = 7`. Updated
+        *   `D[5][1] = min(D[5][1], D[5][3] + D[3][1]) = min(inf, 12+3) = 15`. Updated
+        *   `D[5][2] = min(D[5][2], D[5][3] + D[3][2]) = min(inf, 12+2) = 14`. Updated
+        *   `D[6][1] = min(D[6][1], D[6][3] + D[3][1]) = min(11, 11+3) = 14`. Updated
+        *   `D[6][2] = min(D[6][2], D[6][3] + D[3][2]) = min(10, 11+2) = 13`. Updated
+        *   `D[4][6] = min(D[4][6], D[4][3] + D[3][6]) = min(inf, 5+11) = 16`. Updated
+        *   `D[5][6] = min(D[5][6], D[5][3] + D[3][6]) = min(inf, 12+11) = 23`. Updated
+        *   `D[6][4] = min(D[6][4], D[6][3] + D[3][4]) = min(inf, 11+5) = 16`. Updated
+        *   `D[6][5] = min(D[6][5], D[6][3] + D[3][5]) = min(inf, 11+12) = 23`. Updated
+
+*   **Time Complexity:** O(n^3), where n is the number of vertices.
+
+**Problem 6: Prim's Algorithm (5p)**
+
+*   **Goal:**  Exemplify Prim's algorithm starting from vertex 4.
+
+*   **Algorithm:** Prim's algorithm finds a Minimum Spanning Tree (MST) for a connected weighted graph.
+
+*   **Steps:**
+
+    1.  **Initialization:**
+        *   `MST = {}` (empty set to store MST edges).
+        *   `visited = {4}` (start from vertex 4).
+        *   `cost[i] = infinity` for all nodes `i`.
+        *   `cost[4] = 0`.
+
+    2.  **Iteration:** Repeat until all vertices are in `visited`.
+        *   Find the minimum-cost edge (u, v) such that `u` is in `visited` and `v` is not in `visited`.
+        *   Add edge (u, v) to `MST`.
+        *   Add vertex `v` to `visited`.
+        *   Update `cost` values for nodes not in `visited`.
+
+*   **Execution:**
+
+    1.  **Iteration 1:** `visited = {4}`.
+        *   Edges from 4: (4, 3, 5), (4, 5, 1), (4, 8, 3).
+        *   Minimum cost edge: (4, 5, 1).
+        *   `MST = {(4, 5, 1)}`.
+        *   `visited = {4, 5}`.
+
+    2.  **Iteration 2:** `visited = {4, 5}`.
+        *   Edges from 4: (4, 3, 5), (4, 8, 3).  Edges from 5: (5, 3, 12).
+        *   Minimum cost edge: (4, 8, 3).
+        *   `MST = {(4, 5, 1), (4, 8, 3)}`.
+        *   `visited = {4, 5, 8}`.
+
+    3.  **Iteration 3:** `visited = {4, 5, 8}`.
+        *   Edges from 4: (4, 3, 5). Edges from 5: (5, 3, 12).  Edges from 8: (8, 7, 2), (8, 9, 6).
+        *   Minimum cost edge: (8, 7, 2).
+        *   `MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2)}`.
+        *   `visited = {4, 5, 8, 7}`.
+
+    4.  **Iteration 4:** `visited = {4, 5, 8, 7}`.
+        *   Edges from 4: (4, 3, 5). Edges from 5: (5, 3, 12).  Edges from 8: (8, 9, 6).  Edges from 7: (7, 9, 5).
+        *   Minimum cost edge: (7, 9, 5).
+        *   `MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5)}`.
+        *   `visited = {4, 5, 8, 7, 9}`.
+
+    5.  **Iteration 5:** `visited = {4, 5, 8, 7, 9}`.
+        *   Edges from 4: (4, 3, 5). Edges from 5: (5, 3, 12).  Edges from 8: None.  Edges from 7: None. Edges from 9: None.
+        *   Minimum cost edge: (4, 3, 5).
+        *   `MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5), (4, 3, 5)}`.
+        *   `visited = {4, 5, 8, 7, 9, 3}`.
+
+    6.  **Iteration 6:** `visited = {4, 5, 8, 7, 9, 3}`.
+        *    Edges from 4: None. Edges from 5: None.  Edges from 8: None.  Edges from 7: None. Edges from 9: None. Edges from 3:(3,1,4) (3,2,2) (3,6,11)
+        *    Minimum cost edge: (3,1,4).
+        *   `MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5), (4, 3, 5), (3,1,4)}`.
+        *   `visited = {4, 5, 8, 7, 9, 3,1}`.
+
+
+Iteration 7: visited = {4, 5, 8, 7, 9, 3, 1}.
+* Edges from 4: None. Edges from 5: None. Edges from 8: None. Edges from 7: None. Edges from 9: None. Edges from 3: (3, 2, 2), (3, 6, 11). Edges from 1: (1, 2, 1).
+* Minimum cost edge: (1, 2, 1).
+* MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5), (4, 3, 5), (3, 1, 4), (1, 2, 1)}.
+* visited = {4, 5, 8, 7, 9, 3, 1, 2}.
+
+Iteration 8: visited = {4, 5, 8, 7, 9, 3, 1, 2}.
+* Edges from 4: None. Edges from 5: None. Edges from 8: None. Edges from 7: None. Edges from 9: None. Edges from 3: (3, 6, 11). Edges from 1: None. Edges from 2: (2,6, 10)
+* Minimum cost edge: (3, 6, 11).
+* MST = {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5), (4, 3, 5), (3, 1, 4), (1, 2, 1), (3,6,11)}.
+* visited = {4, 5, 8, 7, 9, 3, 1, 2, 6}.
+
+Result: The Minimum Spanning Tree is represented by the edges: {(4, 5, 1), (4, 8, 3), (8, 7, 2), (7, 9, 5), (4, 3, 5), (3, 1, 4), (1, 2, 1), (3,6,11)}.
+
+Time Complexity: O(E log V) using a priority queue (e.g., heap) to find the minimum cost edge in each iteration. With optimization, it can be implemented with Fibonacci Heaps to achieve O(E + V log V) complexity.
+
+Problem 7: Correctness of MST Algorithm (5p)
+
+Goal: Determine if the given MST algorithm is correct and justify (without appealing to other MST algorithms).
+
+Algorithm:
+
+T = (V, E = ∅)
+for i = 1, |V|-1
+    1. Choose the connected component C of T that contains vertex i
+    2. Choose an edge of minimum cost e with one end in C and the other not and add e to T
+
+Analysis: This algorithm is correct. Here's the justification without referencing Kruskal's or Prim's:
+
+Spanning Tree: The algorithm maintains a graph T = (V, E) where V is the set of all vertices, and E is the set of edges selected so far. The algorithm adds exactly |V| - 1 edges. We need to show that at each step, the set of edges can be extended to a MST, and that the resulting graph is connected.
+
+Invariant: Let's prove the following invariant by induction: "At each iteration i, the graph T is a subgraph of some MST of G."
+
+Base Case (i = 1): Initially, T = (V, ∅). The MST can be any MST in the graph. Therefore, T is a subgraph of some MST.
+
+Inductive Step: Assume that at iteration i, T is a subgraph of some MST M. We need to show that after adding the edge e in iteration i+1, the updated T' is still a subgraph of some MST M'. Let e = (u, v), where u is in the component C containing vertex i, and v is not in C.
+
+If e is in M, then T' is clearly a subgraph of M, and the invariant holds.
+
+If e is not in M, then adding e to M creates a cycle. This cycle must contain another edge e' = (u', v') where u' is in C and v' is not in C (because we're going from C to outside of C and back). Since e was chosen as the minimum cost edge connecting C to the rest of the graph, cost(e) <= cost(e').
+
+Now, consider the graph M' = M + e - e'. That is, we replace e' with e in M. M' is still a spanning tree because we removed an edge from a cycle. The cost of M' is cost(M) + cost(e) - cost(e'). Since cost(e) <= cost(e'), cost(M') <= cost(M). Because M is a MST, then cost(M') = cost(M)
+Therefore, M' is also a minimum spanning tree, and the edge e can be added to the edges of the minimum cost tree. Then, it is still a minimum spanning tree.
+
+So, we have shown that there is an MST M' that contains T' = T + e. Thus, the invariant holds.
+
+Connectivity: Each iteration connects a connected component containing vertex i with another component. The edges added cannot form a cycle, because e connects different components of T. After |V| - 1 iterations, all vertices are in the same connected component, forming a spanning tree.
+
+Minimum Cost: Since at each step we add the minimum-cost edge that doesn't create a cycle (implicitly ensured by connecting different components), the final spanning tree is a minimum spanning tree.
+
+Conclusion: The algorithm is correct.
+
+Problem 8: Ford-Fulkerson with Edmonds-Karp (12.5p)
+
+Goal: Illustrate the Ford-Fulkerson algorithm (Edmonds-Karp version) for the given network, starting from the indicated flow. Find a min-cut.
+
+Algorithm:
+
+Ford-Fulkerson: Iteratively finds augmenting paths (paths from source to sink with available capacity) and increases the flow along those paths until no more augmenting paths exist.
+
+Edmonds-Karp: A specific implementation of Ford-Fulkerson that uses Breadth-First Search (BFS) to find the shortest augmenting path (in terms of the number of edges).
+
+Steps:
+
+Initial Flow: The initial flow f(e)/c(e) is given. We need to construct the residual graph. The residual capacity of an edge (u, v) is c_f(u, v) = c(u, v) - f(u, v). If f(u, v) > 0, there is a backward edge (v, u) in the residual graph with capacity c_f(v, u) = f(u, v).
+
+Iteration 1:
+
+BFS from s = 1: Find the shortest augmenting path.
+
+Shortest path: 1 -> 2 -> 6 -> 7
+
+Bottleneck capacity: min(c_f(1, 2), c_f(2, 6), c_f(6, 7)) = min(5-5, 8-0, 8-0) = min(0,8,8) = 0. Path already at capacity. Try next path
+
+Shortest path: 1 -> 5 -> 3 -> 7
+
+Bottleneck Capacity: min(6-0,6-0,3-0) = 3
+
+Augment the flow:
+
+f(1, 5) = 0 + 3 = 3
+
+f(5, 3) = 0 + 3 = 3
+
+f(3, 7) = 0 + 3 = 3
+
+Update the residual graph
+
+Iteration 2:
+
+BFS from s = 1: Find the shortest augmenting path.
+
+Shortest path: 1 -> 5 -> 4 -> 2 -> 6 -> 7
+
+Bottleneck Capacity: min(3, 0+3, 3+5, 8) = 3
+
+Augment the flow
+
+f(1,5) = 3+3 = 6
+
+f(5,4) = 0+3 = 3
+
+f(4,2) = 0+3 = 3
+
+f(2,6) = 0+3 = 3
+
+f(6,7) = 0+3 = 3
+
+Update the residual graph
+
+Iteration 3
+
+BFS from s =1:
+
+Path 1-5-3-6-7
+*Bottleneck Capacity: min(0, 6+6,5+3, 8-3) = min(0, 12,8,5)=0 path at capacity
+
+Path 1-5-3-7 =0
+
+Path 1-2-6-7 =0
+
+Path 1-5-4-2-6-7- =0
+
+No more paths are possible. The max flow cannot increase. Stop
+
+Min-Cut: The min-cut is a partition of the vertices into two sets (S, T) such that s ∈ S and t ∈ T, and the capacity of the cut is the sum of the capacities of the edges from S to T. The min-cut capacity equals the max-flow.
+
+To find the min-cut, perform a BFS from the source s = 1 in the final residual graph (after max-flow is found). The set S consists of all vertices reachable from s in the residual graph. The set T is all other vertices.
+
+From iteration 3: path 1 cannot find a new path. Path is 1->5 = 0
+
+Therefore S= {1, 2,3,4,5,6} and T = {7}
+
+The forward arcs from S to T are arcs directed from a node in S to a node in T. These arcs are (6,7)
+
+S = {1, 2, 3, 4, 5, 6}
+
+T = {7}
+
+Edges from S to T: (6, 7). The capacity of arc (6,7) is 8
+
+*The reverse arcs from T to S are arcs directed from a node in T to a node in S. These arcs are : There are none.
+
+Min-Cut Capacity: Sum of capacities of forward edges crossing the cut = c(6,7) = 8
+Sum of capacity is 8, and can be verified, since max flow cannot be increased.
+
+Time Complexity: O(V E^2) for Edmonds-Karp.
+
+Problem 9: Graph Properties (15p)
+
+a) Show that a graph with n>2 nodes that satisfies the condition d(x) >= n/2 for any node x is connected.
+
+Proof by contradiction: Assume the graph G is not connected. This means G has at least two connected components, say C1 and C2. Let x be a node in C1. Then the degree of x, d(x), is at most the number of nodes in C1 minus 1 (since x can't be connected to itself). So, d(x) <= |C1| - 1.
+
+Since G is not connected, |C1| < n. Thus, |C1| <= n - 1.
+Therefore, d(x) <= (n - 1) - 1 = n - 2.
+
+But we are given that d(x) >= n/2 for all nodes x. So, n/2 <= d(x) <= n - 2.
+This implies n/2 <= n - 2, which means 2 <= n/2, or 4 <= n.
+
+Now, consider the smallest component, C1. Since d(x) >= n/2 for all x, if there's another component (meaning the graph isn't connected), all vertices in C1 must have degree at least n/2. But they can only connect to vertices within C1. So |C1| >= n/2. Same applies to other components. Then the components need to add to n.
+If we have 2 components, then n/2 + n/2 is the number of vertices = n
+If we have 3 components, then n/2 +n/2+n/2 is the number of vertices = 1.5n > n
+If we have 4 components, then n/2+n/2+n/2+n/2 = 2n
+
+If we have exactly 2 components, then |C1| = |C2| = n/2. Then vertices from c1, must connect to nodes in c1, whose degree are at least n/2, but the size of c1 is n/2. This can only happen if C1 and C2 have one element each. But then the number of nodes is just 2, but n > 2.
+Therefore the smallest component must have n nodes. so only one connected component.
+Our original assumption that G is disconnected leads to a contradiction if n > 2. Therefore, G must be connected.
+
+b) Give an example of a non-Hamiltonian graph in which there are two distinct non-adjacent nodes with the sum of degrees greater than or equal to n.
+
+Example: Consider a graph with n = 6 vertices labeled 1 to 6. Connect vertices 1, 2, 3, 4, and 5 to each other (forming a K5 complete graph). Connect vertex 6 to vertices 1 and 2 only.
+
+Degrees: d(1) = 5, d(2) = 5, d(3) = 4, d(4) = 4, d(5) = 4, d(6) = 2.
+
+Nodes 5 and 6 are non-adjacent. d(5) + d(6) = 4 + 2 = 6 = n.
+
+This graph is non-Hamiltonian. To see this, suppose there is a Hamiltonian cycle. Since vertex 6 has only degree 2, its two neighbors (1 and 2) must be adjacent to each other. The other vertices form a K5 complete graph.
+When visiting vertex 6 (1,6,2), the cycle could have 1,6, 2,3,4,5 cycle. This graph contains 6 nodes and is non-Hamiltonian.
+
+c) Show that if a graph G with n ≥ 2 nodes has m≥ combinations(n-1, 2) + 2 edges, then G is Hamiltonian.
+
+Proof using Dirac's Theorem (and a little manipulation): Dirac's Theorem states: If a graph with n vertices (n ≥ 3) has degree d(v) ≥ n/2 for every vertex v, then the graph is Hamiltonian.
+
+We'll prove that under the given condition (m≥ combinations(n-1, 2) + 2), there must be a vertex v with d(v) ≥ n/2, then we can show that the graph is Hamiltonian based on Dirac's Theorem.
+This is incorrect.
+
+Proof using Ore's Theorem: Ore's Theorem states that if for every pair of non-adjacent vertices u and v in a graph G with n vertices, d(u) + d(v) >= n, then the graph is Hamiltonian.
+
+Assume for the sake of contradiction that G is not Hamiltonian. Then, by Ore's Theorem, there exists at least one pair of non-adjacent vertices, u and v, such that d(u) + d(v) < n.
+
+Let's find the maximum possible number of edges G can have under this assumption. To maximize the number of edges, we would want to connect all other vertices to either u or v as much as possible.
+Consider that the vertices V/{u,v} has n-2 nodes.
+
+Since d(u) + d(v) < n, let d(u) = x and d(v) = y. where x + y = k where k <n
+
+The sum of all the possible degrees in the remaining n-2 vertices are (n-2)(n-3)/2 + x + y
+
+The max degrees of n-2 vertices is
+k + (n-2)(n-3)/2
+
+Because the graph has more than C(n-1,2)+2, and has one pair of no adjacent pair with k <n.
+
+Corrected Proof:
+Suppose that G is not Hamiltonian. Then by Ore's theorem, there exist non-adjacent vertices u and v such that d(u) + d(v) < n.
+Let m' be the maximum number of edges that such a graph can have. Consider completing all vertices except v to obtain a complete graph on n-1 vertices. The number of edges now is C(n-1,2).
+Since d(u) + d(v) < n, d(u) must be <= n-2. To maximize the number of edges, all other n-2 vertices should connect to u. So m' is given by m' = C(n-1,2) + n-2.
+
+If the graph m = C(n-1,2) + 2 then it is Hamiltonian.
+
+Problem 10: Longest Common Subsequence (LCS) (7.5p)
+
+Goal: Briefly describe the LCS algorithm and illustrate it for 'cerceta' and 'retea'.
+
+Algorithm:
+The LCS algorithm uses dynamic programming to find the longest common subsequence of two strings. Let X be the string x1 x2 ... xm and Y be the string y1 y2 ... yn.
+
+Initialization: Create a matrix LCS[0...m, 0...n].
+
+LCS[i, 0] = 0 for all i.
+
+LCS[0, j] = 0 for all j.
+
+Iteration:
+
+for i in range(1, m + 1):
+    for j in range(1, n + 1):
+        if X[i-1] == Y[j-1]:
+            LCS[i, j] = LCS[i-1, j-1] + 1
+        else:
+            LCS[i, j] = max(LCS[i-1, j], LCS[i, j-1])
+
+
+Result: LCS[m, n] contains the length of the LCS. The LCS itself can be reconstructed by backtracking from LCS[m, n].
+
+Illustration:
+X = 'cerceta' (m = 7)
+Y = 'retea' (n = 5)
+
+0  r  e  t  e  a
+  0  0  0  0  0  0  0
+  c  0  0  0  0  0  0
+  e  0  0  1  1  1  1
+  r  0  1  1  1  1  1
+  c  0  1  1  1  1  1
+  e  0  1  2  2  2  2
+  t  0  1  2  3  3  2
+  a  0  1  2  3  3  3
+
+
+LCS[1, 1] = 0: X[0] != Y[0] (c != r). max(LCS[0, 1], LCS[1, 0]) = max(0, 0) = 0.
+
+LCS[2, 2] = 1: X[1] == Y[1] (e == e). LCS[1, 1] + 1 = 0 + 1 = 1.
+
+LCS[5, 2] = 2: X[4] == Y[1] (e == e). LCS[4, 1] + 1 = 1 + 1 = 2.
+
+LCS[6, 3] = 3: X[5] == Y[2] (t == t). LCS[5, 2] + 1 = 2 + 1 = 3.
+
+LCS[7, 5] = 3: X[6] == Y[4] (a == a). LCS[6, 4] + 1 = 3 + 1 = 3.
+
+Result: The length of the LCS is 3. The LCS is 'rea', but not 'ret' since it should be the longest
+
+Time Complexity: O(m * n), where m and n are the lengths of the strings.
+
+Problem 11: Underground Mine (15p)
+
+Goal: Write an algorithm of optimal complexity to find a path with minimum dynamite usage in the underground mine.
+
+Model: Represent the mine as a directed graph where chambers are nodes and tunnels are edges. Assign a weight of 0 to tunnels (no dynamite needed) and a weight of 1 to collapsed chambers (dynamite needed).
+
+Algorithm (Modified Dijkstra or BFS): Since the edge weights are only 0 or 1, we can use a modified BFS or Dijkstra's algorithm for better efficiency. We'll use a modified BFS:
+
+Initialization:
+
+dist[i] = infinity for all chambers i.
+
+dist[entrance] = 0.
+
+queue = deque([entrance]) (use a double-ended queue).
+
+parent[i] = None for all chambers (to reconstruct the path).
+
+Modified BFS:
+
+from collections import deque
+
+def min_dynamite_path(graph, entrance, crystal_chamber):
+    n = len(graph)
+    dist = [float('inf')] * (n + 1) # Distance (dynamite)
+    dist[entrance] = 0
+    parent = [None] * (n + 1)
+    queue = deque([entrance])
+
+    while queue:
+        u = queue.popleft()
+
+        for v in graph[u]:
+            dynamite_needed = 1 if is_collapsed(v) else 0 # Cost of reaching v
+
+            if dist[u] + dynamite_needed < dist[v]:
+                dist[v] = dist[u] + dynamite_needed
+                parent[v] = u
+
+                if dynamite_needed == 0:
+                    queue.appendleft(v) # Add to front for 0 cost (BFS-like priority)
+                else:
+                    queue.append(v) # Add to back for 1 cost
+
+    if dist[crystal_chamber] == float('inf'):
+        return None, None  # No path found
+
+    # Reconstruct Path
+    path = []
+    curr = crystal_chamber
+    while curr is not None:
+        path.append(curr)
+        curr = parent[curr]
+    path.reverse()
+
+    return path, dist[crystal_chamber]
+
+
+Explain: If a neighbor chamber v require no dynamite it will be added to the front of the queue, giving priority to paths with less dynamite, otherwise added to the back.
+
+Function is_collapsed: Check if chamber is collapsed.
+
+Path Reconstruction: Backtrack from the crystal chamber to the entrance using the parent array to reconstruct the path.
+
+Time Complexity: O(V + E), where V is the number of chambers and E is the number of tunnels. The modified BFS efficiently explores the graph, taking advantage of the 0/1 edge weights. This is optimal because in the worst case, you need to visit all nodes and edges to determine connectivity and shortest paths.

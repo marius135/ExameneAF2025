@@ -1,0 +1,195 @@
+Task 1: Maximum Connected Bipartite Induced Subgraph
+
+Answer:
+The maximum connected bipartite induced subgraph includes nodes {4, 5, 8, 9, 7} with bipartition A = {4, 9} and B = {5, 8, 7}.
+
+Explanation:
+
+Induced Subgraph Selection: Nodes 4, 5, 8, 9, and 7 form a connected component with edges: 4-5, 4-8, 5-4 (undirected), 8-9, 8-7, 9-7.
+
+Bipartition Check:
+
+Assigning node 4 to set A, its neighbors (5, 8) go to B.
+
+Node 5’s neighbor (4) is in A.
+
+Node 8’s neighbors (9, 7) go to A.
+
+Node 9’s neighbor (7) is in B, but 9 is in A, so 7 must be in B.
+
+Resulting bipartition: A = {4, 9}, B = {5, 8, 7}.
+
+Edges cross between A and B with no intra-set edges, confirming bipartiteness.
+
+Task 2: BFS from Node 4 (bf(4))
+
+Answer:
+BFS Steps:
+
+Queue Initialization: Start with node 4 (distance 0).
+
+Level 1: Explore neighbors 3, 5, 8 (distance 1).
+
+Level 2: From 3 → 1, 2, 6; from 5 → no new nodes; from 8 → 9, 7 (distance 2).
+
+Level 3: From 1 → none new; from 2 → 6 (already visited); from 6 → none; from 9 → none; from 7 → none.
+
+BFS Tree:
+
+Copy
+4
+├─3
+│ ├─1
+│ ├─2
+│ └─6
+├─5
+└─8
+  ├─9
+  └─7
+Distances from 4:
+4:0, 3:1, 5:1, 8:1, 1:2, 2:2, 6:2, 9:2, 7:2.
+
+Task 3: Eulerian Path
+
+Answer:
+Initial Graph Analysis:
+
+Degree Check:
+
+Node 1: 2 (even)
+
+Node 2: 3 (odd)
+
+Node 3: 5 (odd)
+
+Node 4: 4 (even)
+
+Node 5: 2 (even)
+
+Node 6: 3 (odd)
+
+Node 7: 2 (even)
+
+Node 8: 3 (odd)
+
+Node 9: 2 (even)
+
+Odd Degree Nodes: 2, 3, 6, 8 (4 nodes).
+
+Eulerian Path Condition: Exactly 0 or 2 odd-degree nodes. Since there are 4, the graph does not admit an Eulerian path.
+
+Edge Removal Strategy:
+
+Add edges to make all but two nodes even. Remove edges between odd-degree nodes.
+
+Remove edges 2-3 and 3-6 (both connect odd nodes), reducing odd degrees to 2 nodes (2 and 8).
+
+Eulerian Path Example:
+After removal, an Eulerian path exists between nodes 2 and 8. Example path:
+2 → 1 → 3 → 4 → 5 → 3 → 6 → 2 → 6 → 3 → 4 → 8 → 9 → 7 → 8 → 4 → 5 (if needed).
+
+Task 4: Critical Nodes (Articulation Points)
+
+Algorithm:
+Use DFS to track discovery times and low values. A node is critical if:
+
+It’s the root with ≥2 children.
+
+It’s not root, and a child’s low ≥ discovery time of the node.
+
+Example Application on Graph_1_6:
+
+DFS Starting at 4:
+
+Critical nodes: 3 (connects 1,2,6 to 4,5), 4 (connects 3,5,8), 8 (connects 4 to 9,7).
+
+Task 5: Floyd-Warshall Algorithm
+
+Steps for j=1,2,3:
+
+Initialization: Fill D with edge weights.
+
+j=1 (Intermediate via 1):
+
+No changes since 1 has no outgoing edges affecting others.
+
+j=2 (Intermediate via 2):
+
+Update paths like 1→2→6 (cost 1+10=11 < ∞).
+
+j=3 (Intermediate via 3):
+
+Update paths like 2→3→4 (cost 2+5=7 < previous 10).
+
+Matrix Modifications:
+
+j=1: No changes.
+
+j=2: Update D[1][6] = 11.
+
+j=3: Update D[2][4] = 7, D[1][4] = 9 (via 1-3-4).
+
+Task 6: Prim's Algorithm Starting at 4
+
+Steps:
+
+Start at 4. Edges: 3(5), 5(1), 8(3). Choose 5 (w=1).
+
+Add 5. Edges: 3(12), 4(1). Choose 4-8 (w=3).
+
+Add 8. Edges:9(6),7(2). Choose 7 (w=2).
+
+Add 7. Edges:9(5). Choose 9 (w=5).
+
+Add 9. Edges:8 (already in). Continue until all nodes added.
+
+MST Edges: 4-5(1),4-8(3),8-7(2),8-9(6), etc.
+
+Task 7: MST Algorithm Correctness
+
+Answer:
+The algorithm is correct. It mimics Krusky’s algorithm by iteratively joining components with the smallest edge. Each step adds a safe edge, ensuring no cycles and minimal total weight.
+
+Task 8: Ford-Fulkerson (Edmonds-Karp)
+
+Steps:
+
+Initial Flow: Follow given flow/capacities.
+
+Find Augmenting Paths: Choose shortest s-t paths.
+
+Update Residual Graph: Adjust flows.
+
+Min Cut (S={1,5,3,4}, T={2,6,7}): Capacity = sum of capacities from S to T.
+
+Task 9: Graph Theory Problems
+
+a. Proof:
+If all nodes have degree ≥ n/2, assume two components. Each component has size ≤ n/2, contradicting degree condition. Hence, connected.
+
+b. Example:
+Complete graph minus one edge: n=4, degrees 3,3,3,3. Sum of non-adjacent pair: 6 ≥4, but not Hamiltonian.
+
+c. Proof:
+Using Dirac’s theorem, m ≥ C(n-1,2)+2 ⇒ δ(G) ≥ n/2 ⇒ Hamiltonian.
+
+Task 10: Longest Common Subsequence (LCS)
+
+Algorithm:
+Use DP with a matrix where dp[i][j] = LCS of first i and j chars.
+
+Example for 'cerceta' and 'retea':
+Matrix filled with lengths, backtracking gives LCS "reta" (length 4).
+
+Task 11: Optimal Path with Minimal Dynamite
+
+Algorithm:
+Model as a weighted graph where edge weights are 1 if chamber requires dynamite, else 0. Use BFS (0-1 BFS) to find the shortest path (minimal dynamite) from entrance to crystal chamber.
+
+Steps:
+
+Use deque to process nodes, prioritizing edges with 0 weight.
+
+Track minimal dynamite used to reach each node.
+
+Return the path with least total dynamite.

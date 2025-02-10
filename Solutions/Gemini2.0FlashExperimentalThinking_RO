@@ -407,9 +407,6 @@ Lanț eulerian în graful obținut după eliminarea muchiei (2, 3):
 Graful modificat are muchiile:
 
 [{"x": "1", "y": "2", "w": "1"}, {"x": "2", "y": "6", "w": "10"}, {"x": "1", "y": "3", "w": "4"}, {"x": "3", "y": "6", "w": "11"}, {"x": "3", "y": "5", "w": "12"}, {"x": "5", "y": "4", "w": "1"}, {"x": "3", "y": "4", "w": "5"}, {"x": "4", "y": "8", "w": "3"}, {"x": "8", "y": "9", "w": "6"}, {"x": "9", "y": "7", "w": "5"}, {"x": "7", "y": "8", "w": "2"}]
-content_copy
-download
-Use code with caution.
 
 Grade: grad(2)=2, grad(3)=4, grad(4)=3, grad(8)=3. Noduri de grad impar: {4, 8}. Lanțul eulerian trebuie să înceapă într-unul din nodurile de grad impar (4 sau 8) și să se termine în celălalt.
 

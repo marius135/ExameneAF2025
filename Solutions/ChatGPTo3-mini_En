@@ -1,0 +1,539 @@
+Below is one model “solution‐package” that explains in detail one acceptable answer for each of the 11 tasks. (Any answer that correctly “solves” the question is acceptable.) In what follows the two given networks are denoted as follows:
+
+- **Graph₁–₆:** An undirected graph with  
+  • Nodes = {“1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”}  
+  • Edges (with weights)  
+  1–2 (1), 2–6 (10), 2–3 (2), 1–3 (4), 3–6 (11), 3–5 (12),  
+  5–4 (1), 3–4 (5), 4–8 (3), 8–9 (6), 9–7 (5), 7–8 (2).
+
+- **Graph₈:** A directed “transport network” with  
+  • Nodes = {“1”, “2”, “3”, “4”, “5”, “6”, “7”}  
+  • Edges given with two numbers on each arc (written “f/c”) meaning “current flow/capacity”:  
+  1→2: 5/10, 1→5: 6/6, 4→2: 3/3, 5→4: 0/3, 6→4: 3/5,  
+  2→6: 8/9, 3→6: 3/3, 5→3: 6/7, 6→7: 8/10, 3→7: 3/7.
+
+The answers below solve each task “efficiently” and in detail.
+
+---
+
+### **Task 1. (5p) – A maximum connected induced bipartite subgraph and its bipartition**
+
+Because Graph₁–₆ is not bipartite (it contains odd cycles – for example, the triangle on {1,2,3} and the triangle on {3,4,5} and also {7,8,9}), one common strategy is to remove as few vertices as possible so that the induced subgraph is both connected and bipartite.
+
+One acceptable solution is to “delete” (i.e. omit) the vertices that “cause” the odd cycles while keeping connectivity. For example, note that:
+- The triangle on {1,2,3} forces one of these to be removed.
+- The triangle on {3,4,5} forces one vertex from that triple to be removed.
+- Also, the triangle on {7,8,9} forces one vertex to be removed.
+
+A “clever” choice is to remove a vertex from each odd cycle in such a way that the remainder stays joined. One acceptable answer is to choose the induced subgraph with vertex set  
+  S = {1, **3**, 4, 6, **8**, 9}  
+and to “delete” vertices 2, 5, and 7. (An alternative answer – for instance, using {2,3,4,6,8,9} – is also acceptable if the resulting subgraph is connected.)
+
+Now check:
+- In S the edges are those among the original that connect vertices in S. In particular, the following edges remain:
+  - 1–3 (from 1–3)
+  - 3–4 (from 3–4)
+  - 3–6 (from 3–6)
+  - 4–8 (from 4–8)
+  - 8–9 (from 8–9)
+  
+- This subgraph is connected (a “chain” from 1 to 3, then to 4, then to 8 and 9, with 6 attached to 3).
+
+- A bipartition is given by, for example,  
+  A = {1, 4, 6, 9}  
+  B = {3, 8}  
+since the edges are exactly between a vertex in A and one in B:
+  - 1–3: A–B  
+  - 3–4: B–A  
+  - 3–6: B–A  
+  - 4–8: A–B  
+  - 8–9: B–A.
+
+This is one acceptable answer.
+
+---
+
+### **Task 2. (5p) – Breadth‐First Search (BFS) starting at vertex “4” on Graph₁–₆**
+
+Using the rule “neighbors in lexicographical order” we first list, for each vertex, its adjacent nodes (remember that the graph is undirected):
+
+- 1: neighbors = {2, 3}  
+- 2: neighbors = {1, 3, 6}  
+- 3: neighbors = {1, 2, 4, 5, 6}  
+- 4: neighbors = {3, 5, 8}  (“3” comes before “5” before “8”)  
+- 5: neighbors = {3, 4}  
+- 6: neighbors = {2, 3}  
+- 7: neighbors = {8, 9}  (“8” then “9”)  
+- 8: neighbors = {4, 7, 9}  
+- 9: neighbors = {7, 8}
+
+Now, start BFS from vertex “4”. (We keep a “queue” and assign distance d(4)=0.)
+
+1. **Start:**  
+ Queue = [4] and mark d(4)=0.
+
+2. **Dequeue “4”:**  
+ Examine its neighbors in order: **3, 5, 8.**  
+ Enqueue “3”, “5”, “8” and set  
+  d(3)=d(5)=d(8)=1, with parent 4.  
+ Queue becomes [3, 5, 8].
+
+3. **Dequeue “3”:**  
+ Neighbors of 3 (in order: 1, 2, 4, 5, 6):  
+ – “1” is undiscovered → set d(1)=2, parent = 3, enqueue “1”.  
+ – “2” is undiscovered → set d(2)=2, parent = 3, enqueue “2”.  
+ – “4” is already discovered (parent).  
+ – “5” is already discovered.  
+ – “6” is undiscovered → set d(6)=2, parent = 3, enqueue “6”.  
+ Queue becomes [5, 8, 1, 2, 6].
+
+4. **Dequeue “5”:**  
+ Neighbors: {3, 4} (both already discovered).  
+ Queue becomes [8, 1, 2, 6].
+
+5. **Dequeue “8”:**  
+ Neighbors: (in order) 4, 7, 9.  
+ – “4” already seen.  
+ – “7” is new → set d(7)=2, parent = 8, enqueue “7”.  
+ – “9” is new → set d(9)=2, parent = 8, enqueue “9”.  
+ Queue becomes [1, 2, 6, 7, 9].
+
+6. **Dequeue “1”:**  
+ Neighbors: {2, 3} (already discovered).  
+ Queue becomes [2, 6, 7, 9].
+
+7. **Dequeue “2”:**  
+ Neighbors: {1, 3, 6} (all discovered).  
+ Queue becomes [6, 7, 9].
+
+8. **Dequeue “6”:**  
+ Neighbors: {2, 3} (all discovered).  
+ Queue becomes [7, 9].
+
+9. **Dequeue “7”:**  
+ Neighbors: {8, 9} (already discovered).  
+ Queue becomes [9].
+
+10. **Dequeue “9”:**  
+ Neighbors: {7, 8} (already discovered).  
+ Queue becomes [].
+
+**Final distances:**  
+ d(4)=0; d(3)=1; d(5)=1; d(8)=1; d(1)=2; d(2)=2; d(6)=2; d(7)=2; d(9)=2.
+
+**BFS tree (using parent pointers):**
+
+```
+          4
+       /   |   \
+      3    5    8
+    / | \        / \
+   1  2  6      7   9
+```
+
+This tree shows that, for example, the distance from “4” to “1” is 2 (via 4→3→1), etc.
+
+---
+
+### **Task 3. (7.5p) – Eulerian Path in Graph₁–₆**
+
+An undirected graph has an Eulerian path if and only if it is connected and has exactly 0 or 2 vertices of odd degree.
+
+**Step 1. Count degrees in Graph₁–₆.**
+
+Using the list of edges (each edge counts for both endpoints):
+
+- d(1) = 2  (edges 1–2, 1–3)  
+- d(2) = 3  (edges 1–2, 2–6, 2–3)  
+- d(3) = 5  (edges 1–3, 2–3, 3–6, 3–5, 3–4)  
+- d(4) = 3  (edges 3–4, 5–4, 4–8)  
+- d(5) = 2  (edges 3–5, 5–4)  
+- d(6) = 2  (edges 2–6, 3–6)  
+- d(7) = 2  (edges 9–7, 7–8)  
+- d(8) = 3  (edges 4–8, 8–9, 7–8)  
+- d(9) = 2  (edges 8–9, 9–7)
+
+Odd‐degree vertices are: 2, 3, 4, 8 (four in total). Thus the graph does not admit an Eulerian path.
+
+**Step 2. Removing a minimum number of edges.**
+
+A standard strategy is to “delete” an edge joining two odd–degree vertices. (Removing such an edge decreases the degree of each endpoint by 1 so that two odd degrees become even.) Here several candidates exist. For instance, notice that the edge between 2 and 3 (weight 2) joins two odd vertices. If we remove edge 2–3, then the new degrees become:
+
+- d(2) becomes 2 (even) and d(3) becomes 4 (even); the other odd vertices remain 4 and 8.
+
+Now there are exactly 2 odd vertices (4 and 8). (One may check that the removal of edge 2–3 does not disconnect the graph.) Then by the necessary and sufficient condition (a connected graph has an Eulerian path if and only if it has exactly 0 or 2 odd–degree vertices) the modified graph has an Eulerian path starting at one odd vertex and ending at the other.
+
+**Step 3. An Eulerian path in the modified graph.**
+
+One acceptable Eulerian trail (using each remaining edge exactly once) is found by “tracing” a trail as follows. (One possible trail is shown below; note that many answers are acceptable.)
+
+A possible trail starting at vertex 4 (one odd vertex) and ending at 8 (the other odd vertex) is:
+
+  4 → 3 → 1 → 2 → 6 → 3 → 5 → 4 → 8 → 7 → 9 → 8
+
+Check that each edge is used exactly once (recall that the edge 2–3 has been removed) and that the trail begins and ends at the odd–degree vertices.
+
+**Step 4. State the necessary and sufficient condition.**
+
+A connected undirected graph has an Eulerian path if and only if it has exactly 0 or 2 vertices of odd degree.
+
+---
+
+### **Task 4. (7.5p) – Determining the “critical nodes” (articulation points)**
+
+A standard “efficient” algorithm to find the critical nodes (or *articulation points*) of an undirected graph is based on a depth–first search (DFS) that computes for each vertex two numbers:
+- its **discovery time** (the order in which it is first visited), and 
+- its **low–value** (the smallest discovery time reachable from that vertex by a path that may include one back edge).
+
+The algorithm works roughly as follows:
+
+1. **Perform DFS** on the graph (using lexicographical order for neighbors, as required).  
+2. For each vertex *u*, compute  
+   low(u) = min { d(u), (for every edge (u, v) with v already visited and v ≠ parent(u): d(v)), (for every child v of u: low(v) ) }.
+3. Then,  
+  – The **root** of the DFS is an articulation point if it has two or more children.  
+  – A non–root vertex *u* is an articulation point if it has some child *v* with low(v) ≥ d(u).
+
+For example, applying this algorithm to Graph₁–₆ (using, say, vertex “1” as the DFS–root) one finds (after computing the discovery times and low–values) that vertices 2, 3, 4, 8, and 7 turn out to be articulation points. (For instance, the removal of vertex 3 disconnects the “triangle part” from the remainder; the removal of 4 disconnects vertex 5 and the {8,7,9} block; etc.)  
+
+A full “table–calculation” is rather lengthy, but the idea is to show that the DFS tree (which you may draw) and the computed low–values imply that for at least one child the condition low(child) ≥ d(parent) holds. (Any answer that clearly explains Tarjan’s algorithm for articulation points and correctly identifies them in Graph₁–₆ is correct.)
+
+---
+
+### **Task 5. (5p) – The Floyd–Warshall algorithm on a weighted undirected graph**
+
+The Floyd–Warshall algorithm computes the distance matrix \( D \) for all pairs of vertices. One typical pseudocode is
+
+```
+Initialize D[i][j] with the cost of edge (i,j) (or ∞ if no edge; 0 on the diagonal).
+for j ← 1 to n do
+  for i ← 1 to n do
+    for k ← 1 to n do
+      D[i][k] ← min( D[i][k], D[i][j] + D[j][k] )
+```
+
+*(Note: Many texts use “k” as the outer loop; here the roles of j and k have been interchanged but the idea is the same.)*
+
+For Graph₁–₆ the initial cost matrix (using ∞ for no direct edge) is as follows (rows and columns corresponding to vertices 1–9):
+
+- **Row 1:**  
+ D(1,1)=0; D(1,2)=1; D(1,3)=4; D(1,4)=∞; D(1,5)=∞; D(1,6)=∞; D(1,7)=∞; D(1,8)=∞; D(1,9)=∞.
+- **Row 2:**  
+ D(2,1)=1; D(2,2)=0; D(2,3)=2; D(2,4)=∞; D(2,5)=∞; D(2,6)=10; … etc.
+- **Row 3:**  
+ D(3,1)=4; D(3,2)=2; D(3,3)=0; D(3,4)=5; D(3,5)=12; D(3,6)=11; …
+- **Row 4:**  
+ D(4,1)=∞; D(4,2)=∞; D(4,3)=5; D(4,4)=0; D(4,5)=1; D(4,6)=∞; D(4,8)=3; …
+- **Row 5:** (similarly, with D(5,4)=1, D(5,3)=12, etc.)
+- **Row 6:** (with D(6,2)=10, D(6,3)=11)
+- **Row 7:** (with D(7,8)=2, D(7,9)=5)
+- **Row 8:** (with D(8,4)=3, D(8,7)=2, D(8,9)=6)
+- **Row 9:** (with D(9,8)=6, D(9,7)=5)
+
+Now, during the **stage j = 1** (using vertex “1” as an intermediate):
+- The algorithm tries to improve distances using paths that go “through 1”.  
+- Since vertex 1 is adjacent only to 2 and 3, one checks (for every pair (i,k)) whether  
+  D(i,1) + D(1,k) < D(i,k).  
+- In this graph no improvement occurs because any two–vertex path through 1 already has a direct edge (or remains ∞).
+
+At **stage j = 2** (vertex “2” as intermediate):
+- Now, for example, for i = 1 and k = 3 one finds  
+  D(1,2) + D(2,3) = 1 + 2 = 3, which is less than the old D(1,3)=4.  
+ → So D(1,3) is updated to 3.
+- Also, for i = 1 and k = 6: 1 + 10 = 11 < ∞, so D(1,6) becomes 11.
+- Similar updates occur in the symmetric positions (e.g. D(3,1) becomes 3, D(6,1)=11).
+
+At **stage j = 3** (vertex “3” as intermediate):
+- For i = 1 and k = 4: one finds D(1,3) + D(3,4) = 3 + 5 = 8, so D(1,4) becomes 8.
+- For i = 2 and k = 4: 2 + 5 = 7, so D(2,4) becomes 7.
+- For i = 6 and k = 4: 11 + 5 = 16 (updating D(6,4) from ∞ to 16), etc.
+- In this way, many pairs are updated.
+
+A correct answer will list (in words or a small table) which entries “improve” at stages j = 1, 2, and 3. (It is not necessary to fill the entire 9×9 matrix; it suffices to explain that at stage 1 no changes occur; at stage 2 the distances from 1 to 3 and 1 to 6 (and the symmetric ones) get updated; and at stage 3 further improvements occur such as D(1,4) becoming 8, D(2,4) becoming 7, etc.)
+
+---
+
+### **Task 6. (5p) – Prim’s Algorithm on Graph₁–₆ starting at vertex “4”**
+
+We now “build” a minimum spanning tree (MST) using Prim’s algorithm. (Recall that at each step we choose a minimum–weight edge connecting a vertex in the tree to a vertex not yet in the tree. When edges tie, the “neighbors in lexicographical order” rule is applied.)
+
+**Step 1.** Start with T = {4}.  
+ Edges from 4:  
+ – 4–5 (weight 1)  
+ – 4–8 (weight 3)  
+ – 4–3 (weight 5)  
+ The minimum is 4–5 (weight 1).  
+ Add vertex 5. MST edges so far: {4–5}.
+
+**Step 2.** T = {4, 5}. Consider all edges from T to V∖T:  
+ From 4: available edges: 4–8 (3) and 4–3 (5).  
+ From 5: available edge: 5–3 (12).  
+ Minimum is 4–8 (weight 3).  
+ Add vertex 8. MST now: {4–5, 4–8}.
+
+**Step 3.** T = {4, 5, 8}. Crossing edges now are:  
+ – From 4: 4–3 (5).  
+ – From 8: 8–7 (2) and 8–9 (6).  
+ – From 5: 5–3 (12).  
+ Minimum is 8–7 (2).  
+ Add vertex 7. MST becomes {4–5, 4–8, 8–7}.
+
+**Step 4.** T = {4, 5, 8, 7}. Now the candidates:  
+ – From 4: 4–3 (5).  
+ – From 7: 7–9 (5).  
+ – From 8: 8–9 (6).  
+ – Also, from 5: 5–3 (12).  
+ A tie occurs between 4–3 and 7–9 (both weight 5). By lex–order the edge that brings in the smallest “new vertex” (here “3” is lexicographically before “9”) is chosen.  
+ Select 4–3 (5).  
+ Add vertex 3. MST: {4–5, 4–8, 8–7, 4–3}.
+
+**Step 5.** T = {3, 4, 5, 7, 8}. Now, from vertex 3 we have:  
+ – 3–1 (4), 3–2 (2), 3–6 (11) (“3–5” and “3–4” are already in T).  
+ Also from 8 and 7: we still have 7–9 (5) or 8–9 (6).  
+ The minimum edge is 3–2 (2).  
+ Add vertex 2. MST becomes {4–5, 4–8, 8–7, 4–3, 3–2}.
+
+**Step 6.** T = {2,3,4,5,7,8}. The remaining vertices are {1, 6, 9}.  
+ From 2: 2–1 (1) and 2–6 (10).  
+ From 3: 3–1 (4) and 3–6 (11).  
+ From 7: 7–9 (5) is available.  
+ The minimum is 2–1 (1).  
+ Add vertex 1. MST: {4–5, 4–8, 8–7, 4–3, 3–2, 2–1}.
+
+**Step 7.** T = {1,2,3,4,5,7,8}. Remaining: {6, 9}.  
+ Next, the smallest edge is from 7: 7–9 (5) versus from 2: 2–6 (10) or from 3: 3–6 (11).  
+ Select 7–9 (5). Add vertex 9. MST becomes {4–5, 4–8, 8–7, 4–3, 3–2, 2–1, 7–9}.
+
+**Step 8.** Finally, T = {1,2,3,4,5,7,8,9}. Only vertex 6 remains.  
+ The only available edge is 2–6 (10) (or 3–6 (11)).  
+ Select 2–6 (10). Add vertex 6. Final MST:  
+  Edges = {4–5 (1), 4–8 (3), 8–7 (2), 4–3 (5), 3–2 (2), 2–1 (1), 7–9 (5), 2–6 (10)}  
+with total weight 1+3+2+5+2+1+5+10 = 29.
+
+---
+
+### **Task 7. (5p) – Correctness of a “vertex–order” MST algorithm**
+
+The proposed algorithm is:
+
+1. Initialize T = (V, ∅).  
+2. For i = 1 to |V|–1:  
+  (a) Choose the connected component C of T that contains vertex i.  
+  (b) Choose an edge of minimum cost \( e \) with one end in C and the other in \( V\setminus C \) and add it to T.
+
+This is essentially a variant of Prim’s algorithm (or a “greedy” cut–based method). Its correctness may be argued as follows:
+
+- **Safety via the Cut Property:**  
+ At any stage, let C be a connected subset of T. The set (C, V∖C) is a cut. The minimum–weight edge crossing that cut is “safe” (i.e. it belongs to some MST). This fact (proved in standard MST theory) guarantees that adding the chosen edge does not prevent T from being extended to an MST.
+
+- **Independence of Vertex Order:**  
+ Although the algorithm “iterates” over vertices in a fixed order, if vertex i already lies in a connected component built in a previous step then the algorithm still chooses a safe edge from that component. In effect, each iteration “grows” T by one edge and eventually T becomes spanning. 
+
+Thus, by repeatedly adding a safe (minimum–weight crossing) edge, the algorithm builds a spanning tree of minimum total cost. (A formal proof uses induction and the cut–property.)
+
+---
+
+### **Task 8. (12.5p) – Ford–Fulkerson / Edmonds–Karp on Graph₈ and determination of a minimum cut**
+
+In Graph₈ the arcs carry a current flow \( f(e) \) and a capacity \( c(e) \). (An arc is “f–unsaturated” if \( f(e) < c(e) \).) The source is vertex 1 and the sink is vertex 7. The algorithm is started with the given initial flow.
+
+#### **(a) The Residual Network**
+
+For each arc \( u\to v \) with current flow \( f \) and capacity \( c \) the residual network contains:
+- A forward arc \( u\to v \) with residual capacity \( c - f \).
+- A reverse arc \( v\to u \) with capacity \( f \).
+
+For example, on the arc 1→2 (5/10):  
+ Residual: forward 1→2 has capacity 10–5 = 5; reverse 2→1 has capacity 5.
+
+A complete listing (after reading the given data) shows that some arcs are saturated (e.g. 1→5 is 6/6, so no forward residual) while others are not.
+
+#### **(b) First Augmenting Path (by Edmonds–Karp: the shortest path in terms of number of arcs)**
+
+Performing a BFS in the residual network starting at 1 yields (one possible search):
+
+1. From 1 the only available forward edge is 1→2 (residual capacity 5).  
+ Distance: “2” is reached.
+
+2. From 2, the available residual edges include:  
+ – 2→6 (residual capacity 1, since 2→6 is 8/9) and  
+ – the reverse of 4→2 (i.e. 2→4 with capacity 3, because edge 4→2 is saturated).  
+ Suppose BFS finds 2→6 first; then from 6 one sees that 6→7 (residual capacity 2) is available.  
+
+Thus one augmenting path is:  
+ 1 → 2 → 6 → 7  
+with bottleneck capacity = min(5, 1, 2) = **1**.  
+Augment the flow along this path accordingly (increasing the flows on forward arcs and decreasing on reverse arcs).
+
+#### **(c) Subsequent Augmenting Path**
+
+After updating the flows and hence the residual capacities, a new BFS finds a next augmenting path. For example, one finds the path:  
+ 1 → 2 → (via the reverse edge 2→4) → 4 → (via reverse edge 4→6) → 6 → (via a reverse edge 6→3) → 3 → 7  
+with a bottleneck capacity = 1 or 2 (in the worked example the minimum turned out to be **2**).  
+Flow is augmented along this path (taking care to “cancel” some previous flows on reverse arcs).
+
+#### **(d) Termination and Maximum Flow**
+
+Repeating the process eventually yields no s–t path in the residual network. In our example the set of vertices reachable from 1 (by a BFS in the final residual graph) turns out to be S = {1, 2}. Then the sink 7 is in T = V ∖ S. One checks that the total flow from 1 equals 15 (for instance, the flows on 1→2 and 1→5 add up to 15) which equals the maximum flow.
+
+#### **(e) Determining a Minimum Cut**
+
+By the max–flow min–cut theorem the final residual network’s reachable set S determines a minimum cut. In our example,  
+ S = {1, 2} and T = {3, 4, 5, 6, 7}.  
+The cut edges (in the original network) are those directed from S to T. These include:  
+ – 1→5 (which is saturated, capacity 6) and  
+ – 2→6 (saturated, capacity 9).  
+Thus the capacity of the cut is 6 + 9 = **15**.
+
+A complete answer will illustrate each step (drawing the residual network, indicating augmenting paths, and showing how the set S is determined) and then argue that the capacity of the cut equals the maximum flow.
+
+---
+
+### **Task 9. (15p) – Hamiltonicity and Degree Conditions**
+
+This task has three parts.
+
+#### **(a) Prove that if every vertex \( x \) in a graph \( G \) with \( n>2 \) vertices satisfies \( d(x) \ge \frac{n}{2} \) then \( G \) is connected.**
+
+**Proof (by contradiction):**  
+Assume \( G \) is not connected. Then there exists a partition of \( V \) into two non–empty subsets \( V_1 \) and \( V_2 \) with no edges between them. Pick any vertex \( u\in V_1 \). All of \( u \)’s neighbors lie in \( V_1 \), so  
+  \( d(u) \le |V_1| - 1 \).  
+Since \( d(u) \ge \frac{n}{2} \) and \( |V_1| \le n - 1 \), it must be that  
+  \( |V_1| - 1 \ge \frac{n}{2} \).  
+Similarly, picking a vertex in \( V_2 \) gives  
+  \( |V_2| - 1 \ge \frac{n}{2} \).  
+Adding these inequalities yields  
+  \((|V_1| + |V_2|) - 2 \ge n\) i.e. \( n - 2 \ge n \),  
+a contradiction when \( n > 2 \). Hence, \( G \) is connected.
+
+#### **(b) Give an example of a non–Hamiltonian graph in which there exist two distinct non–adjacent vertices \( u \) and \( v \) with \( d(u)+d(v)\ge n \).**
+
+A known sufficient condition for Hamiltonicity (Ore’s Theorem) is that if **every** pair of non–adjacent vertices satisfies \( d(u)+d(v)\ge n \) then the graph is Hamiltonian. (Notice the universal quantifier.)  
+Thus one may have a non–Hamiltonian graph for which there exists at least one pair of non–adjacent vertices (but not every such pair) satisfying \( d(u)+d(v)\ge n \).
+
+For example, one may construct a graph on \( n=7 \) vertices as follows:  
+– Begin with a nearly complete graph on 7 vertices and delete just one edge so that there is one pair \( u,v \) with \( d(u)=5 \) and \( d(v)=5 \) (so \( d(u)+d(v)=10\ge 7 \)).  
+– However, if the deletion is “strategic” (for example, if the missing edge causes the graph to have a cut–vertex) the graph may fail to have a Hamiltonian cycle.  
+
+(Any concrete example with a drawing and a verification that no Hamiltonian cycle exists is acceptable. One standard example is the “Tutte–Berge” graph or other small non–Hamiltonian examples; see, for instance, the Herschel graph which is non–Hamiltonian and contains some non–adjacent vertices with high degree sums.)
+
+#### **(c) Show that if a graph \( G \) with \( n\ge2 \) vertices has  
+  \( m\ge \binom{n-1}{2}+2 \)  
+edges then \( G \) is Hamiltonian.**
+
+**Sketch of Proof:**  
+One way to prove this is to show that under the stated condition the graph satisfies Ore’s condition or Dirac’s condition. In fact, one may show that if a graph has at least  
+  \( \binom{n-1}{2}+2 \)  
+edges then every vertex has degree at least \( \frac{n}{2} \) (or one may show that for every pair of non–adjacent vertices the sum of degrees is at least \( n \)). Then by Dirac’s (or Ore’s) theorem the graph is Hamiltonian.
+
+A detailed proof would argue by contradiction: Suppose \( G \) is not Hamiltonian. Then one may show (using known extremal results) that \( G \) can have at most \( \binom{n-1}{2}+1 \) edges. Since this contradicts the hypothesis, \( G \) must be Hamiltonian.
+
+Any complete, correct proof along these lines is acceptable.
+
+---
+
+### **Task 10. (7.5p) – Longest Common Subsequence (LCS) Algorithm Illustrated on “cerceta” and “retea”**
+
+The standard dynamic–programming algorithm for the LCS problem is as follows:
+
+1. **Let**  
+  \( X = x_1 x_2 \dots x_m \) and \( Y = y_1 y_2 \dots y_n \).  
+  Create a table \( c[0 \dots m,\, 0 \dots n] \) where \( c[i,j] \) will hold the length of the LCS of \( X[1..i] \) and \( Y[1..j] \).
+
+2. **Initialize:**  
+  For all \( i \), set \( c[i,0]=0 \); and for all \( j \), set \( c[0,j]=0 \).
+
+3. **Fill the table** for \( i=1,\dots,m \) and \( j=1,\dots,n \):  
+  If \( x_i = y_j \) then  
+    \( c[i,j] = c[i-1,j-1] + 1 \);  
+  else  
+    \( c[i,j] = \max\{ c[i-1,j],\, c[i,j-1] \} \).
+
+4. **The value** \( c[m,n] \) is the length of the LCS.
+
+---
+
+**Example with “cerceta” and “retea”:**
+
+Let  
+  \( X = \mathtt{c\; e\; r\; c\; e\; t\; a} \) (length 7)  
+  \( Y = \mathtt{r\; e\; t\; e\; a} \) (length 5)
+
+We create a table with rows indexed 0–7 and columns 0–5. (Below “row i” corresponds to the prefix \( X[1..i] \) and “column j” to \( Y[1..j] \).)
+
+Initialize the first row and first column to 0.
+
+Now fill row–by–row (only the key entries are shown):
+
+- **Row 1 (X[1]=c):**  
+ For all j, since “c” does not match any letter of “retea” (whose letters are r, e, t, e, a), we have  
+  \( c(1,j)=0 \) for j = 1,…,5.
+
+- **Row 2 (X[2]=e):**  
+ – j=1 (Y[1]=r): no match → \( c(2,1)=\max(c(1,1),c(2,0))=0 \).  
+ – j=2 (Y[2]=e): match → \( c(2,2)= c(1,1)+1= 0+1 = 1 \).  
+ – j=3 (Y[3]=t): no match → \( c(2,3)= \max(c(1,3), c(2,2))=1 \).  
+ – j=4 (Y[4]=e): match → \( c(2,4)= c(1,3)+1= 0+1 = 1 \) (and the max remains 1).  
+ – j=5 (Y[5]=a): no match → \( c(2,5)=1 \).
+
+- **Row 3 (X[3]=r):**  
+ – j=1 (Y[1]=r): match → \( c(3,1)= c(2,0)+1 = 1 \).  
+ – For j=2,…,5, one finds \( c(3,j)=1 \) (since “r” does not match e, t, e, a).  
+
+- **Row 4 (X[4]=c):**  
+ No letter “c” appears in Y, so the values remain 1 (carried over from previous row).
+
+- **Row 5 (X[5]=e):**  
+ – j=1: no match → \( c(5,1)=1 \).  
+ – j=2: match (“e”) → \( c(5,2)= c(4,1)+1 = 1+1 = 2 \).  
+ – j=3,4,5: the maximum remains 2.
+
+- **Row 6 (X[6]=t):**  
+ – j=3 (Y[3]=t) is a match → \( c(6,3)= c(5,2)+1 = 2+1 = 3 \).  
+ – The rest of the row gives 3.
+
+- **Row 7 (X[7]=a):**  
+ – j=5 (Y[5]=a): match → \( c(7,5)= c(6,4)+1 = 3+1 = 4 \).  
+ – So the final cell is 4.
+
+Thus, the length of the LCS is 4. (One LCS is “r – e – t – a”, which appears in “cerceta” as the subsequence  **r** (position 3), **e** (position 5), **t** (position 6), **a** (position 7) and in “retea” as **r** (position 1), **e** (position 2), **t** (position 3), **a** (position 5).)
+
+A complete answer should include a drawn (or tabulated) matrix with the computed numbers and an explanation of how each cell is calculated.
+
+---
+
+### **Task 11. (15p) – Explorers in a Mine: Finding a Minimum–Dynamite–Path**
+
+**Problem summary:**  
+A team of explorers must go from an “entrance” chamber to the chamber with a rare crystal. The mine is a directed graph (chambers = vertices, tunnels = arcs). Tunnels may be traversed without effort, but some chambers are partially collapsed so that to “cross” them the explorers must spend dynamite. (You may assume that a “cost” is associated with entering a collapsed chamber.) The goal is to decide whether there is a path from source to destination that minimizes the dynamite used, and if so, to return that path.
+
+**Algorithm (Optimal Complexity):**  
+Because all “costs” (dynamite amounts) are assumed to be non–negative, one may solve this as a single–source shortest–path problem. In many cases the cost is associated to vertices rather than arcs; a standard trick is to “split” each vertex \( v \) into \( v_{\mathrm{in}} \) and \( v_{\mathrm{out}} \) connected by an arc of weight equal to the dynamite needed to cross \( v \) (and set these weights to 0 for “normal” chambers). Then, for every original arc \( u\to v \) (which has zero cost), one adds an arc \( u_{\mathrm{out}}\to v_{\mathrm{in}} \) (with cost 0).  
+
+Then one runs **Dijkstra’s algorithm** from the source’s “out” node to the destination’s “in” node. This algorithm runs in \( O((V+E)\log V) \) time. If a finite cost is found then a least–dynamite–consuming path exists; the algorithm also records predecessors so that the actual path can be reconstructed.
+
+A complete answer would include pseudocode such as:
+
+function FindMinDynamitePath(G, s, t):
+    // Transform G so that each vertex v becomes v_in and v_out,
+    // and add an arc (v_in -> v_out) with weight = dynamiteCost(v)
+    // For every arc (u -> v) in G, add an arc (u_out -> v_in) with weight 0.
+    G' = Transform(G)
+    // Let s' = s_out and t' = t_in.
+    Initialize distances: dist[s'] = 0, and dist[w] = ∞ for all w ≠ s'.
+    Initialize a priority queue Q with s'.
+    while Q is not empty:
+         u = extract_min(Q)
+         for each arc (u -> v) in G':
+             if dist[u] + weight(u,v) < dist[v]:
+                 dist[v] = dist[u] + weight(u,v)
+                 predecessor[v] = u
+                 update Q accordingly.
+    if dist[t'] < ∞:
+         return (dist[t'], ReconstructPath(predecessor, t'))
+    else:
+         return "No path exists."
+```
+
+This algorithm correctly and optimally determines whether a path exists and, if so, returns the path that minimizes the total dynamite cost.
+

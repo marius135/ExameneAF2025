@@ -1,0 +1,177 @@
+Let's tackle each requirement in detail from the "Fundamental Algorithms Exam - Variant 2" provided. I'll provide explanations and algorithms for each task based on the provided graphs and the instructions.
+
+### Task 1: Connected Bipartite Induced Subgraph
+
+**Graph:** Undirected graph with nodes ["1", "2", "3", "4", "5", "6", "7", "8", "9"].
+
+**Edges:** 
+- "1"-"2", "1"-"3"
+- "2"-"6", "2"-"3"
+- "3"-"6", "3"-"5", "3"-"4"
+- "4"-"8"
+- "5"-"4"
+- "6" (no other than already mentioned)
+- "7"-"8", "7"-"9"
+- "8"-"9"
+
+**Solution:** A bipartite graph can be formed where nodes can be divided into two sets such that no two nodes within the same set are adjacent. Use a two-color algorithm to determine if the graph is bipartite and find the bipartition:
+
+1. Color node "1" with color A, its neighbors ("2", "3") with color B.
+2. Color neighbors of "2" and "3", i.e., "6" with color A and so forth.
+3. Proceed coloring alternately ensuring no two adjacent nodes share the same color.
+4. If all nodes can be colored without conflict, the entire graph is a bipartite induced subgraph.
+
+**Bipartition:** {A: ["1", "6", "4", "5", "8", "9"], B: ["2", "3", "7"]}
+
+### Task 2: Breadth-First Search (BFS) from Node 4
+
+**Graph:** Same as Task 1.
+
+**Steps:**
+1. Initialize a queue with node "4" and a visited list.
+2. Explore and enqueue all unvisited neighbors of "4" (nodes "3", "5", "8") and mark them visited.
+3. Dequeue "4" and enqueue its neighbors in lexicographical order. Continue this until the queue is empty.
+4. The BFS tree starts at "4" and will expand to "3", "5", and "8", and then further depending on their neighbors.
+
+**BFS Tree Representation:**
+- 4
+  - 3
+    - 1
+    - 2
+    - 6
+  - 5
+  - 8
+    - 9
+    - 7
+
+**Distance Calculation:**
+- From "4" to all other nodes is directly visible from the BFS tree (each step away from "4" is a unit distance).
+
+### Task 3: Eulerian Path
+
+**Criteria for an Eulerian Path:** An undirected graph has an Eulerian path if and only if it has at most two vertices of odd degree.
+
+**Analysis:**
+- Calculate the degree of each vertex.
+- Determine how many vertices have odd degrees.
+- If more than two, remove edges strategically to reduce the odd-degree count to two or zero.
+
+**Potential Removal:** Identify and remove edges that, when removed, convert an odd degree to an even degree without increasing the number of components in the graph.
+
+**Eulerian Path in Modified Graph:**
+- Construct a path starting from one of the odd-degree nodes (if any) or any node (if none are odd) and traverse every edge once.
+
+### Task 4: Critical Nodes in an Undirected Graph
+
+**Definition:** A critical node, also known as an articulation point, is a vertex removing which increases the number of connected components in the graph.
+
+**Algorithm Description:**
+1. **DFS Initialization:** Start Depth-First Search (DFS) from any vertex and maintain discovery time and the lowest point reachable for each vertex.
+2. **Parent and Children:** Keep track of each vertex’s parent and children in the DFS tree.
+3. **Articulation Points Identification:**
+   - For root of DFS tree, if it has two or more children, it's an articulation point.
+   - For other vertices, if a vertex 'u' has a child 'v' such that no vertex in the subtree rooted at 'v' has a connection back to ancestors of 'u' or 'u' itself, then 'u' is an articulation point.
+
+**Example for Graph from Task 1:**
+- Perform DFS starting from any vertex, say "1".
+- Calculate discovery and low values for each vertex.
+- Determine vertices that meet the conditions above as articulation points.
+
+**Execution:**
+1. **Starting DFS from "1"**:
+   - It discovers "2" and "3".
+   - Check if removing "1" disconnects "2" and "3" from each other (critical condition).
+2. **Checking Other Nodes:**
+   - Repeat for all nodes in similar manner.
+
+### Task 5: Floyd-Warshall Algorithm for All-Pairs Shortest Paths
+
+**Algorithm Overview:**
+1. **Initialize Distance Matrix (D):** Set `D[i][j]` to the weight of edge (i, j) if there is a direct edge, or infinity otherwise. `D[i][i] = 0` for all i.
+2. **Triple Nested Loops:** Update the matrix using the recurrence relation: `D[i][j] = min(D[i][j], D[i][k] + D[k][j])` for each pair (i, j) and for each intermediate vertex k.
+
+**Graph Initialization:**
+- Create a 9x9 matrix since there are 9 vertices.
+
+**Steps for j=1, 2, 3:**
+1. **j=1:** Update distances considering vertex "1" as an intermediate vertex.
+2. **j=2:** Update distances considering vertex "2".
+3. **j=3:** Update distances considering vertex "3".
+
+**Illustration:**
+- Show updates to the matrix for each stage.
+
+### Task 6: Prim's Algorithm for Minimum Spanning Tree
+
+**Algorithm Steps:**
+1. **Initialization:** Start from vertex "4" with a priority queue.
+2. **Priority Queue Operations:** Always add the least weight edge that connects a new vertex to the growing MST.
+3. **Process:** Continue until all vertices are included in MST.
+
+**Execution:**
+- Start from "4", add edges to "3", "5", and "8" to the queue.
+- Choose the edge with the minimum weight, say "4"-"8" with weight 3.
+- Continue until all nodes are connected without forming a cycle.
+
+### Task 7: Algorithm Validity for Minimum Spanning Tree
+
+**Given Algorithm:**
+- Initialize with all vertices, no edges.
+- Connect the smallest edge from a new vertex to a connected component iteratively.
+
+**Correctness Check:**
+1. **Component Tracking:** Ensure the algorithm correctly identifies components and connects them with the minimum edge crossing the cut.
+2. **Justification:** Use properties from cut-property and greedy choice characteristic of MST algorithms (like Kruskal's and Prim's).
+
+### Task 8: Ford-Fulkerson Algorithm for Maximum Network Flow
+
+**Network Description:** Directed graph with vertices ["1", "2", "3", "4", "5", "6", "7"] and edges with capacities and initial flows.
+
+**Ford-Fulkerson Algorithm Overview:**
+1. **Initialization:** Start with initial flow as given, calculate residual capacities for each edge.
+2. **Path Finding:** Use BFS to find the shortest augmenting path from source (s=1) to sink (t=7) in the residual graph.
+3. **Augmentation:** Increase the flow along the path by the minimum residual capacity found in the path.
+
+**Steps Using Edmonds-Karp Implementation:**
+1. **Initial Setup:** Start with zero flow on all edges except where initial flows are given.
+2. **Iteration:** Find paths repeatedly until no more s-t paths are available in the residual graph.
+3. **Augment Flow:** Update the flows and residuals accordingly each time.
+
+**Minimum Cut Determination:**
+- After no more augmenting paths are available, perform a final BFS to determine which vertices are reachable from s in the residual graph.
+- The cut consists of edges where one end is reachable and the other is not, determining the capacity of the cut by summing these edge capacities.
+
+### Task 9: Graph Theorems and Examples
+
+**Part a:** Prove a graph with each node degree ≥ n/2 is connected.
+- **Proof Concept:** Assume two non-connected components exist, and show that there must be a node in each component with less than n/2 connections, contradicting the premise.
+
+**Part b:** Example of a non-Hamiltonian graph with specific degree properties.
+- **Construction:** Use a graph like a star graph or a modified wheel graph where connectivity is limited and verify the sum of degrees condition.
+
+**Part c:** If a graph G with n ≥ 2 nodes has m ≥ combinations(n-1, 2) + 2 edges, then G is Hamiltonian.
+- **Proof Outline:** Use Dirac's Theorem or closure properties of Hamiltonian cycles to argue that the graph must be Hamiltonian due to the density of edges.
+
+### Task 10: Maximum Length Common Subsequence
+
+**Algorithm Overview:**
+1. **Initialization:** Create a matrix `dp` of size (length of word1+1) x (length of word2+1).
+2. **Fill the Matrix:** For each character pair (i, j), if characters match, `dp[i][j] = dp[i-1][j-1] + 1`. Otherwise, `dp[i][j] = max(dp[i-1][j], dp[i][j-1])`.
+3. **Final Value:** `dp[length of word1][length of word2]` contains the length of the longest common subsequence.
+
+**Example:**
+- Words: "cerceta" and "retea"
+- Illustrate the fill of the matrix showing how each subproblem is solved and the optimal substructure property.
+
+### Task 11: Optimal Path in a Graph with Costs
+
+**Algorithm Requirements:** Find a path using the least amount of resources (dynamite), considering collapsed chambers.
+
+**Optimal Algorithm:**
+1. **Graph Representation:** Model the chambers and tunnels with nodes and edges, using dynamite costs as edge weights.
+2. **Dijkstra's Algorithm:** Since it's a weighted graph where the goal is to minimize the path cost, Dijkstra's algorithm is suitable for finding the least cost path from the entrance to the crystal chamber.
+
+**Implementation Steps:**
+- Set up the graph with given nodes and edge weights.
+- Apply Dijkstra's algorithm starting from the entrance node, updating the path costs and predecessors.
+- Extract the path from entrance to destination once the algorithm completes.
