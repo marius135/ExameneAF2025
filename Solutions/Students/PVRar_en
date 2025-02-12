@@ -1,0 +1,56 @@
+1. The connected bipartite induced subgraph will have the node set V = {1, 3, 6, 4, 8, 7}
+Bipartition: A = {1, 6, 4, 7}
+B = {3, 8}
+
+2. We start from node 4 and set in a vector the distance d[4] = 0. We traverse all its neighbors and add to the queue those who do not have a value for d set (have not been visited). The neighbors of 4 added to the queue will be: 3, 5, 8. The distances for them will be 1 (d[4]+1). We continue with 3 and add 1, 2, 6 to the queue with distance 2 (d[3]+1). For 5 we have no unvisited neighbors. For 8 we add 7 and 9 to the queue with distance 2. We no longer have other unvisited neighbors, so we stop.
+<Student Drawing>
+tree with the parent vector: {3, 3, 4, 0, 4, 3, 8, 4, 8)
+</Student Drawing>
+
+3.
+The graph does not admit an Eulerian path because it has 4 nodes with odd degree. In order to admit an Eulerian path, it should have exactly 2 nodes with odd degree. We eliminate the edge (2,3) because it would reduce the degrees of 2, and 3, which were both odd, thus becoming even. A chain would be: 8-9-7-8-4-5-3-1-2-6-3-4.
+4. We will do a DF traversal. We will create the DFS tree and we will retain for each node what the minimum level on which it is located is. A node is critical if it has at least one child with niv_min[j] >= niv[i]. The critical nodes in the graph are: 3, 4, 8.
+6. We start from node 4. We initialize the distance vector with infinity. We mark distance 0 for 4.
+We will do n-1 steps, adding one node to the partial tree at each step. The node chosen at each step will be the one that is not yet in the partial tree and has the edge of minimum cost to a node already added in the tree. So, starting from 4 we will add 5 to the tree, with cost 1 and add this cost to the total cost. Then we will add 8 with cost 3. Followed by 7 with cost 2, 3 with cost 5, 2 with cost 2, 1 with cost 1, 9 with cost 5 and 6 with cost 10.
+The partial tree will look like this:
+<Student Drawing>
+MST with parent vector, of the form (parent; cost): {(2; 1), (3; 2), (4; 5), (0; 0), (4; 1), (2; 10), (8; 2), (4; 3),(7; 5)}
+</Student Drawing>
+8. We continue the flow for the given graph, we also search for an increasing path.
+{1, 2, 6, 7} - with residual capacity 1.
+Thus the graph becomes:
+<Student Drawing>
+List of edges:
+
+(1, 5) with flow/capacity 6/6
+(1, 2) with flow/capacity 6/10
+(5, 4) with flow/capacity 0/3
+(4, 2) with flow/capacity 3/3
+(5, 3) with flow/capacity 6/7
+(2, 6) with flow/capacity 9/9
+(6, 4) with flow/capacity 3/5
+(3, 6) with flow/capacity 3/3
+(3, 7) with flow/capacity 3/7
+(6, 7) with flow/capacity 9/10
+</Student Drawing>
+We can no longer find other increasing paths, so the algorithm ends.
+
+11. The complexity of the algorithm will be given by Dijkstra's algorithm O(n + m log(m)).
+We create a directed graph in which the rooms will be the nodes, and the tunnels will be the edges. For rooms that require dynamite, the cost will be put on the edges that enter them. The rest of the edges will have cost 0. Dijkstra's algorithm can be applied to this graph to find the minimum cost path from start to finish.
+
+9.
+a) d(x) >= n/z, for any x belongs to G => for any x,y belongs to G and x!=y d(x) + d(y) >= n => from Ore's theorem the graph G is hamiltonian => there exists a cycle that contains all the nodes => G is connected.
+b)
+<Student Drawing>
+List of edges:
+1 2
+1 3
+1 4
+3 5
+4 5
+</Student Drawing>
+d(1)+d(5) = 5 = n and there is no edge between 1 and 5.
+
+5.
+At each step we will try to improve the distance between the nodes i and k, using j as an intermediate node. Thus d[i][k] we will try to update it with d[i][j] + d[j][k] if the distance from i to j + the distance from j to k if it is smaller than d[i][k].
+7. Yes, the algorithm is correct. n steps are taken and n-1 edges are added. we start with n connected components and at each step, their number decreases by 1. So in the end we will have only one connected component, the component will contain all the nodes, so a partial tree of the initial graph will be formed, also, at each step the minimum cost edge that connects 2 connected components is chosen. Thus we can state that the cost of creating the partial tree is minimized. So yes, the algorithm correctly constructs an MST.

@@ -1,0 +1,245 @@
+Exercise 1:
+For the subgraph to be bipartite, we need to remove all cycles of odd length. To maximize the number of nodes, we will remove the edges 2-3, 4-5, and 8-9 while keeping the same number of nodes.
+The resulting graph is:
+<Student Drawing>
+Edge list in the format (source, destination, cost): (1, 2, 1), (1, 3, 4), (3, 6, 11), (2, 6, 10), (3, 4), (3, 5), (4, 8, 3), (8, 7, 2), (7, 9, 5).
+Color 1: {2,3,8,9}
+Color 2: {1,6,4,5,7}
+</Student Drawing>
+We assign each node a color (c1 or c2) such that any two adjacent nodes have different colors. This results in the bipartition: A={2,3,8,9}; B={1,6,4,5,7}.
+
+Exercise 2:
+The BFS algorithm first explores all neighbors of the starting node, then the neighbors of those neighbors, and so on. The algorithm uses a queue to maintain the order of nodes.
+
+First, we add node 4 to the queue and mark it as visited.
+We dequeue node 4, visit nodes 3, 5, and 8, marking them as visited. The queue becomes 3, 5, 8.
+We dequeue node 3, visit nodes 1, 2, and 6, marking them as visited. The queue becomes 5, 8, 1, 2, 6.
+We dequeue node 5, which leads to 3, which is already visited.
+We dequeue node 8, visit nodes 7, 9, and 3, marking them as visited. The queue becomes 1, 2, 6, 7, 9.
+We dequeue node 1, whose neighbors (2, 3) are already visited.
+We dequeue node 2, whose neighbors are also visited.
+Similarly, we remove the next nodes 6, 7, and 9, which have no unvisited neighbors.
+<Student Drawing>
+Edge list: (4, 3), (4, 5), (4, 8), (3, 1), (3, 2), (3, 6), (5, 8), (8, 7).
+</Student Drawing>
+BF(4) can be easily used to compute the distance from node 4 to all other nodes by defining a distance vector of length n=9, initializing distance[4]=0. After dequeuing a node and visiting its neighbors, we set distance[neighbor] = distance[current] + 1.
+
+Exercise 3:
+According to Euler’s Theorem, a graph has an Eulerian path if and only if it has at most two vertices with odd degrees.
+
+Analyzing the degree of each vertex:
+
+Node	Degree
+1	2
+2	3
+3	5
+4	3
+5	2
+6	2
+7	2
+8	3
+9	2
+We observe that four vertices have odd degrees: 2, 3, 4, and 8.
+To make the graph Eulerian, we remove an edge connecting odd-degree nodes, such as (2,3), leaving exactly two nodes with odd degrees.
+The resulting graph:
+<Student Drawing>
+Undirected graph edge list:
+(start, finish, cost)
+1 2 1
+1 3 4
+2 6 10
+3 6 11
+3 4 5
+4 6 12
+5 6 1
+5 8 3
+8 9 6
+9 7 5
+7 8 2
+</Student Drawing>
+An Eulerian path is: 4, 5, 3, 6, 2, 1, 3, 4, 8, 9, 7, 8.
+
+Exercise 4:
+A node is critical if it belongs to a critical edge. As we find the critical edges, we also identify the critical nodes. To determine critical edges, we use a modified DFS. We need two vectors: level and min_level.
+
+There are two types of edges: forward and back edges. If we find edges connecting already visited nodes, these are back edges and are used to compute the minimum level to which a node is connected.
+If a back edge connects a node or one of its descendants to one of its ancestors, the edge between the current node and its parent is not critical (it is part of a cycle).
+We arrange nodes in an optimal way to illustrate how the algorithm works.
+
+<Student Drawing>
+Parent vector representation: {0,1,6,5,3,2,9,4,8}
+</Student Drawing>
+
+Step 1: Start from node 1, level[1] = min_level[1] = 1. Find a neighbor of 2: level[2] = min_level[2] = 2.
+Step 2: The current node is 2, checking its neighbors. The first lexicographically ordered node is 3: level[3] = min_level[3] = 2 (back edge (2,3) exists).
+Continuing the algorithm, we find that critical nodes are 4 and 3, with the critical edge (4,3).
+
+Exercise 5:
+Let W be the cost matrix and n the number of vertices.
+
+D = W
+For j = 1 to n do:
+ For i = 1 to n do:
+  For k = 1 to n do:
+   If D[i][k] > D[i][j] + D[j][k], then
+    D[i][k] = D[i][j] + D[j][k]
+
+This sequence computes the shortest distances between all pairs of nodes using j as an intermediate node.
+
+Initially:
+<Student Drawing>
+Cost matrix with infinity where no edge exists and edge weights where they exist.
+</Student Drawing>
+
+At step j=1, using node 1 as an intermediate node, there are no modifications.
+At step j=2, using node 2:
+D[1][6] > D[1][2] + D[2][6], so D[1][6] becomes 11 (not infinity anymore).
+At step j=3, using node 3:
+D[1][5] > D[1][3] + D[3][5], so D[1][5] becomes 16.
+D[1][4] > D[1][3] + D[3][4], so D[1][4] becomes 9.
+
+Exercise 6:
+Exercise 6:
+Prim's Algorithm starting from node 4:
+
+Step 1:
+
+Start at node 4.
+Available edges from 4: (4,5) cost=1, (4,8) cost=3, (4,3) cost=5.
+Choose minimum edge: (4,5) with cost=1.
+Current MST edges:
+Copy
+4 -5 (1)
+Step 2:
+
+Nodes in MST: 4, 5.
+Available edges:
+From 4: (4,8) cost=3, (4,3) cost=5.
+From 5: (5,8) cost=3.
+Choose minimum edge: (4,8) cost=3.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)
+Step 3:
+
+Nodes in MST: 4, 5, 8.
+Available edges:
+From 4: (4,3) cost=5.
+From 8: (8,7) cost=2, (8,9) cost=6.
+Choose minimum edge: (8,7) cost=2.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)
+Step 4:
+
+Nodes in MST: 4, 5, 8, 7.
+Available edges:
+From 4: (4,3) cost=5.
+From 7: (7,9) cost=5.
+Choose minimum edge: (7,9) cost=5.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)  
+7 -9 (5)
+Step 5:
+
+Nodes in MST: 4, 5, 8, 7, 9.
+Available edges:
+From 4: (4,3) cost=5.
+From 8: (8,3) cost=5 (if exists).
+Choose minimum edge: (4,3) cost=5.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)  
+7 -9 (5)  
+4 -3 (5)
+Step 6:
+
+Nodes in MST: 4, 5, 8, 7, 9, 3.
+Available edges:
+From 3: (3,2) cost=2, (3,6) cost=11, (3,1) cost=4.
+Choose minimum edge: (3,2) cost=2.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)  
+7 -9 (5)  
+4 -3 (5)  
+3 -2 (2)
+Step 7:
+
+Nodes in MST: 4, 5, 8, 7, 9, 3, 2.
+Available edges:
+From 2: (2,1) cost=1, (2,6) cost=10.
+Choose minimum edge: (2,1) cost=1.
+Current MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)  
+7 -9 (5)  
+4 -3 (5)  
+3 -2 (2)  
+2 -1 (1)
+Step 8:
+
+Nodes in MST: 4, 5, 8, 7, 9, 3, 2, 1.
+Available edges:
+From 2: (2,6) cost=10.
+Add edge: (2,6) cost=10.
+Final MST edges:
+Copy
+4 -5 (1)  
+4 -8 (3)  
+8 -7 (2)  
+7 -9 (5)  
+4 -3 (5)  
+3 -2 (2)  
+2 -1 (1)  
+2 -6 (10)
+Total Cost of MST:
+1 + 3 + 2 + 5 + 5 + 2 + 1 + 10 = 29.
+
+Visual Representation (Simplified):
+<Student Drawing>
+MST
+Nodes connected as per the final edge list above.
+</Student Drawing>
+
+Exercise 7:
+False. Selecting the minimum-cost edge with one endpoint in the current tree does not guarantee the minimum total cost for the MST. This approach may miss edges that form a cheaper overall tree.
+
+Exercise 8:
+Repeated BFS for Max Flow (s=1, t=7):
+
+First BFS: Path 1-2-6-7. Augment flow by 1. Update capacities:
+1→2: 6/10 → 9/10 (saturated).
+2→6: 9/9 (saturated).
+6→7: 9/10.
+Second BFS: Path 1-5-4-2 (reverse)-6-3-7. Augment flow by 3. Update capacities:
+1→5: 6/6 (saturated).
+5→3: 6/7.
+3→7: 6/7.
+Min-Cut: Partition A = {1, 2, 5}, B = {3, 4, 6, 7}. Capacity = 9 (1→2) + 6 (5→3) = 15.
+
+Exercise 9:
+a) By Dirac’s Theorem, if every node has degree ≥ n/2, the graph is Hamiltonian. Since Hamiltonian graphs are biconnected (necessary condition), the conclusion holds.
+b) Example graph with deg(x) + deg(y) ≥ 4 (Hamiltonian):
+<Student drawing>
+Edges: 1-2, 1-3, 2-3, 2-4, 3-4.
+</Student drawing>
+
+Exercise 11:
+Model each room as a node. Edges to collapsing rooms have cost 1; others cost 0. The problem reduces to finding an MST. Use Kruskal’s algorithm with DSU:
+
+Sort edges in O(m log m).
+Union-Find operations in O(m log n).
+Total complexity: O(m log n).
