@@ -1,0 +1,15 @@
+Name	Grader	Release Date	Limba	Final Grade	1	2	3	4	5	6	7	8	9a	9b	9c	10	11
+ChatGPTo3miniRun2_En	profesor	2025-01-31	En	90	5	5	5	7.5	7	4	5	5	10	4	4	5	7.5	11
+ChatGPTo3miniRun3_En	profesor	2025-01-31	En	88	5	4	7.5	5	4	5	5	12	4	4	4	7.5	11
+ChatGPTo3miniRunAvg_En	profesor	2025-01-31	En	86	5	4	7.5	5	3	5	4	12	4	4	4	7.5	11
+ChatGPTo3miniRunAvgAll_En	profesor	2025-01-31	En	85	5	4	7.5	5	4	5	5	5	4	4	4	7.5	15
+ChatGPTo3miniRun1_En	profesor	2025-01-31	En	84	5	5	7.5	3	4	3	5	11	4	4	4	7.5	11
+Gemma2-27B_En	profesor	2024-06-27	En	38	0	1	0	2	0	1	0	1	4	3	2	5	9
+ChatGPTo3-mini-high_En	profesor	2025-01-31	En	84	5	4.5	7.5	6	4	4	4	11	4	4	4	6	10
+Gemini2.0Flash-RunAvgAll_En	profesor	2025-02-05	En	82	0	5	3	7.5	5	2	5	7	4	4	7	7.5	15
+Sonet3.5-Run1_En	profesor	2024-10	En	77	4.5	5	6.5	5	2	5	3	9	2	4	1	7	13	
+ChatGPTo1_En	profesor	2024-09	En	73.5	5	4	7.5	5	2	5	5	1	4	3	2	5	15
+Gemini2.0Flash-Run1_En	profesor	2025-02-05	En	73.5	0	5	3	7.5	5	5	5	4	4	2	7	4	12
+Gemini2.0Flash-Run3_En	profesor	2025-02-05	En	71	5	4.5	6	3	5	4.5	5	1	4	1	7	3	12
+Gemini2.0Flash-Run2_En	profesor	2025-02-05	En	68	0	5	6	2	5	3	5	3	4	3	7	3	12
+Gemini2.0Flash-RunAvg_En	profesor	2025-02-05	En	67	0	5	6	1	5	5	5	3	4	1	7	4	11

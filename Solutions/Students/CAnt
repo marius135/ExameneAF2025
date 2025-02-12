@@ -1,0 +1,217 @@
+**Exercițiul 1:**
+Pentru ca subgraful să fie bipartit, este necesar să eliminăm toate ciclurile de lungimi impara. Pentru maximizarea numărului de noduri, vom sterge muchiile 2-3, 4-5, 8-9, pastrand acelasi numar de noduri
+Graful obținut este: 
+<Desen student>
+Listă muchii de forma (sursa, destinatie, cost): (1, 2, 1), (1, 3, 4), (3, 6, 11), (2, 6, 10), (3, 4), (3, 5), (4, 8, 3),(8, 7, 2),(7, 9, 5).
+Culoare 1:{2,3,8,9}
+Culoare 2:{1,6,4,5,7}
+</Desen student>
+asociem fiecarui nod o culoare (c1 sau c2) astfel incat orice 2 noduri adiacente sunt colorate diferit. Obtinem astfel o bipartitie: A={2,3,8,9}; B={1,6,4,5,7}
+---
+**Exercițiul 2:**
+Algoritmul BFS parcurge mai întâi toți vecinii nodului de start și apoi vecinii vecinilor si asa mai departe. Algoritmul utilizeaza o coada pentru a pastra ordinea nodurilor..
+Mai întâi, adaugă nodul 4 în coadă și îl marcăm ca fiind vizitat.
+Scoatem din coadă nodul 4, vom parcurge nodurile 3, 5, 8 și le marcăm ca vizitate. Coada devine 3, 5, 8.
+Scoatem din coadă nodul 3, vom parcurge nodurile 1, 2, 6 și le marcăm ca vizitate. Coada devine 5, 8, 1, 2, 6.
+Scoatem din coadă nodul 5, care duce spre 3, care a fost deja vizitat.
+Scoatem din coadă nodul 8, vom parcurge nodurile 7, 9, 3 și le marcăm ca vizitate. Coada devine 1, 2, 6, 7, 9.
+Scoatem din coadă nodul 1, care are vecini vizitați: (2, 3).
+Scoatem din coadă nodul 2, care are și el vecini vizitați.
+similar, eliminam din coada urmatoarele noduri 6,7,9 care nu mai au vecini nevizitati
+**<Desen student>**
+Listă muchii: (4, 3), (4, 5), (4, 8), (3, 1), (3, 2), (3, 6), (5, 8), (8, 7)
+**</Desen student>**
+BF(4) se poate folosi usor pentru a calcula distanta de la 4 la celelalte noduri, definindu-se in plus un vector de distanta de lungime n=9 si distanta[4]=0. Dupa ce scoatem un nod din coada si ii parcurgem vecinii vom scrie distanta[4]=distanta[5]+1, unde 5 este vecinul lui 4.
+
+---
+**Exercițiul 3:**
+Conform Teoremei lui Euler, graful admite un lanț eulerian ⇔ graf cu al mult 2 vârfuri de grad impar.
+astfel, vom analiza gradele varfurilor grafului:
+
+nod | deg
+ 1    |   2
+ 2    |   3
+ 3    |   5
+ 4    |   3
+ 5    |   2
+ 6    |   2
+ 7    |   2
+ 8    |   3
+ 9    |   2
+Observăm că avem 4 vârfuri care au grad impar: 2, 3, 4, 8.
+Astfel, vom cauta sa eliminam muchii care leaga nodurile cu grade impare. Vom elimina muchia (2, 3) si atunci avem exact 2 noduri cu grad impar.
+graful obtinut:
+<Desen student>
+Lista de muchii, graf neorientat:
+start, finish, cost
+1 2 1
+1 3 4
+2 6 10
+3 6 11
+3 4 5
+4 6 12
+5 6 1
+5 8 3
+8 9 6
+9 7 5
+7 8 2
+
+</Desen student>
+Un lant eulerian este:
+4,5,3,6,2,1,3,4,8,9,7,8
+---
+**Exercițiul 4:**
+Un nod este critic daca apartine unei muchii critice, deci pe masura ce gasim muchiile critice, gasim si nodurile critice. Pt. determinarea muchiilor critice, vom folosi o varianta a DFS-ului. Avem nevoie de 2 vectori: nivel si niv_min. Avem 2 tipuri de muchii: inainte si inapoi: Daca avem muchii intre noduri care au fost deja vizitate, acestea sunt muchii inapoi si cu ele calculam nivelul minim de care este legat un nod.
+Daca exista o muchie inapoi dintr-un nod sau un descendent al nodului care il uneste de un stramos al lui, atunci inseamna ca muchia dintre nodul curent si parintele sau nu este critical (se afla intr-un ciclu).
+Vom aranja nodurile cat mai convenabil pentru a arata cum functioneaza algoritmul de determinare al nodurilor si michiilor critice.
+<Desen student>
+arbore reprezentat de vectorul de tati:{0,1,6,5,3,2,9,4,8}
+</Desen student>
+Pasul 1 Incepem din nodul 1, nivel[1]=nivel_min[1]=1. Acum gasim un vecin al lui 2:
+nivel[2]=niv_min[2]=2.
+Pasul 2 nodul curent este 2, ii verifica vecinii, ia primul in ordine lexicografica (este 3) nivel[3]=niv_min[3]=2(avem muchie inapoi, (2,3)).
+
+Continuand algoritmul, vom avea ca nodurile critice sunt 4 si 3, (4,3) este muchie critica.
+---
+**Exercițiul 5:**
+Fie W matricea costurilor si n nr de varfuri.
+D=W
+pentru j<-1,n executa
+	pentru i<-1,n executa
+		pentru k<-1,n executa
+			daca D[i][k]> d[i][j]+d[j][k]
+				D[i][k]=d[i][j]+d[j][k]
+Secventa de cod calculeaza distantele minime dintre oricare 2 noduri(valorile pe care le ia j reprezentand nodurile folosite ca noduri intermediare pentru a relaxa distanta intre noduri)
+Initializarea va arata astfel:
+
+<Desen student>
+Matrice de costuri cu infinit unde nu exista muchie si costul muchiei unde ea exista.
+</Desen student>
+La pasul j=1, adica folosind nodul 1 ca nod intermediar , matricea distantelor se modifica, la acest pas, nu avem modificari pentru graful dat.
+La pasul j=2, adica folosind nodul 2 ca nod intermediar avem urmatoarele modificari:
+D[1][6]>D[1][2]+D[2][10], deci D[1][6] va deveni 11. (nu mai este infinit)
+La pasul j=3, adica folosind nodul 3 ca nod intermediar avem urmatoarele modificari:
+D[1][5] > D[1][3]+D[3][5]. deci D[1][5] devine 16. De asemenea D[1][4]> D[1][3]+D[3][4], deci D[1][4] devine 9.
+---
+**Exercițiul 6:**
+Algoritmul lui Prim adauga un nod arbitrar in graf. Apoi algoritmul alege o muchie de cost minim care adauga un nou nod in graf (similar cu Dijkstra, dar se adauga muchie de cost minim)
+Pornind din varful 4, adaugam muchia (4,5) de cost minim.
+Dupa urmatoarea muchie de cost minim care adauga un nou nod in graf este (4,8). Avem
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+</Desen student>
+Apoi avem (8,7) de cost 2, deci 
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+8 7 2
+</Desen student>
+Din 7, putem alege 9, deci luam muchie (7,9)
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+</Desen student>
+Apoi putem alege muchia (4,3) (am fi putut sa o alegem si la pasul anterior)
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+</Desen student>
+Apoi alegem (3,2) de cost minim
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+3 2 2
+</Desen student>
+Continuand, obtinem APCM-ul:
+<Desen student>
+start, finish, cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+4 2 2
+2 1 1
+2 6 10
+</Desen student>
+---
+**Exercițiul 7:**
+
+Nu este corect, algerea unei muchii cu cost minim e cu o extremitate in C nu garanteaza alegerea muchiei care sa minimizeze costul total al grafului *nu este neaparat necesar formarii unui APCM)
+---
+**Exercițiul 8:**
+
+Vom face BFS-uri repetate din nodul sursa, la nodul destinatie 7.
+Primul BFS:
+
+lant s-t nesaturat 1-2-6-7
+Minimul pe care il putem baga pe muchii este 1 (5, 1, 2)
+Marim astfel fluxul cu 1 si observam ca se satureaza muchia 2-6
+<Desen student>
+start, finish, flux/capacitate
+1 2 6/10
+2 6 9/9
+6 7 9/10
+</Desen student>
+
+Apoi, la al doilea BFS:
+1-2-4-6-3-7 (avem si muchii de intoarcere)
+Putem mari fluxul cu 3
+Trimitem 9/10 unitati de la 1 la 2, de la 4 la 2, avem 0/3 unitati, de la 6 la 4, 0/5unitati, de la 3 la 6 0/3 unitati si de la 3 la 7 6/7 unitati
+
+<Desen student>
+start, finish, flux/capacitate
+1 5 6/6
+1 2 9/10
+5 4 0/9
+5 3 6/7
+4 2 0/3
+2 6 9/9
+6 4 0/5
+3 6 0/3
+6 7 9/10
+3 7 6/7
+</Desen student>
+
+Nu mai gasim drumuri de crestere, deci algoritmul se opreste.
+O s-t taietura minima in retea ar fi
+A={1,2,5} si B={3,4,6,7}
+
+Capacitatea taieturii este 9+16=15 (valoarea fluxului maxim din retea)
+
+
+Algoritmul o gaseste luand nodurile direct accesibile din sursa si apoi construind bipartitie
+
+Arce directe: (5,3),(5,4),(2,6)
+Arce inverse: (4,2)
+
+9) 
+a) Conform teoremei lui dirac studiata la curs, daca d(x)>= n/2, oricare ar fi x apartine v, atunci graful este hamiltonian. Dar cum grafurile hamiltoniene sunt biconexe (conditie necesara), rezulta concluzia.
+b)
+deg(x) + deg(y) = 4, graf hamiltonian
+<Desen student>
+graf neorientat:
+1 2
+1 3
+2 3
+2 4
+3 4
+</Desen student>
+
+11) Fiecare camera va reprezenta un nod in graful nostru, iar fiecare muchie care duce spre o camera prabusita va avea costul 1. Restul muchiilor vor avea cost 0. Problema se reduce la a gasi un APCM al grafului dat. Putem folosi algoritmul lui Kruskal cu o structura DSU cu o complexitate de O(m log n) dupa sortarea muchiilor in O(m log m). (log n apare pentru ca DSU implementeaza sam si unite in O(log n)).
+
+

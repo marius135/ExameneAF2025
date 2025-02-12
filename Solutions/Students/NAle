@@ -1,0 +1,319 @@
+1.
+Un graf care are un ciclu de lungime impară nu este bipartit.
+Pentru a obține un subgraf bipartit, se elimină noduri împreună cu muchiile adiacente ce formează cicluri de lungime 3.
+Noduri eliminate: 2, 5, 9.
+<Desen student>
+Graful neorientat desenat are muchiile: 
+sursa destinatie cost
+6 3 11
+1 3 4
+4 3 5
+4 8 3
+7 8 7
+</Desen student>
+
+2.
+Parcurgerea în lățime (BFS) vizitează pe rând toți vecinii nevizitați ai unui nod curent, pe care îi pune într-o coadă, apoi urmatorul nod fin coada devine nod curent. Pentru a calcula distanta minima de la nodul din care se porneste parcurgerea folosim un vector ce tine minte distantele si il actualizam dupa formula: dist[vecin] =dist[parinte]+1.
+
+
+<Desen student>
+arbore format de vectorul de tati: {-1,-1,-1, 0, -1, -1, -1, -1, -1}, “-1” reprezinta ca nodul nu se afla in arbore
+</Desen student>
+
+Coada: [4]
+Distanțe: [inf, inf, inf, 0, inf, inf, inf, inf, inf]
+Vizitat: [0, 0, 0, 1, 0, 0, 0, 0, 0]
+
+<Desen student>
+arbore format de vectorul de tati: {-1,-1,4, 0, 4, -1, -1, 4, -1}  “-1” reprezinta ca nodul nu se afla in arbore
+</Desen student>
+Coada: [3, 5, 8]
+Distanțe: [inf, inf, 1, 0, 1, inf, inf, 1, inf]
+Vizitat: [0, 0, 1, 1, 1, 0, 0, 1, 0]
+
+
+<Desen student>
+arbore format de vectorul de tati: {3,3,4, 0, 4, 3, -1, 4, -1}  “-1” reprezinta ca nodul nu se afla in arbore
+</Desen student>
+Coada: [5, 8, 1, 2, 6]
+Distanțe: [2, 2, 1, 0, 1, 2, inf, 1, inf]
+Vizitat: [1, 1, 1, 1, 1, 1, 0, 1, 0]
+<Desen student>
+arbore format de vectorul de tati: {3,3,4, 0, 4, 3, 8, 4, 8}  “-1” reprezinta ca nodul nu se afla in arbore
+</Desen student>
+Coada: [8, 1, 2, 6, 7 , 9]
+Distanțe: [2, 2, 1, 0, 1, 2, 2, 1, 2]
+Vizitat: [1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+Algoritmul continua pana coada e goale, dar nu mai gaseste vecini.
+Complexitatea timp: O(n+m)(parcurge toate nodurile si muchiile)
+
+
+3.
+Conditiile ca un graf neorientat sa aiba un lant eulerian sunt: sa fie conex, sa aiba 2 noduri cu grad impar (inceput si final) si restul nodurilor sa aiba graf par.
+Graful nu admite lant eulerian (nodurile 2,3,4 si 8 au grad impar)
+Daca eliminam muchi 2-3, raman nodurile 4 si 8 cu graf impar, deci lant care incepe din 4 si se termina cu 8.
+3-4-1-2-6-3-5-4-8-9-7-8 = lant eulerian in graful obtinut
+<Desen student>
+Graful neorientat cu muchiile:
+sursa destinatie
+1 2
+1 3
+2 6
+3 6
+3 4
+3 5
+4 5
+4 8
+8 9
+8 7
+7 9
+</Desen student>
+
+4.
+Facem o parcurgere DF si pentru fiecare nod retinem nivel[i] = nivelul nodului i in arborele DF
+niv_min[i] = min{nivel[i], A, B} unde:
+A = min{nivel[j] | ij muchie de intoarecere}
+B = min{nivel[h] | j descendent al lui i si jh muchie de intoarecere} 
+
+i nod critic => exista j descendent cu niv_min[j] >= nivel[i] sau, daca i e radacina si are 2 fii
+
+Complexitate timp: O(n+m) => eficient
+<Desen student>
+Graf orientat cu urmatoarele muchii:
+sursa destinatie
+1 2
+2 3
+3 4
+4 5
+4 8
+8 7
+7 9
+3 1
+5 3
+7 8
+9 7
+9 8
+cu urmatoarele variabile atasate, reprezentant niv_min si niv pentru fiecare nod (“->” reprezinta modificari aduse in momentul parcurgerii algoritmului):
+1. 1 1
+2. 2 2->1
+3. 3 3->1
+4. 4 4->3
+5. 5 5->3
+8. 5 5
+7. 6 6->5
+9. 7 7->6->5
+</Desen student>
+7: niv_min[9]=5  < 6 = nivel[7] => NU
+8: niv_min[7]=5 >=5 = nivel[8] => DA
+4: niv_min[8]=5 >= 4= nivel[4] => DA
+3: niv_min[4]=3 >=3 = nivel[3] => DA
+
+noduri critice: 3,4,8
+
+
+5.
+Pentru oricare 2 noduri i si j verific daca pot relaxa distanta prin fiecare nod j. Retin distantele intr-o matrice Aij unde A[i][j] = distanta minima dintre i si j.
+
+Completarea algoritmului:
+daca A[i][h] >= a[i][j]+A[j][h] atunci
+	A[i][h] = a[i][j]+A[j][h]
+
+j=1: Se modifica doar A[2][3] si A[3][2], A[1][2], A[2][1]
+j=2: Se modifica doar A[1][6], A[1][3], A[6][1], A[3][1]
+j=3: Se modifica doar A[1][5], A[5][1], A[6][4], A[4][6]
+
+
+
+
+6.
+Caut un nod cu muchie de cost minim la arborele format (doar din 4). din nodurile neintroduse in arbore. Este 5(cu muchie de cost 1).
+
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+</Desen student>
+
+Repet procesul pana obtin n noduri in arbore
+
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+3 2 2
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+3 2 2
+2 1 1
+</Desen student>
+=> 
+<Desen student>
+graf neorientat:
+sursa destinatie cost
+4 5 1
+4 8 3
+8 7 2
+7 9 5
+4 3 5
+3 2 2
+2 1 1
+2 6 10
+</Desen student>
+
+
+7.
+Algoritmul este corect deoarece prin aleger muchiei de cost minim, asiguram costul toal minim, iar faptul ca alegem doar muchii intre componente conexe asigura ca vom avea arbore (nu se vor adauga muchii intre noduri din aceeasi componenta conexa). La fiecare pas numarul de componente scade cu 1 (incepe de la n si dupa n-1 pasi ajunge la 1) deci rezultatul final e conex.
+
+
+
+8.
+<Desen student>
+Graf orientat reprezentat de muchiile:
+sursa destinatie flux/capacitate (-> reprezinta modificare de-a lungul algoritmului)
+1 5 6/6
+1 2 5->6->7->9/10
+5 4 0/3
+4 2 3->2->0/3
+2 6 8->9/9
+6 2 3->2->0/5
+5 3 6/7
+3 6 3->1/3
+3 7 3->5/7
+6 7 8->9->10/10
+</Desen student>
+
+Caut drum minim cu BFS:
+s-t lant nesaturat 1-2-6-7 => 1
+Caut alt drum minim:
+s-t lant nesaturat: 1-2-4-6-7 => 1
+Caut alt drum minim:
+s-t lant nesaturat 1-2-4-6-3-7 => 2
+
+Se opreste => 1 si 2 sunt o multime si celelalte noduri sunt cealalta multime deci taietura minima are bipartitia: {1, 2} si {3,4,5,6}
+
+Arce directe: 1-5 si 2-6
+Arce invesre: 4-2
+Capacitate taietura:
+6+9=15
+
+
+9.
+
+a) Fie G=(V,E) graf neorientat cu |V|=n>2 care indeplineste conditia d(x) >=n/2
+Presupunem, prin reducere la absurd, ca G nu e conex. Atunci fie A,B apartine v cu A intersectat cu B = multime vida si A reunit cu B = V (partitie a lui V) 2 componente conexe. Putem presupune fara a restrange generalitatea ca |A| <= |B|.
+Deci, |A|<=n/2. Fie u apartine A un nod. u poate fi unit cu maxim |A|-1 alte noduri (din aceeasi componenta conexa) deci d(u) <=n/2-1<n/2 absurd!
+Deci, presupunerea e falsa si G este conex.
+
+c) 
+in cadrul acestui exercitiu Cn^k reprezinta combinari de n luate cate k
+m>= Cn-1^2 + 2 => G hamiltonian 
+m>= ((n-1)(n-2))/2 + 2
+n(n-1)/2 = (n-1)(n-2)/2 = (n-1)/2 *(n-(n-2)) = n-1 => m >= Cn^2 - (n-1) +2 = Cn^2-n+3 = Cn^2 -(n-3)
+
+Construiesc graful kn si elimin n-3 noduri. Atunci numarul de muchii minime pe care le are un nod este 2 (tai toate cele n-3 muhii din el). 
+
+d(x) + d(u) = 
+{
+-> 2+n-2 = n >= n | daca muchia la u s-a sters
+-> n+n-1 = n+1 >= n | daca nu s-a sters
+}
+
+pentru orice alte 2 noduri u si v neadiacente, d(u) + d(v) >= n-2+n-2 = 2n-4 >= n => conform teoremei lui Ore, graful este hamiltonian.
+
+b)
+<Desen student>
+graf neorientat reprezentat de muchiile:
+sursa destinatie
+1 2
+1 5
+1 4
+1 3
+2 6
+5 6
+5 3
+4 3
+3 6
+Nodul 7 izolat
+
+1 si 6 sunt neadiacente =>
+d(1)=4
+d(6)=3 => d(1)+d(6) = 4+3 = 7>= 7
+
+
+
+
+10. 
+Cream o matrice A unde A[i][j] este lungimea maxima a unui subsir comun din X[0..i] si Y[0..j].
+Matricea va fi calculata dupa formula: 
+A[i][j] ={
+A[i-1][i-1]+1, daca X[i] = Y[j]
+max{A[i-1][j], A[i][j-1], daca X[i]!= Y[j]
+}
+    ∅  c  e  r  c  e  t  a  
+∅   0  0  0  0  0  0  0  0  
+r    0  0  0  1  1  1  1  1  
+e   0  0  1  1  1  2  2  2  
+t    0  0  1  1  1  2  3  3  
+e   0  0  1  1  1  2  3  3
+a   0  0  1  1  1  2  3  4  
+Subsir comun de lungime maxima: “reta”
+
+
+
+
+
+11.
+Rezolvare
+Pentru fiecare nod i care este marcat ca fiind periculos, vom adauga un nod j cu muchia de cost 1 intre cele 2. Conectam nodul j cu toate nodurile cu care era conectat i. Celelalte noduri au cost 0. Acum numarul de explozii minim inseamna distanta minima dintre nodul de start si nodul de terminare. Aceasta problema se poate rezolva cu algoritmul lui Dijkstra in O(m log n). O alternativa este algoritmul BFS 0/1. Este un BFS normal, dar vom folosi reque in loc de o coada normala. Daca vizitam un nod printr-o muchie de cost 0, il adaugam in fata deque-lui, astfel, il adaugam la final.
+
+Complexitate: O(n + m).
+
+
+

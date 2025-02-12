@@ -1,0 +1,114 @@
+1.
+<Desen student>
+graf neorientat:
+1 3
+2 3
+3 6
+4 3
+4 5
+4 8
+8 9
+8 7
+</Desen student>
+
+2.
+Algoritmul BFS parcurge incremental vecinii nodului de start apoi vecinii vecinilor s.a.m.d, utilizand o coada pentru pastrarea ordinii.
+Bfs(4):
+scoate nodul 4, adaugam 3,5,8, coada este: 3,5,8
+scoatem nodul 3, adaugam 1,2,6, coada: 5,8,1,2,6
+scoate 5, adaugam _ (nu are vecini nevizitati), coada 8,1,2,6
+scoatem 8, adaugam 7,9, coada: 1,2,6,7,9
+scoatem 1, coada: 2,6,7,9
+scoatem 2, coada: 6,7,9
+scoatem 6, coada: 7,9
+scoatem 7, coada: 9
+scoatem 9, coada: _
+pentru a mastura distantele, presupunem o distanta initiala pentru nodul din start, iar pentru vecini vom creste incremental distanta (distanta nodului din care vizitam+1).
+arborele BF(4):
+<Desen Student>
+Arbore reprezentat de urmatorul vector de tati: {3,3,4,0,4,3,8,4,8}
+</Desene student>
+
+3.
+Nu admite.
+scoatem muchia 2-3, si avem lantul 8-9-7-8-4-5-3-6-2-1-3-4.
+O conditie necesara este sa aiba cel mult 2 noduri cu grad impar. Graful nostru are 4 astfel de noduri, iar muchia 2-3 reduce acest numar la 2.
+
+4.
+Putem determina nodurile critice din arborele DF astfel:
+1. radacina e punct critic daca are cel putin 2 fii in arborele DF
+2. un alt varf i este critic daca are cel putin un fiu j pentru care nivelul minim la care se inchide un ciclu elementare care il contine pe j (printr-o muchie de intoarcere) este mai mare sau egal ca nivelul lui i
+<Desen student>
+Arbore reprezentat de vectorul de tati: {3, 1,4,0,3,2,8,4,7}
+
+6.
+pornim de la un varf (4), reprezentand arborele initial. la un pas selectam o muchie de cost minim de la un varf deja adaugat la arbore la unul neadaugat
+V(T) = {4}, E(T) = {} → alegem 4-5.
+V(T) = {4,5}, E(T) = {4-5} → alegem 4-8.
+V(T) = {4,5,8}, E(T) = {4-5, 4-8} → alegem 8-7.
+V(T) = {4,5,8,7}, E(T) = {4-5, 4-8, 8-7} → alegem 7-3.
+V(T) = {4,5,8,7,3}, E(T) = {4-5, 4-8, 8-7, 4-3} → alegem 3-2.
+V(T) = {4,5,8,7,3,2}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2} → alegem 2-1.
+V(T) = {4,5,8,7,3,2,1}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2, 2-1} → alegem 7-9.
+V(T) = {4,5,8,7,3,2,1}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2, 2-1} → alegem 2-6.
+<Desen student>
+Arbore reprezentat de urmatorul vector de tati: {2,3,4,0,4,2,8,4,7}
+</Desen student>
+
+
+7.
+Da, este corect, e o implementare a algoritmului lui Kruskal. 
+
+8.
+Gasim lantul 1-2-6-7 cu potentialul 1
+<Desen student>
+sursa destinatie flux/capacitate
+1 5 6/6
+1 2 6/10
+5 4 0.3
+4 2 3/3
+2 6 9/9
+6 4 3/5
+5 3 6/7
+3 6 3/3
+6 7 9/10
+3 7 3/7
+</Desen student>
+Gasim lantul 1-2-4-6-7 cu potentialul 1
+<Desen student>
+sursa destinatie flux/capacitate
+1 5 6/6
+1 2 7/10
+5 4 0.3
+4 2 2/3
+2 6 9/9
+6 4 2/5
+5 3 6/7
+3 6 3/3
+6 7 10/10
+3 7 3/7
+</Desen student>
+Gasim lantul 1-2-4-6-3-7 cu potentialul 2
+<Desen student>
+sursa destinatie flux/capacitate
+1 5 6/6
+1 2 9/10
+5 4 0.3
+4 2 0/3
+2 6 9/9
+6 4 0/5
+5 3 6/7
+3 6 1/3
+6 7 9/10
+3 7 5/7
+</Desen student>
+plecam din nodul 1 si gasim muchiile nesaturate:
+care reprezinta taietura minima. partitiile:
+1. 1,2
+2. 5,4,3,6,7
+cu arcele directe 1-5, 2-6 si arcele inverse 4-2
+C(+) = 6-3+9 = 12
+
+11.
+Consideram harta un graf neorientat ponderat unde costul arcelor ce duc catre camere (noduri) prabusite este 1, si 0 pentru celelalte. Pentru a gasi drumul de cost minim intr-un graf neorientat ponderat cu ponderi pozitive, putem folosi algoritmul lui Dijkstra.
+Complexitate Algoritm: O(m log n), Tinand Q intr-un min-heap

@@ -1,0 +1,64 @@
+1) Pislaru Vlad Rares
+
+**1.** Subgraful indus bipartit conex va avea mulțimea nodurilor V = {1, 3, 6, 4, 8, 7}
+Bipartiția: A = {1, 6, 4, 7}
+B = { 3, 8}
+
+
+**2.** Pornim din nodul 4 și setăm într-un vector distanța d[4] = 0. Parcurgem toți vecinii săi și îi adăugăm în coadă pe cei care nu au o valoare pt d setată (nu au fost vizitați). Vecinii lui 4 adăugați în coadă vor fi: 3, 5, 8. Distanțele pentru ei vor fi 1 (d[4]+1). Continuăm cu 3 și îi adăugăm pe 1, 2, 6 în coadă cu distanța 2 (d[3]+1) Pentru 5 nu avem vecini nevizitați. Pt 8 adăugăm pe 7 si pe 9 în coadă cu distanța 2. Nu mai avem alți vecini nevizitați, deci ne oprim.
+<Desen student>
+arbore cu vectorul de tati: {3, 3, 4, 0, 4, 3, 8, 4, 8)
+</Desen student>
+
+**3.** 
+Graf. nu admite lant eulerian deoarece are 4 noduri cu grad impar. Pt. a admite lant eulerian ar trebui să aibă exact 2 noduri cu grad impar. Eliminăm muchia (2,3) deoarece ea ar reduce gradurile lui 2, și 3, care erau ambele impare, astfel devenind pare. Un lant ar fi: 8-9-7-8-4-5-3-1-2-6-3-4.
+---
+**4.** Vom face o parcurgere DF. Vom crea arborele DFS și vom reține pentru fiecare nod care este nivelul minim pe care se află. Un nod este critic dacă are cel puțin un fiu cu niv_min[j] >= niv[i]. Nodurile critice din graf sunt: 3, 4, 8.
+---
+**6.** Pornim din nodul 4. Inițializăm vectorul de dist. cu infinit. Pt a marcăm distanța 0. 
+Vom face n-1 pasi, adaugand cate un nod in arborele partial la fiecare pas. Nodu ales la fiecare pas va fi cel care nu este inca in arborele partial si are muchia de cost minim catre un nod deja adaugat in arbore. Deci, pornind de la 4 il vom adauga in arbore pe 5, cu costul 1 si adunam acest cost la costul total. Apoi il vom adauga pe 8 cu costul 3. Urmeaza 7 cu costul 2, 3 cu costul 5, 2 cu costul 2, 1 cu cost 1, 9 cu costu 5 si 6 cu cost 10. 
+Arborele parțial va arata astfel:
+<Desen student>
+
+ APM cu vectorul de tati, de forma (tata; cost): {(2; 1), (3; 2), (4; 5), (0; 0), (4; 1), (2; 10), (8; 2), (4; 3),(7; 5)}
+</Desen student>
+---
+**8.** Continuăm fluxul pt. graful dat căutăm și un drum de creștere. 
+{1, 2, 6, 7} - cu capacitate reziduala 1.
+Astfel graful devine: 
+<Desen student>
+
+Lista de muchii:
+- (1, 5) cu flux/capacitate 6/6
+- (1, 2) cu flux/capacitate 6/10
+- (5, 4) cu flux/capacitate 0/3
+- (4, 2) cu flux/capacitate 3/3
+- (5, 3) cu flux/capacitate 6/7
+- (2, 6) cu flux/capacitate 9/9
+- (6, 4) cu flux/capacitate 3/5
+- (3, 6) cu flux/capacitate 3/3
+- (3, 7) cu flux/capacitate 3/7
+- (6, 7) cu flux/capacitate 9/10
+</Desen student>
+
+Nu mai putem găsi alte drumuri de crestere, deci algoritmul se încheie.
+11. Complexitatea algoritmului va fi dată de algoritmul lui Dijkstra O(n + m log(m)).
+Creăm un graf orientat în care camerele vor fi nodurile, iar tunelurile vor fi muchiile. Pentru camerele care necesită dinamită, se va pune costul pe muchiile care intră în ele. Restul muchiilor vor avea cost 0. Pe acest graf se poate aplica Dijkstra pentru a găsi drumul de cost minim de la start la finish.
+
+---
+9.
+a) d(x) >= n/z, oricare ar fi x apartine G => oricare ar fi x,y apartine G si x!=y d(x) + d(y) >= n => din teorema Ore graful G este hamiltonian => exista ciclu care contine toate nodurile => G este conex.
+b) 
+<Desen student>
+Lista de muchii:
+1 2
+1 3
+1 4
+3 5
+4 5
+</Desen student>
+d(1)+d(5) = 5 = n si nu exista muchie intre 1 si 5.
+---
+5. La fiecare pas vom încerca să îmbunătățim distanța dintre nodurile i și k, folosind ca nod intermediar pe j. Astfel d[i][k] vom încerca să îl actualizăm cu d[i][j] + d[j][k] dacă distanța de la i la j + distanța de la j la k dacă aceasta este mai mică decât d[i][k].
+---
+**7)** Da, este corect algoritmul. Se fac n-pasi și se adaugă n-1 muchii. se începem cu n componente conexe și la fiecare pas, numărul lor scade cu 1. Deci la final vom avea o singura componenta conexa componenta va contine toate nodurile , deci se va forma un arbore partialal grafului initial, de asemenea, la fiecare pas se alege muchia de cost minim ce leaga 2 componente conexe. Astfel putem afirma ca se minimizeaza costul crearii arborelui partial. Deci da, algoritmul construieste corect un APM
