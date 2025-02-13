@@ -2,6 +2,8 @@ Deepseek si Gemini 2.0 Flash au bagat BKT la ciclu euilerian...   Check
 
 Gemini 1.5 pro was writing some python that made little sense ... check
 
+Gemini is good at demonstration solving.
+
 LLMs tind sa fie mai pune la demonstratii gen 7 si 9 decat studentii ...chiar daca se chinuie la 1 6
 
 Modelele mai vechi iti explica cum sa faci si nu fac ele (inclusiv O1)
@@ -40,3 +42,17 @@ When ChatGpt And Variants solve the exam they tutor you by default...
     The formal proofs vary, but they revolve around showing that with so many edges, the graph’s minimum degree is sufficiently high that a Hamilton cycle must exist (or apply a well‐known sufficient condition for Hamiltonicity).
 
 A lot of models have problems in actualy saying the longest common subsequence and say "etea" or "erta" or.... instead of "reta"
+
+
+Even the best model has problems drawing a tree:
+           4
+         / | \
+        3  5  8
+       /| \    \
+      1 2 6    7
+                \
+                 9
+(Here the edge 8–9 is used; note that since 7 and 9 both got discovered from 8, one may also draw 8 with two children, 7 and 9.)
+
+
+When getting other sources.. o3 mini. made a mistake on the flow but "learnt" BF0-1

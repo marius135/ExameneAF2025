@@ -1,0 +1,485 @@
+. Subgraf Induc Bipartit Conex Maxim:
+
+Concept: Un subgraf indus este format din toate muchiile grafului original care conectează nodurile selectate. Un graf bipartit are nodurile împărțite în două mulțimi disjuncte (bipartiție) astfel încât nicio muchie nu conectează noduri din aceeași mulțime.
+
+Rezolvare:
+
+Observăm că dacă eliminăm nodul 3, obținem un graf bipartit.
+
+O bipartiție posibilă este: {1, 5, 6, 8, 7} și {2, 4, 9}.
+
+Acesta este un subgraf indus (toate muchiile dintre aceste noduri din graful original sunt prezente) și conex.
+
+Acest subgraf are 8 noduri. Nu există un subgraf indus bipartit conex cu 9 noduri (întregul graf nu este bipartit).
+
+Bipartitie: {1, 5, 6, 7, 8} și {2, 4, 9}
+
+2. Parcurgere în Lățime (BFS) de la Nodul 4 (Continuare):
+
+Exemplu (continuare):
+
+Q = [4], d[4] = 0
+
+u = 4. Vecini: 3, 5, 8 (în ordine lexicografică).
+
+v = 3: d[3] = 1, Q = [5, 8, 3], pred[3] = 4
+
+v = 5: d[5] = 1, Q = [8, 3, 5], pred[5] = 4
+
+v = 8: d[8] = 1, Q = [3, 5, 8], pred[8] = 4
+
+u = 3. Vecini: 1, 2, 4, 5, 6.
+
+v = 1: d[1] = 2, Q = [5, 8, 1], pred[1] = 3
+
+v = 2: d[2] = 2, Q = [8, 1, 2], pred[2] = 3
+
+v = 4: Deja vizitat.
+
+v = 5: Deja vizitat.
+
+v = 6: d[6] = 2, Q = [8, 1, 2, 6], pred[6] = 3
+
+u = 5. Vecini: 3, 4. Deja vizitate.
+
+u = 8. Vecini: 4, 7, 9.
+
+v = 4: Deja vizitat.
+
+v = 7: d[7] = 2, Q = [1, 2, 6, 7], pred[7] = 8
+
+v = 9: d[9] = 2, Q = [1, 2, 6, 7, 9], pred[9] = 8
+
+Se continuă până când coada este goală.
+
+Arborele BFS:
+
+4
+├── 3
+│   ├── 1
+│   ├── 2
+│   └── 6
+├── 5
+└── 8
+    ├── 7
+    └── 9
+
+Distante:
+
+d[1] = 2
+
+d[2] = 2
+
+d[3] = 1
+
+d[4] = 0
+
+d[5] = 1
+
+d[6] = 2
+
+d[7] = 2
+
+d[8] = 1
+
+d[9] = 2
+
+3. Lanț Eulerian:
+
+Concept: Un lanț eulerian este un lanț care parcurge fiecare muchie a grafului exact o dată.
+
+Condiție Necesară și Suficientă: Un graf neorientat conex are un lanț eulerian dacă și numai dacă are exact zero sau două noduri cu grad impar.
+
+Verificare: Calculăm gradul fiecărui nod:
+
+d(1) = 2
+
+d(2) = 3
+
+d(3) = 5
+
+d(4) = 3
+
+d(5) = 2
+
+d(6) = 2
+
+d(7) = 2
+
+d(8) = 3
+
+d(9) = 2
+
+Concluzie: Graful nu are un lanț eulerian, deoarece are patru noduri de grad impar (2, 3, 4 și 8).
+
+Eliminare muchii: Pentru a obține un lanț eulerian, trebuie să eliminăm muchii astfel încât să rămână cel mult două noduri de grad impar. O strategie bună este să eliminăm muchii care conectează noduri de grad impar. Putem elimina, de exemplu, muchia 3-4.
+
+Lanț Eulerian (după eliminare): După eliminarea muchiei 3-4, nodurile 3 și 4 au grad par. Un lanț eulerian posibil este: 2-1-3-2-6-3-5-4-8-7-9-8.
+
+4. Noduri Critice (Puncte de Articulație):
+
+Concept: Un nod critic este un nod a cărui eliminare crește numărul de componente conexe ale grafului.
+
+Algoritm Eficient (bazat pe DFS):
+
+Efectuează o parcurgere în adâncime (DFS) a grafului.
+
+Pentru fiecare nod u, calculează două valori:
+
+num[u]: Numărul de ordine al lui u în parcurgerea DFS (timpul de descoperire).
+
+low[u]: Cel mai mic num[v] la care se poate ajunge din subarborele cu rădăcina în u (inclusiv u) folosind cel mult o muchie de întoarcere.
+
+Un nod u este critic dacă:
+
+u este rădăcina arborelui DFS și are cel puțin doi copii.
+
+u nu este rădăcina, și există un copil v al lui u astfel încât low[v] >= num[u]. (Aceasta înseamnă că nu există nicio muchie de întoarcere din subarborele lui v către un strămoș al lui u.)
+
+Exemplu:
+
+Efectuăm DFS, de exemplu, începând de la nodul 1:
+
+1 (num=1, low=1)
+├── 2 (num=2, low=1)
+│   ├── 3 (num=3, low=1)
+│   │   ├── 5 (num=4, low=1)
+│   │   │   └── 4 (num=5, low=1)
+│   │   │       └── 8 (num=6, low=1)
+│   │   │           ├── 9 (num=7, low=1)
+│   │   │           │    └── 7 (num=8,low=1)
+│   │   └── 6 (num=9, low=1)
+
+low[7] = min(num[7], low-urile copiilor, num-urile vecinilor accesibili printr-o muchie de intoarcere) = min(8, 6) = 6. Dar 7 nu are vecini accesibili printr-o muchie de intoarcere, nici copii. low[7] = num[7] = 8.
+
+low[9] = min(num[9], low[7])= min(7,8)=7
+
+low[8] = min(num[8], low[9], low[7])= min(6,7,8) = 6
+
+low[4] = min(num[4], low[8])= min(5, 6) = 5
+
+low[5] = min(num[5], low[4]) = min(4, 5) = 4
+
+low[6] = num[6] = 9
+
+low[3] = min(num[3], low[5], low[6]) = min(3,4,9) = 3
+
+low[2] = min(num[2], low[3], low[6]) = min(2, 3, 9) = 2
+
+low[1] = min(num[1], low[2], low[3]) = min(1, 2, 3) = 1
+
+Identificăm nodurile critice:
+
+Nodul 3: Copilul 5 are low[5] = 4 >= num[3] = 3. Deci 3 este critic.
+
+Nodul 8: Copilul 9 are: low[9] = 7 >= num[8] = 6. Deci 8 este critic.
+
+Nodurile 1 si 2 nu respecta conditia, 4 nu are copii in subarborele propriu, nu are vecini in afara arborelui de parcurgere.
+
+Nodurile critice sunt: 3 și 8.
+
+5. Algoritmul Floyd-Warshall:
+
+Concept: Calculează distanțele minime între toate perechile de noduri într-un graf ponderat.
+
+Algoritm:
+
+Initializare:
+    D = matricea costurilor (D[i][j] = costul muchiei i-j, sau infinit dacă nu există muchia)
+    Pentru i = 1 la n:
+      D[i][i] = 0
+
+Algoritm:
+pentru j ←  1, n execută
+    pentru i ←  1, n execută
+        pentru k ←  1, n execută
+            D[i][k] = min(D[i][k], D[i][j] + D[j][k])
+
+Explicație: La pasul j, algoritmul verifică dacă există un drum mai scurt de la i la k trecând prin nodul intermediar j.
+
+Exemplu (Graf_1_6): Vom folosi infinit = 9999 (un număr mare).
+
+Initializare (D = matricea costurilor):
+
+```
+  1    2    3    4    5    6    7    8    9
+1  0    1    4   9999 9999 9999 9999 9999 9999
+2  1    0    2   9999 9999  10  9999 9999 9999
+3  4    2    0    5   12   11  9999 9999 9999
+4 9999 9999   5    0    1   9999 9999   3  9999
+5 9999 9999  12    1    0   9999 9999 9999 9999
+6 9999  10   11  9999 9999   0  9999 9999 9999
+7 9999 9999 9999 9999 9999 9999   0    2    5
+8 9999 9999 9999   3  9999 9999   2    0    6
+9 9999 9999 9999 9999 9999 9999   5    6    0
+```
+
+j = 1:
+* D[2][3] = min(2, 1+4) = 2 (nu se schimba)
+* Nu se schimba alte valori
+
+j=2
+
+D[1][3] = min(4, 1+2) = 3
+
+D[1][6] = min(9999, 1 + 10) = 11
+
+D[3][1] = min(4, 2+1) = 3
+
+D[6][1] = min(9999, 10 + 1) = 11
+
+D[3][6] = min(11, 2+10) = 11 (nu se schimba)
+
+D[6][3] = min(11, 10+2) = 11 (nu se schimba)
+
+j = 3:
+* D[1][2] = min(1, 3+2) = 1 (nu se schimba)
+* D[2][1] = min(1, 2+3) = 1 (nu se schimba)
+* D[1][4] = min(9999, 3+5) = 8
+* D[4][1] = min(9999, 5+3) = 8
+* D[1][5] = min(9999, 3+12) = 15
+* D[5][1] = min(9999, 12+3)=15
+* ... (si alte modificari)
+
+6. Algoritmul lui Prim (pornind din vârful 4):
+
+Concept: Construiește un arbore parțial de cost minim (APM) adăugând succesiv muchii de cost minim care conectează arborele curent la noduri nevizitate.
+
+Algoritm:
+
+Inițializează un arbore T cu un singur nod (4).
+
+Cât timp T nu conține toate nodurile:
+
+Găsește muchia (u, v) de cost minim, unde u este în T și v nu este în T.
+
+Adaugă muchia (u, v) și nodul v la T.
+
+Exemplu:
+
+T = {4}
+
+Muchia minimă: (4, 5), cost 1. T = {4, 5}
+
+Muchia minimă: (4, 8), cost 3. T = {4, 5, 8}
+
+Muchia minimă: (8, 7), cost 2. T = {4, 5, 8, 7}
+
+Muchia minimă: (8, 9), cost 6. T = {4, 5, 8, 7, 9}
+
+Muchia minimă: (4, 3), cost 5. T = {4, 5, 8, 7, 9, 3}
+
+Muchia minimă: (3, 2), cost 2. T = {4, 5, 8, 7, 9, 3, 2}
+
+Muchia minimă: (2, 1), cost 1. T = {4, 5, 8, 7, 9, 3, 2, 1}
+
+Muchia minimă: (3, 6), cost 11. T = {4, 5, 8, 7, 9, 3, 2, 1, 6}
+
+Cost total: 1+3+2+6+5+2+1+11= 31
+
+7. Corectitudinea Algoritmului pentru APM:
+
+Algoritmul Dat:
+
+T = (V, E = ∅)
+pentru i = 1, |V|-1
+    1. Alege componenta conexă C al lui T care conține vârful i
+    2. Alege o muchie de cost minim e cu o extremitate în C și cealaltă nu și adaugă e la T
+
+Justificare: Algoritmul este corect. Demonstrația se bazează pe proprietatea tăieturii pentru APM:
+
+Proprietatea Tăieturii: Fie S o submulțime proprie și nevidă a nodurilor V. Fie e o muchie de cost minim care traversează tăietura definită de S (adică are o extremitate în S și cealaltă în V-S). Atunci, orice APM conține muchia e.
+
+Demonstrație (prin reducere la absurd): Presupunem că există un APM T' care nu conține muchia e. Adăugăm muchia e la T'. Se formează un ciclu. În acest ciclu, trebuie să existe cel puțin o altă muchie e' care traversează tăietura (deoarece ciclul trebuie să "iasă" și să "intre" înapoi în S). Eliminăm muchia e'. Obținem un nou arbore parțial T''. Costul lui T'' este cost(T'') = cost(T') + cost(e) - cost(e'). Deoarece e este muchia de cost minim care traversează tăietura, cost(e) <= cost(e'). Deci, cost(T'') <= cost(T'). Dar T' este un APM, deci cost(T'') nu poate fi mai mic decât cost(T'). Rezultă că cost(T'') = cost(T'), deci T'' este și el un APM. Dar T'' conține e. Am ajuns la o contradicție (am presupus că niciun APM nu conține e).
+
+Aplicarea la Algoritm: La fiecare pas, algoritmul alege o componentă conexă C și o muchie de cost minim e care iese din C. Conform proprietății tăieturii (unde S = C), muchia e trebuie să fie în orice APM. Deoarece algoritmul adaugă succesiv muchii care trebuie să fie în APM, la final va obține un APM.
+
+8. Algoritmul Ford-Fulkerson (Edmonds-Karp):
+
+Concept: Găsește fluxul maxim într-o rețea de transport. Edmonds-Karp este o variantă care alege lanțuri de ameliorare de lungime minimă (în număr de muchii).
+
+Algoritm:
+
+Inițializează fluxul f cu fluxul dat (sau cu 0 pe toate muchiile).
+
+Cât timp există un lanț f-nesaturat de la s la t:
+
+Găsește un lanț f-nesaturat P de lungime minimă (folosind BFS).
+
+Calculează fluxul rezidual minim pe lanțul P (cf(P)).
+
+Mărește fluxul de-a lungul lui P cu cf(P).
+
+Exemplu (Graf_8):
+
+Flux Inițial: Dat în enunț.
+
+Lanț 1: s(1) -> 2 -> 6 -> 7 (t). cf(P) = min(10-5, 9-8, 10-8) = min(5, 1, 2) = 1.
+
+1->2: f = 5 + 1 = 6
+
+2->6: f = 8 + 1 = 9
+
+6->7: f = 8 + 1 = 9
+
+Lanț 2: s(1) -> 5 -> 3 -> 7 (t). cf(P) = min(6-6, 7-6, 7-3) = min(0,1,4). Nu se poate, pentru ca 1->5 este saturat.
+s(1) -> 5 este arc saturat (flux = capacitate).
+Cautam alt lant.
+s(1)->2->6->4->7. Lantul nu e bun, nu e de lungime minima.
+s(1) -> 2 -> 6->7 . Nu e bun, 2->6 e saturat
+Singurul lant nesaturat de lungime minima e:
+1 -> 5 ->3 ->7. Avem o muchie saturata, 1->5. Inseamna ca nu am gasit lant.
+Incercam un lant de lungime mai mare:
+1->2->6->4->7. cf(P)=min(10-6,9-9,5-3,10-9) = min(4,0,2,1)
+Nu se poate, muchia 2->6 este saturata.
+Incercam:
+1->5->4->2->6->7. cf(P)=min(6-6,3-0,3-3,9-9,10-9).
+Nu se poate.
+Incercam:
+1->5->3->6->7. cf(P)=min(6-6,7-6,3-3,10-9)
+Nu se poate.
+1->5->3->7. cf(P)=min(6-6,7-6,7-3)=min(0,1,4)=0.
+Nu exista lant f-nesaturat.
+
+Tăietură Minimă:
+
+O tăietură (s-t) este o partiție a nodurilor în două mulțimi, S și T, unde s este în S și t este în T.
+
+Capacitatea unei tăieturi este suma capacităților muchiilor care ies din S și intră în T (muchii directe) minus fluxul pe muchiile inverse(care merg din T in S).
+
+Teorema Max-Flow Min-Cut: Fluxul maxim este egal cu capacitatea minimă a unei tăieturi.
+* Determinare: După ce algoritmul Ford-Fulkerson se termină (nu mai există lanțuri f-nesaturate), mulțimea S a tăieturii minime conține toate nodurile care pot fi atinse din s pe lanțuri f-nesaturate (în graful rezidual).
+
+În cazul nostru, S = {1}.
+
+T = {2, 3, 4, 5, 6, 7}
+
+Muchii directe: 1->2 (capacitate 10), 1->5 (capacitate 6)
+
+Muchii inverse: Niciuna.
+* Capacitatea tăieturii: 10 + 6 = 16. (Fluxul maxim este 6+3+7 = 16, corespunzator capacitatii taieturii minime.
+
+9. Grafuri Hamiltoniene:
+
+a) Demonstrație (d(x) >= n/2):
+
+Presupunem că graful nu este conex.
+
+Atunci, există cel puțin două componente conexe.
+
+Fie C1 componenta conexă cu cele mai puține noduri (să zicem k noduri). k <= n/2.
+
+Fie x un nod din C1. Gradul lui x în graful original este d(x) >= n/2.
+
+Dar, în C1, x poate fi adiacent cu cel mult k-1 alte noduri.
+
+Deci, k-1 >= n/2. Dar k <= n/2. Avem n/2 - 1 >= n/2, ceea ce este fals.
+
+Contradicție. Deci, graful este conex.
+
+b) Exemplu Graf Nehamiltonian:
+Un graf stea K(1,n-1) , n >= 4. Un graf stea are un nod central conectat la toate celelalte noduri. Toate nodurile cu exceptia celui central au gradul 1, iar nodul central are grad n-1.
+Luam doua noduri distincte, neadiacente (deci, care nu sunt conectate la nodul central): suma gradelor lor este 1+1=2. Daca n >=4, graful nu e hamiltonian (nu exista un ciclu care sa treaca prin toate varfurile), dar exista doua noduri distincte care nu sunt adiacente si care au suma gradelor 2 <= n.
+
+c) Demonstrație (m >= C(n-1, 2) + 2):
+
+Teorema lui Ore: Un graf cu n >= 3 noduri este hamiltonian dacă, pentru orice pereche de noduri neadiacente x și y, avem d(x) + d(y) >= n.
+
+Fie G un graf care are m >= C(n-1, 2) + 2 muchii.
+
+Presupunem prin reducere la absurd ca exista doua noduri x si y neadiacente a.i. d(x) + d(y) <= n-1
+
+Stergem varfurile x si y.
+
+Graful ramane cu n-2 varfuri si cel putin C(n-1,2) + 2 - (n-1) = (n-1)(n-2)/2 - (n-1) + 2 = (n^2-3n+2-2n+2+4)/2 = (n^2 - 5n + 8)/2 muchii.
+
+Numarul maxim de muchii ale unui graf cu n-2 noduri este C(n-2,2) = (n-2)(n-3)/2 = (n^2 -5n + 6)/2
+
+(n^2 - 5n + 8)/2 > (n^2 -5n + 6)/2 , deci avem contradictie, rezulta ca nu exista varfuri neadiacente cu suma gradelor mai mica ca n. Din teorema lui Ore => Graful e hamiltonian.
+
+10. Lungimea Maximă a unui Subșir Comun:
+
+Concept: Doi șiruri au un subșir comun dacă există o secvență de caractere care apare în aceeași ordine (dar nu neapărat consecutiv) în ambele șiruri.
+
+Algoritm (Programare Dinamică):
+
+Fie X[1..m] și Y[1..n] cele două șiruri.
+
+Creăm o matrice C[0..m, 0..n]. C[i][j] va reține lungimea maximă a unui subșir comun al prefixelor X[1..i] și Y[1..j].
+
+Inițializare:
+
+C[i][0] = 0 pentru toți i.
+
+C[0][j] = 0 pentru toți j.
+
+Calcul:
+
+pentru i ← 1, m execută
+    pentru j ← 1, n execută
+        dacă X[i] = Y[j] atunci
+            C[i][j] = C[i-1][j-1] + 1
+        altfel
+            C[i][j] = max(C[i-1][j], C[i][j-1])
+
+Rezultatul este C[m][n].
+
+Exemplu: X = "cerceta", Y = "retea"
+
+""  r  e  t  e  a
+""  0  0  0  0  0  0
+c   0  0  0  0  0  0
+e   0  0  1  1  1  1
+r   0  1  1  1  1  1
+c   0  1  1  1  1  1
+e   0  1  2  2  2  2
+t   0  1  2  3  3  3
+a   0  1  2  3  3  4
+
+C[1][1] = 0 (pentru că 'c' != 'r')
+
+C[2][2] = 1 (pentru că 'e' == 'e')
+
+C[2][3] = max(C[1][3], C[2][2]) = max(0, 1) = 1
+
+C[5][2] = 2 (pentru ca 'e' == 'e')
+
+C[6][3] = 3 (pentru ca 't' == 't')
+
+C[7][6] = 4 (pentru ca 'a' == 'a')
+
+Rezultat: C[7][6] = 4. Lungimea maximă a unui subșir comun este 4 ("retea").
+
+11. Exploratorii și Mina:
+
+Concept: Problema se reduce la a găsi un drum de la nodul de start la nodul destinație, minimizând numărul de "camere prăbușite" (noduri speciale).
+
+Algoritm:
+
+Modelare: Reprezentăm mina ca un graf orientat. Fiecare cameră este un nod. Fiecare tunel este o muchie. Atribuim costul 0 muchiilor care corespund tunelurilor dintre camere care nu sunt prăbușite și costul 1 muchiilor care corespund tunelurilor care pleacă din camere prăbușite.
+
+Algoritm de Căutare a Drumului Minim: Putem folosi o variantă modificată a algoritmului BFS (parcurgere în lățime) sau Dijkstra. Deoarece costurile sunt 0 sau 1, BFS modificat este mai eficient.
+
+BFS Modificat:
+
+Inițializăm o coadă Q cu nodul de start și dinamita[start] = 0. Pentru toate celelalte noduri, dinamita[v] = infinit.
+
+Cât timp coada nu este goală:
+
+Extragem primul nod u din coadă.
+
+Pentru fiecare vecin v al lui u:
+
+Calculăm cost_nou = dinamita[u] + cost(u, v) (unde cost(u, v) este 0 sau 1, conform modelării).
+
+Dacă cost_nou < dinamita[v]:
+* dinamita[v] = cost_nou
+* Dacă cost(u,v) == 0, adăugăm v la începutul cozei.
+* Dacă cost(u,v) ==1, adaugăm v la sfârșitul cozei.
+* Predecesorul lui v devine u.
+
+Dacă dinamita[destinație] este infinit, nu există drum. Altfel, reconstruim drumul de la destinație la start folosind predecesorii.
+
+Complexitate: BFS modificat are complexitatea O(V + E), unde V este numărul de noduri (camere) și E este numărul de muchii (tuneluri). Aceasta este o complexitate optimă. Utilizarea unei cozi duble (deque) ne permite să adăugăm la început sau la sfârșit în O(1).
+
+Acestea sunt rezolvările detaliate pentru toate problemele din examen. Am inclus explicații ale conceptelor, algoritmilor și pașilor de execuție, precum și justificări pentru corectitudinea soluțiilor. Sper că te ajută!

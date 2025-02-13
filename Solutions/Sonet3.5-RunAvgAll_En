@@ -1,0 +1,205 @@
+# Fundamental Algorithms Exam - Variant 2 Solutions
+## Task 1: Maximum Connected Bipartite Induced Subgraph (5p)
+
+The maximum connected bipartite induced subgraph includes nodes {4, 5, 8, 9, 7} with:
+- Bipartition A = {4, 9}
+- Bipartition B = {5, 8, 7}
+
+Verification:
+1. The subgraph contains edges: 4-5, 4-8, 8-9, 8-7, 9-7
+2. All edges cross between sets A and B
+3. The subgraph is connected
+4. It's maximal - adding any other vertex would create an odd cycle
+
+## Task 2: BFS from Node 4 (5p)
+
+BFS traversal steps:
+1. Start with node 4 (distance 0)
+2. Process neighbors in lexicographical order:
+   - Level 1: 3, 5, 8 (distance 1)
+   - Level 2: From 3 → 1, 2, 6
+             From 8 → 7, 9 (distance 2)
+
+BFS Tree:
+```
+4
+├─3
+│ ├─1
+│ ├─2
+│ └─6
+├─5
+└─8
+  ├─7
+  └─9
+```
+
+Distances from node 4:
+- d(4) = 0
+- d(3) = d(5) = d(8) = 1
+- d(1) = d(2) = d(6) = d(7) = d(9) = 2
+
+## Task 3: Eulerian Path (7.5p)
+
+Initial analysis:
+1. Degree counts:
+   - Odd degree: 2, 3, 6, 8 (four vertices)
+   - Even degree: 1, 4, 5, 7, 9
+
+Necessary and sufficient condition for Eulerian path:
+- A graph must be connected and have exactly 0 or 2 vertices of odd degree
+
+Solution:
+1. Remove edges (2-3) and (3-6) to reduce odd degree vertices to 2 (nodes 2 and 8)
+2. Resulting Eulerian path:
+   2 → 1 → 3 → 4 → 5 → 3 → 6 → 2 → 6 → 3 → 4 → 8 → 9 → 7 → 8
+
+## Task 4: Critical Nodes (7.5p)
+
+Algorithm for finding articulation points:
+1. Use DFS with discovery times and low values
+2. A non-root node u is critical if it has a child v where low(v) ≥ disc(u)
+3. Root is critical if it has more than one child in DFS tree
+
+Critical nodes in the graph:
+- Node 3: Connects {1,2,6} to {4,5}
+- Node 4: Connects {3,5} to {8,9,7}
+- Node 8: Connects {4} to {7,9}
+
+## Task 5: Floyd-Warshall Algorithm (5p)
+
+Initial distance matrix D filled with:
+- 0 on diagonal
+- Edge weights for direct connections
+- ∞ for non-adjacent pairs
+
+Updates for first three stages:
+- j=1: No changes (vertex 1 doesn't create shorter paths)
+- j=2: Updates D[1,6] = 11 (path 1→2→6)
+- j=3: Updates:
+  - D[2,4] = 7 (path 2→3→4)
+  - D[1,4] = 9 (path 1→3→4)
+
+## Task 6: Prim's Algorithm from Vertex 4 (5p)
+
+MST construction steps:
+1. Start at 4
+   Available edges: (4,5,1), (4,3,5), (4,8,3)
+   Choose: (4,5,1)
+
+2. From {4,5}
+   Available: (4,3,5), (4,8,3)
+   Choose: (4,8,3)
+
+3. From {4,5,8}
+   Available: (8,7,2), (8,9,6), (4,3,5)
+   Choose: (8,7,2)
+
+4. Continue until all vertices included
+   Final MST edges: (4,5), (4,8), (8,7), (3,4), (2,3), (1,2), (8,9), (2,6)
+
+## Task 7: MST Algorithm Correctness (5p)
+
+The algorithm is correct because:
+1. It follows the cut property - at each step, it selects the minimum weight edge crossing a cut
+2. It maintains connectivity
+3. It adds exactly |V|-1 edges
+4. Each edge added is safe (belongs to some MST)
+
+Formal proof based on:
+1. Cut property: The minimum weight edge crossing a cut is in some MST
+2. Each iteration creates a valid cut between connected component and rest of graph
+3. Algorithm terminates with a spanning tree of minimum weight
+
+## Task 8: Ford-Fulkerson Algorithm (12.5p)
+
+Steps:
+1. Initial flow shown in graph
+2. Find shortest augmenting paths:
+   Path 1: 1→2→6→7 (bottleneck = 1)
+   Path 2: 1→2→4→6→3→7 (bottleneck = 1)
+   Path 3: 1→2→4→6→3→7 (bottleneck = 2)
+
+Minimum cut:
+- S = {1,2}
+- T = {3,4,5,6,7}
+- Cut capacity = 15 (equals max flow)
+
+## Task 9: Graph Theory Problems (15p)
+
+a) Proof that d(x) ≥ n/2 implies connectivity:
+   - Assume graph is disconnected
+   - Let C be a component with k vertices
+   - Then k-1 ≥ n/2 (max degree in C)
+   - Same for other component
+   - Leads to contradiction: n ≥ n+2
+
+b) Non-Hamiltonian graph example:
+   K2,3 (complete bipartite graph)
+   - Two vertices degree 3
+   - Not adjacent
+   - Sum = 6 > 5 vertices
+   - Not Hamiltonian (odd vertices, bipartite)
+
+c) Proof for m ≥ C(n-1,2) + 2:
+   - Use contradiction
+   - If not Hamiltonian, max edges is C(n-1,2) + 1
+   - Given condition exceeds this
+   - Therefore must be Hamiltonian
+
+## Task 10: Longest Common Subsequence (7.5p)
+
+For words 'cerceta' and 'retea':
+
+Dynamic programming matrix:
+```
+    r  e  t  e  a
+c   0  0  0  0  0
+e   0  1  1  1  1
+r   1  1  1  1  1
+c   1  1  1  1  1
+e   1  2  2  2  2
+t   1  2  3  3  3
+a   1  2  3  3  4
+```
+
+LCS length = 4
+One possible LCS: "reta"
+
+## Task 11: Optimal Path with Minimal Dynamite (15p)
+
+Algorithm:
+1. Model as weighted graph:
+   - Nodes = chambers
+   - Edges = tunnels
+   - Weight = dynamite needed (0 for normal, 1 for collapsed)
+
+2. Use modified Dijkstra's algorithm:
+   - Priority queue based on dynamite used
+   - Process nodes in order of minimal dynamite
+   - Track previous nodes for path reconstruction
+
+3. Implementation:
+```python
+def find_minimal_dynamite_path(graph, start, target):
+    distances = {v: float('inf') for v in graph}
+    distances[start] = 0
+    previous = {v: None for v in graph}
+    pq = [(0, start)]
+    
+    while pq:
+        curr_dynamite, curr_chamber = heapq.heappop(pq)
+        
+        if curr_chamber == target:
+            break
+            
+        for next_chamber, dynamite in graph[curr_chamber]:
+            new_dynamite = curr_dynamite + dynamite
+            if new_dynamite < distances[next_chamber]:
+                distances[next_chamber] = new_dynamite
+                previous[next_chamber] = curr_chamber
+                heapq.heappush(pq, (new_dynamite, next_chamber))
+                
+    return reconstruct_path(previous, start, target)
+```
+
+Complexity: O((V + E) log V) where V = chambers, E = tunnels

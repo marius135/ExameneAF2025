@@ -1,0 +1,335 @@
+Fundamental Algorithms Exam - Variant 2 Solutions
+
+This document provides detailed solutions to the Fundamental Algorithms Exam - Variant 2.
+
+Graph_1_6:
+
+Nodes: {1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+Edges: As defined in the exam prompt.
+
+Graph_8:
+
+Nodes: {1, 2, 3, 4, 5, 6, 7}
+
+Edges: As defined in the exam prompt.
+
+Tasks:
+
+1. (5p) Connected Bipartite Induced Subgraph:
+
+Solution: A bipartite graph is a graph whose vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other set. A bipartite induced subgraph is a subgraph of a bipartite graph that is also bipartite.
+
+Finding the Subgraph:
+
+Start with an arbitrary vertex (e.g., vertex 1).
+
+Assign it to set A.
+
+Assign all its neighbors to set B.
+
+For each vertex in set B, assign its neighbors not already in set A to set A.
+
+Repeat step 4 until no new vertices can be added.
+
+Applying to Graph_1_6:
+
+A possible bipartition is:
+
+Set A: {1, 3, 5}
+
+Set B: {2, 4, 6, 8, 9, 7}
+
+Maximum Nodes: This bipartition includes 6 nodes, which is the maximum possible for a connected bipartite induced subgraph in Graph_1_6.
+
+2. (5p) Breadth-First Search (BFS):
+
+Explanation: BFS is an algorithm for traversing or searching tree or graph data structures. It starts at a root node and explores all the neighbor nodes at the present depth prior to moving on to nodes at the next depth level.
+
+bf(4):
+
+Start at node 4.
+
+Explore its neighbors: 8.
+
+Explore the neighbors of 8: 9.
+
+Explore the neighbors of 9: 7.
+
+Explore the neighbors of 7: 8 (already visited).
+
+Explore the neighbors of 4: 5.
+
+Explore the neighbors of 5: 3.
+
+Explore the neighbors of 3: 2, 6.
+
+Explore the neighbors of 2: 6 (already visited).
+
+Explore the neighbors of 6: 2, 3 (already visited).
+
+BFS Tree:
+
+4
+   / \
+  8   5
+ / \   \
+9   7   3
+   /     / \
+  7     2   6
+
+Distance Calculation:
+
+Distance from 4 to 4: 0
+
+Distance from 4 to 8: 1
+
+Distance from 4 to 9: 2
+
+Distance from 4 to 7: 3
+
+Distance from 4 to 5: 1
+
+Distance from 4 to 3: 2
+
+Distance from 4 to 2: 3
+
+Distance from 4 to 6: 3
+
+3. (7.5p) Eulerian Path:
+
+Definition: An Eulerian path is a path in a graph that visits every edge exactly once.
+
+Does Graph_1_6 admit an Eulerian path? No.
+
+Strategy for Removing Edges:
+
+Identify vertices with odd degrees.
+
+Remove edges incident to these vertices until all vertices have even degrees.
+
+Applying to Graph_1_6:
+
+Vertices 1, 3, and 5 have odd degrees.
+
+Remove edge (1, 3) to make all vertices have even degrees.
+
+Eulerian Path in Modified Graph:
+
+1-2-6-3-4-8-9-7-8-4-5-3-2-1
+
+Necessary and Sufficient Condition: An undirected graph has an Eulerian path if and only if it is connected and has at most two vertices with odd degrees.
+
+4. (7.5p) Critical Nodes:
+
+Definition: A critical node is a node whose removal increases the number of connected components in the graph.
+
+Algorithm:
+
+For each node v in the graph:
+
+Remove v and all its incident edges.
+
+Check if the number of connected components has increased.
+
+If yes, v is a critical node.
+
+Add v and its incident edges back to the graph.
+
+Applying to Graph_1_6:
+
+Critical nodes: {3, 4}
+
+5. (5p) Floyd-Warshall Algorithm:
+
+Initialization:
+
+D[i][j] = w(i, j) if there is an edge between i and j, otherwise infinity.
+
+Iteration:
+
+For j = 1 to n:
+
+For i = 1 to n:
+
+For k = 1 to n:
+
+D[i][j] = min(D[i][j], D[i][k] + D[k][j])
+
+Values at Stages j=1, j=2, j=3:
+
+j=1: D remains unchanged from initialization.
+
+j=2: D[1][6] is updated to 11 (via node 3).
+
+j=3: D[1][6] remains 11.
+
+6. (5p) Prim's Algorithm:
+
+Explanation: Prim's algorithm is a greedy algorithm that finds a minimum spanning tree for a connected weighted undirected graph.
+
+Steps:
+
+Start with an arbitrary vertex (e.g., vertex 4).
+
+Add the edge with the minimum weight connecting the current tree to a vertex not yet in the tree.
+
+Repeat step 2 until all vertices are in the tree.
+
+Applying to Graph_1_6:
+
+Start with vertex 4.
+
+Add edge (4, 8) with weight 3.
+
+Add edge (8, 9) with weight 6.
+
+Add edge (9, 7) with weight 5.
+
+Add edge (7, 8) with weight 2.
+
+Add edge (4, 5) with weight 1.
+
+Add edge (5, 3) with weight 12.
+
+Add edge (3, 6) with weight 11.
+
+Add edge (3, 2) with weight 2.
+
+Add edge (2, 1) with weight 1.
+
+7. (5p) Correctness of Algorithm:
+
+The algorithm is incorrect.
+
+Justification:
+
+The algorithm does not guarantee that the chosen edge will be part of the minimum spanning tree.
+
+It only considers the minimum cost edge connected to the current component, without considering the overall structure of the graph.
+
+8. (12.5p) Ford-Fulkerson Algorithm:
+
+Explanation: The Ford-Fulkerson algorithm is a greedy algorithm that finds the maximum flow in a flow network.
+
+Steps:
+
+Start with a flow of 0 on all edges.
+
+Find an augmenting path from the source to the sink.
+
+Increase the flow along the augmenting path by the minimum capacity of the edges on the path.
+
+Repeat steps 2-3 until no more augmenting paths can be found.
+
+Applying to Graph_8:
+
+Augmenting Paths:
+
+Path 1: 1 -> 2 -> 6 -> 4 -> 5 -> 3 -> 6 -> 7 (capacity 3)
+
+Path 2: 1 -> 5 -> 3 -> 6 -> 7 (capacity 3)
+
+Minimum Cut:
+
+S: {1, 2, 5}
+
+T: {3, 4, 6, 7}
+
+Direct arcs: {(1, 2), (1, 5)}
+
+Reverse arcs: {(2, 1), (5, 1)}
+
+Capacity: 5 + 6 = 11
+
+Justification:
+
+The algorithm terminates when no more augmenting paths can be found, indicating that the maximum flow has been reached.
+
+The minimum cut separates the source from the sink and has a capacity equal to the maximum flow.
+
+9. (15p) Graph Theory:
+
+a) Connected Graph:
+
+Proof:
+
+Assume there are two disconnected components A and B in the graph.
+
+Since d(x) >= n/2 for any node x, there must be at least n/2 nodes in each component.
+
+This implies that n >= n/2 + n/2 = n, which is a contradiction.
+
+Therefore, the graph must be connected.
+
+b) Non-Hamiltonian Graph:
+
+Example:
+
+A cycle graph with 4 vertices.
+
+Vertices 1 and 3 are not adjacent and have degrees 2 each, which is greater than or equal to n = 4.
+
+c) Hamiltonian Graph:
+
+Proof:
+
+If m >= combinations(n-1, 2) + 2, then the graph has at least (n-1)(n-2)/2 + 2 edges.
+
+By Dirac's theorem, if a graph has n >= 3 vertices and d(x) >= n/2 for any node x, then it is Hamiltonian.
+
+Since m >= (n-1)(n-2)/2 + 2, the graph satisfies the condition of Dirac's theorem and is therefore Hamiltonian.
+
+10. (7.5p) Longest Common Subsequence:
+
+Algorithm:
+
+Create a matrix L with dimensions (m+1) x (n+1), where m and n are the lengths of the two words.
+
+Initialize the first row and column of L with 0s.
+
+For i = 1 to m and j = 1 to n:
+
+If the ith character of the first word is equal to the jth character of the second word:
+
+L[i][j] = L[i-1][j-1] + 1
+
+Otherwise:
+
+L[i][j] = max(L[i-1][j], L[i][j-1])
+
+Applying to "cerceta" and "retea":
+
+L =
+0 0 0 0 0 0
+0 1 1 1 1 1
+0 1 1 1 1 1
+0 1 1 2 2 2
+0 1 1 2 2 2
+0 1 1 2 2 2
+0 1 1 2 2 2
+0 1 1 2 2 3
+
+Longest Common Subsequence: "reta"
+
+11. (15p) Mine Exploration:
+
+Algorithm:
+
+Represent the mine as a graph where each chamber is a node and each tunnel is a directed edge.
+
+Assign a weight of 0 to tunnels that don't require dynamite and a weight of 1 to tunnels that do.
+
+Use Dijkstra's algorithm to find the shortest path from the entrance chamber to the crystal chamber.
+
+If a path exists, the path returned by Dijkstra's algorithm will be the path with the least amount of dynamite required.
+
+Complexity:
+
+Dijkstra's algorithm has a time complexity of O(E log V), where E is the number of edges and V is the number of vertices.
+
+Justification:
+
+Dijkstra's algorithm guarantees finding the shortest path in a weighted graph.
+
+By assigning weights based on dynamite usage, the algorithm will prioritize paths that require less dynamite.

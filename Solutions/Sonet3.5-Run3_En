@@ -1,0 +1,258 @@
+
+
+Task 1: Bipartite Subgraph
+Let's find a maximum connected bipartite induced subgraph.
+
+For Graph_1_6, let's try to find the largest possible bipartite subgraph:
+
+1. After analysis, the largest bipartite induced subgraph contains nodes {4,5,8,9,7}
+2. Bipartition:
+   - Set A: {4,8}
+   - Set B: {5,7,9}
+
+This is bipartite because:
+- All edges connect vertices between sets (never within same set)
+- Connected via path 4-8-9-7 and 4-5
+- It's maximal (adding any other vertex would break bipartiteness)
+
+Task 2: BFS from vertex 4
+
+Let me demonstrate the BFS(4) process:
+
+1. Initial: Queue = [4], Visited = {4}
+2. Process 4:
+   - Add neighbors {3,5,8} to queue
+   - Queue = [3,5,8], Visited = {4,3,5,8}
+3. Process 3:
+   - Add neighbors {1,2,6} to queue
+   - Queue = [5,8,1,2,6], Visited = {4,3,5,8,1,2,6}
+4. Process remaining vertices
+
+Distances from 4:
+- d(4,4) = 0
+- d(4,3) = d(4,5) = d(4,8) = 1
+- d(4,1) = d(4,2) = d(4,6) = d(4,9) = 2
+- d(4,7) = 3
+
+BFS Tree:
+```
+       4
+    /  |  \
+   3   5   8
+ / | \     |
+1  2  6    9
+           |
+           7
+
+Task 3: Eulerian Path
+
+First, let's check if the graph has an Eulerian path. For an undirected graph to have an Eulerian path:
+- Either all vertices must have even degree, or
+- Exactly two vertices must have odd degree (these will be the endpoints)
+
+Let's count degrees:
+1: deg(1) = 2
+2: deg(2) = 3
+3: deg(3) = 5
+4: deg(4) = 3
+5: deg(5) = 2
+6: deg(6) = 2
+7: deg(7) = 2
+8: deg(8) = 3
+9: deg(9) = 2
+
+We have 5 vertices with odd degree (2,3,4,8), so the graph doesn't have an Eulerian path.
+
+To make it have an Eulerian path, we need to remove edges to leave exactly 2 vertices with odd degree. Minimum number of edges to remove: 1
+
+Strategy: Remove edge (3,4) which connects two odd-degree vertices. After removal:
+- Vertex 3 becomes even degree (4)
+- Vertex 4 becomes even degree (2)
+- Only vertices 2 and 8 remain with odd degree
+
+Now an Eulerian path exists from vertex 2 to vertex 8:
+2 - 1 - 3 - 5 - 4 - 8 - 7 - 9 - 8 - 2 - 6 - 3
+
+Task 4: Critical Nodes
+
+A critical node (articulation point) is a vertex whose removal increases the number of connected components.
+
+Algorithm to find critical nodes:
+1. Run DFS to build DFS tree
+2. For each vertex v, compute:
+   - disc[v]: discovery time
+   - low[v]: lowest discovery time reachable from subtree
+3. Vertex v is critical if either:
+   - Root of DFS tree with multiple children
+   - Non-root vertex where low[w] ≥ disc[v] for some child w
+
+In our graph, critical nodes are: {3, 8}
+- Removing 3 disconnects vertices 1,2,6 from the rest
+- Removing 8 disconnects vertices 7,9 from the rest
+
+Task 5: Floyd-Warshall Algorithm
+
+The missing line in the algorithm is:
+```
+if D[i,k] + D[k,j] < D[i,j] then
+    D[i,j] = D[i,k] + D[k,j]
+```
+
+For j=1:
+```
+Initial D matrix (showing changes):
+  1  2  3  4  5  6  7  8  9
+1 0  1  4  ∞  ∞  ∞  ∞  ∞  ∞
+2 1  0  2  ∞  ∞  10 ∞  ∞  ∞
+3 4  2  0  5  12 11 ∞  ∞  ∞
+4 ∞  ∞  5  0  1  ∞  ∞  3  ∞
+5 ∞  ∞  12 1  0  ∞  ∞  ∞  ∞
+6 ∞  10 11 ∞  ∞  0  ∞  ∞  ∞
+7 ∞  ∞  ∞  ∞  ∞  ∞  0  2  5
+8 ∞  ∞  ∞  3  ∞  ∞  2  0  6
+9 ∞  ∞  ∞  ∞  ∞  ∞  5  6  0
+```
+
+Only initial direct edges are shown. As we progress through j=2 and j=3, the algorithm will update distances through intermediate vertices.
+
+
+Task 6: Prim's Algorithm starting from vertex 4
+
+Let's execute Prim's algorithm:
+1. Start with vertex 4
+2. Add cheapest edge connecting to unvisited vertex: 4-5 (w=1)
+3. From vertices {4,5}, add 4-8 (w=3)
+4. From vertices {4,5,8}, add 8-7 (w=2)
+5. From vertices {4,5,8,7}, add 8-9 (w=6)
+6. From vertices {4,5,8,7,9}, add 4-3 (w=5)
+7. From vertices {4,5,8,7,9,3}, add 3-2 (w=2)
+8. Finally add 2-1 (w=1)
+
+Final MST edges: (4,5), (4,8), (8,7), (8,9), (4,3), (3,2), (2,1)
+Total weight: 20
+
+Task 7: MST Algorithm Correctness
+
+The given algorithm is NOT correct. Here's why:
+
+1. Consider a graph where vertex 1 is not in the optimal MST
+2. The algorithm forces using edges connected to vertex 1 in its first iteration
+3. Counterexample: A triangle with vertices {1,2,3} and weights:
+   - (1,2): 10
+   - (2,3): 1
+   - (1,3): 5
+   The algorithm would choose edge (1,2) or (1,3) in first iteration, but optimal MST only contains (2,3)
+
+Task 8: Ford-Fulkerson (Edmonds-Karp) Algorithm
+
+Starting from given flow, let's find augmenting paths:
+
+1. First path: 1-5-4-2-6-7
+   - Minimum residual capacity = 3
+   - New flow: Update along path
+
+2. Second path: 1-5-3-7
+   - Minimum residual capacity = 3
+   - New flow: Update along path
+
+3. No more augmenting paths exist
+
+Minimum cut:
+- S = {1,5}
+- T = {2,3,4,6,7}
+- Forward edges: (1,2), (5,3), (5,4)
+- Backward edges: none
+Cut capacity = sum of capacities = 5 + 6 + 0 = 11
+
+Task 9: Graph Theory Proofs
+
+a) Proof that d(x) ≥ n/2 implies connectivity:
+- Suppose graph is not connected
+- Take two components C1 and C2
+- Any vertex x in C1 can only connect to vertices in C1
+- So d(x) ≤ |C1| - 1 < n/2
+- Contradicts given condition
+- Therefore graph must be connected
+
+b) Non-Hamiltonian graph example:
+- Take K2,3 (complete bipartite)
+- Two vertices in one partition with degree 3 each
+- Sum of degrees = 6 > 5 = n
+- Not Hamiltonian due to bipartite structure
+
+c) Proof for m ≥ C(n-1,2) + 2 implies Hamiltonian:
+- By contradiction
+- If not Hamiltonian, by Bondy-Chvátal theorem
+- Maximum possible edges while remaining non-Hamiltonian is C(n-1,2) + 1
+- But given m ≥ C(n-1,2) + 2
+- Contradiction, therefore must be Hamiltonian
+
+Task 10: Longest Common Subsequence
+
+For "cerceta" and "retea":
+
+Dynamic programming matrix:
+```
+    r  e  t  e  a
+c   0  0  0  0  0
+e   0  1  1  1  1
+r   1  1  1  1  1
+c   1  1  1  1  1
+e   1  2  2  2  2
+t   1  2  3  3  3
+a   1  2  3  3  4
+```
+
+Formula: dp[i][j] = 
+- if chars match: 1 + dp[i-1][j-1]
+- else: max(dp[i-1][j], dp[i][j-1])
+
+LCS length = 4 ("etea")
+
+Task 11: Mine Explorer Algorithm
+
+We can solve this using a modified Dijkstra's algorithm:
+
+
+def find_path(chambers, tunnels, start, end):
+    n = len(chambers)
+    dynamite = {i: float('inf') for i in chambers}
+    dynamite[start] = 0
+    prev = {i: None for i in chambers}
+    pq = [(0, start)]
+    
+    while pq:
+        d, current = heapq.heappop(pq)
+        
+        if current == end:
+            break
+            
+        if d > dynamite[current]:
+            continue
+            
+        for next_chamber, needs_dynamite in tunnels[current]:
+            new_dynamite = dynamite[current] + needs_dynamite
+            
+            if new_dynamite < dynamite[next_chamber]:
+                dynamite[next_chamber] = new_dynamite
+                prev[next_chamber] = current
+                heapq.heappush(pq, (new_dynamite, next_chamber))
+                
+    if dynamite[end] == float('inf'):
+        return None
+        
+    path = []
+    current = end
+    while current:
+        path.append(current)
+        current = prev[current]
+    return path[::-1]
+```
+
+Complexity: O((E + V)log V) where E is number of tunnels and V is number of chambers
+
+This algorithm:
+1. Uses priority queue to always explore path using minimum dynamite
+2. Updates dynamite needed when finding better paths
+3. Reconstructs optimal path using prev pointers
+4. Returns None if no path exists

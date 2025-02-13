@@ -1,0 +1,197 @@
+ I will provide detailed solutions for each requirement in the given exam. Please note that this is a text-based response and I cannot draw diagrams or visualizations.
+
+1. Connected bipartite induced subgraph:
+
+First, we need to find a bipartition of the graph. One possible bipartition is {1, 3, 5, 7} and {2, 4, 6, 8, 9}. To find a connected bipartite induced subgraph with the maximum number of nodes, we can try all possible subsets of each part and check if they form a connected bipartite subgraph.
+
+For example, for the subset {1, 3, 5} from the first part, the neighboring nodes are {2, 4, 6, 8}. We can see that {2, 6} are not in the second part, so this subset does not form a bipartite subgraph. Similarly, we can check all subsets and find the maximum connected bipartite induced subgraph, which is {1, 3, 5, 7} and {2, 4, 6, 8}.
+
+2. Breadth-first search (BFS) algorithm:
+
+BFS is an algorithm for traversing or searching tree, graph, or hypergraph structures. It starts at the tree root (or some arbitrary node in a graph) and explores as far as possible along each branch before backtracking.
+
+Here's how BFS works for node 4:
+
+1. Initialize a visited array and a queue. Mark node 4 as visited and add it to the queue.
+2. Dequeue the front node from the queue. If the dequeued node is the destination node, we're done. Otherwise, for each unvisited neighbor of the dequeued node, mark it as visited, add it to the queue, and update its distance from the source node.
+3. Repeat step 2 until the queue is empty or the destination node is dequeued.
+
+The BFS tree for this graph starting from node 4 would look like this:
+
+```
+4
+|
+3
+| \
+|  6
+|   \
+|    8
+|     \
+|      9
+|
+1
+|
+2
+```
+
+3. Eulerian path:
+
+An Eulerian path (or circuit) is a path that visits every edge exactly once. A graph is Eulerian if it contains an Eulerian path.
+
+In this graph, there is no Eulerian path because there are odd-degree nodes (nodes with an odd number of edges). To make the graph Eulerian, we need to remove edges so that each remaining node has even degree. One strategy is to remove an edge from each odd-degree node.
+
+In this graph, we can remove edges (1, 2), (3, 6), and (5, 3) to obtain a graph with an Eulerian path. The Eulerian path would be: 4 -> 3 -> 6 -> 8 -> 9 -> 7 -> 5 -> 4 -> 1 -> 2.
+
+A necessary and sufficient condition for an undirected graph to have an Eulerian path is that every vertex must have even degree, or the graph must have two vertices of odd degree that are connected by an edge.
+
+4. Critical nodes:
+
+Critical nodes (also known as articulation points) are nodes whose removal increases the number of connected components in a graph.
+
+To find critical nodes, we can use Depth-First Search (DFS) algorithm. During DFS, we maintain a lowlink array for each vertex, which stores the smallest depth value reached during DFS from any of the vertex's descendants. If the lowlink value of a vertex is greater than 1, then the vertex is not a critical node. Otherwise, it is a critical node.
+
+For the given graph, we can perform DFS and find the critical nodes as follows:
+
+```
+DFS-Number: 1 2 3 4 5 6 7 8 9
+DFS-Lowlink: 1 1 2 0 3 4 5 6 7
+
+Critical nodes: {2, 4, 7}
+```
+
+5. Floyd-Warshall algorithm:
+
+The Floyd-Warshall algorithm is an algorithm for finding shortest paths in a weighted graph with positive or negative edge weights and with possibly negative-weight cycles.
+
+Here's how the algorithm works for the given graph:
+
+1. Initialize a distance matrix D with the cost matrix.
+2. For j from 1 to n (number of vertices), do the following:
+   a. For i from 1 to n, do the following:
+      i. For k from 1 to n, do the following:
+        1. Update the value D[i][k] with min(D[i][k], D[i][j] + D[j][k]).
+3. The final matrix D contains the shortest distances between all pairs of vertices.
+
+For the given graph at stages j=1, j=2, and j=3, the values in the matrix would be as follows:
+
+```
+Stage 1:
+1 1 4 4 ∞ ∞ ∞ ∞ ∞
+1 10 2 ∞ ∞ ∞ ∞ ∞ ∞
+4 2 10 1 ∞ ∞ ∞ ∞ ∞
+4 ∞ 2 11 2 ∞ ∞ ∞ ∞
+∞ ∞ ∞ 2 1 12 ∞ ∞ ∞
+∞ ∞ ∞ ∞ 1 11 11 ∞ ∞
+∞ ∞ ∞ ∞ ∞ 11 1 5 ∞
+∞ ∞ ∞ ∞ ∞ ∞ 5 3 6
+∞ ∞ ∞ ∞ ∞ ∞ ∞ 6 5
+
+Stage 2:
+1 1 4 4 1 1 1 1 1
+1 10 2 1 2 1 1 1 1
+4 2 10 1 2 1 1 1 1
+4 1 2 11 2 1 1 1 1
+1 2 1 2 1 1 1 1 1
+1 1 1 1 1 11 11 11 11
+1 1 1 1 1 11 1 5 5
+1 1 1 1 1 11 5 3 6
+1 1 1 1 1 11 5 6 5
+
+Stage 3:
+1 1 4 4 1 1 1 1 1
+1 10 2 1 2 1 1 1 1
+4 2 10 1 2 1 1 1 1
+4 1 2 11 2 1 1 1 1
+1 2 1 2 1 1 1 1 1
+1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1
+```
+
+6. Prim's algorithm:
+
+Prim's algorithm is an algorithm for finding a minimum spanning tree (MST) of a weighted, connected, undirected graph.
+
+Here's how Prim's algorithm works for the given graph starting from vertex 4:
+
+1. Initialize an empty graph T and add vertex 4 to it.
+2. For each unvisited vertex v, do the following:
+   a. Find an unvisited neighbor u of v with the minimum edge weight (w) that connects to T.
+   b. Add the edge (u, v) to T and mark vertex v as visited.
+3. Repeat step 2 until all vertices are visited.
+
+The MST obtained by Prim's algorithm would be: {(4, 3), (3, 1), (1, 2), (2, 6), (6, 8), (8, 9)}.
+
+7. Minimum spanning tree algorithm:
+
+The given algorithm is not correct because it does not ensure that the resulting tree is a minimum spanning tree. The algorithm chooses connected components arbitrarily and does not guarantee that the chosen edges have minimum weight.
+
+A correct algorithm for finding a minimum spanning tree is Kruskal's algorithm or Prim's algorithm.
+
+8. Ford-Fulkerson algorithm:
+
+The Ford-Fulkerson algorithm is an algorithm for finding a maximum flow in a flow network. It is based on the idea of finding augmenting paths and increasing the flow along those paths.
+
+Here's how the algorithm works for the given network:
+
+1. Initialize the flow f(e) to 0 for all edges e.
+2. While there exists an s-t augmenting path, do the following:
+   a. Choose an s-t augmenting path P.
+   b. Increase the flow along P by the minimum residual capacity of the edges in P.
+3. The final flow f(e) represents the maximum flow in the network.
+
+For this network, we can find an s-t augmenting path (1, 2, 5, 3, 7) with residual capacity 1. We can increase the flow along this path by 1, obtaining a new flow of (1, 1, 1, 0, 2, 1, 1, 0).
+
+We can repeat this process until no more augmenting paths can be found. The final flow would be the maximum flow in the network.
+
+A minimum cut (s-t cut) in the network is {(1, 2), (5, 3), (7, 6)}. The capacity of this cut is 3.
+
+9. Properties of graphs:
+
+a. A graph with n>2 nodes that satisfies the condition d(x) >= n/2 for any node x is connected because it forms a complete graph (every pair of nodes is connected by an edge), which is always connected.
+
+b. A non-Hamiltonian graph with two distinct non-adjacent nodes with the sum of degrees greater than or equal to n is the complete graph K_(n+1). In this graph, every node has degree n, and there are no edges between any pair of nodes. However, this graph is Hamiltonian because it is a complete graph.
+
+c. If a graph G with n ≥ 2 nodes has m≥ combinations(n-1, 2) + 2 edges, then G is Hamiltonian. This is because the minimum number of edges required for a graph to be Hamiltonian is n-1, and the maximum number of edges in a graph with n vertices and no loops or multiple edges is half the number of edges in the complete graph K_n, which is combinations(n-1, 2). Therefore, if a graph has at least combinations(n-1, 2) + 2 edges, it must have at least n-1 edges, which is enough for it to be Hamiltonian.
+
+10. Longest common subsequence:
+
+The Longest Common Subsequence (LCS) problem is to find the longest sequence that is a subsequence of two given sequences.
+
+Here's how the algorithm works for the words 'cerceta' and 'retea':
+
+1. Create a matrix of size (length(cerceta) + 1) x (length(retea) + 1). Fill the first row and column with zeros.
+2. For each i from 1 to length(cerceta) and each j from 1 to length(retea), do the following:
+   a. If the ith character of 'cerceta' is equal to the jth character of 'retea', set the value at (i, j) to the value at (i-1, j-1) + 1.
+   b. Otherwise, set the value at (i, j) to the maximum of the values at (i-1, j), (i, j-1), and (i-1, j-1).
+3. The value at (length(cerceta), length(retea)) represents the length of the longest common subsequence.
+
+The matrix with the values of the subproblems would look like this:
+
+```
+ 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 1
+ 0 0 0 0 0 0 1 1
+ 0 0 0 0 0 1 1 2
+ 0 0 0 0 1 1 2 2
+ 0 0 0 1 1 2 2 3
+ 0 0 1 1 2 2 3 4
+ 0 1 1 2 2 3 4 5
+```
+
+11. Optimal path in a mine:
+
+To find an optimal path in the mine, we can use Dijkstra's algorithm or A\* algorithm. These algorithms find the shortest path from a source node to a destination node in a weighted graph.
+
+Here's how Dijkstra's algorithm works for the mine:
+
+1. Initialize the distance array dist with infinite values for all nodes except the source node, which is set to 0.
+2. For each unvisited node v, do the following:
+   a. Find the unvisited neighbor u of v with the minimum distance (d) from the source node.
+   b. If the distance to u is less than the current value in dist[u], update dist[u] with the new distance (d + weight(u, v)).
+3. Repeat step 2 until all nodes are visited.
+
+The path with the minimum dynamite cost is the path with the smallest distance from the source node to the destination node.
+
+For example, if the source node is the entrance chamber and the destination node is the chamber containing the rare crystal, we can find the optimal path using Dijkstra's algorithm. The optimal path would depend on the weights assigned to the tunnels and chambers that require dynamite to cross.

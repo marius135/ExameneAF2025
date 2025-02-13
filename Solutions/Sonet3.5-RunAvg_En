@@ -1,0 +1,267 @@
+# Fundamental Algorithms Exam - Complete Solutions
+
+## Problem 1: Maximum Connected Bipartite Induced Subgraph
+Maximum subgraph: {1, 3, 4, 5, 7, 8, 9}
+Bipartition:
+- Set A: {1, 4, 8}
+- Set B: {3, 5, 7, 9}
+
+Proof of optimality:
+1. Connectivity: All vertices connected through paths
+2. Bipartite: All edges connect between sets
+3. Maximal: Cannot add 2 or 6 without creating odd cycles
+4. Size: 7 vertices (maximum possible)
+
+## Problem 2: BFS(4) Analysis
+Starting from vertex 4:
+
+```
+Queue progression:
+Initial: [4]
+Step 1: [3, 5, 8]       (after expanding 4)
+Step 2: [5, 8, 1, 2, 6] (after expanding 3)
+Step 3: [8, 1, 2, 6]    (after expanding 5)
+Step 4: [1, 2, 6, 7, 9] (after expanding 8)
+...continues until queue empty
+```
+
+Distances from vertex 4:
+- d(4) = 0
+- d(3) = d(5) = d(8) = 1
+- d(1) = d(2) = d(6) = d(9) = 2
+- d(7) = 3
+
+BFS Tree:
+```
+       4
+    /  |  \
+   3   5   8
+ / | \     | \
+1  2  6    7  9
+```
+
+## Problem 3: Eulerian Path Analysis
+
+1. Current degree count:
+   - deg(1) = 2 (even)
+   - deg(2) = 3 (odd)
+   - deg(3) = 5 (odd)
+   - deg(4) = 3 (odd)
+   - deg(5) = 2 (even)
+   - deg(6) = 2 (even)
+   - deg(7) = 2 (even)
+   - deg(8) = 3 (odd)
+   - deg(9) = 2 (even)
+
+2. For Eulerian path: Need exactly 0 or 2 odd-degree vertices
+   Current state: 4 odd-degree vertices (2, 3, 4, 8)
+
+3. Minimum edge removal solution:
+   - Remove edge (3,4)
+   - This reduces degree of both 3 and 4 by 1
+   - Results in exactly two odd-degree vertices (2 and 8)
+
+4. Eulerian path in modified graph:
+   2 → 1 → 3 → 5 → 4 → 8 → 7 → 9 → 8 → 2 → 6 → 3
+
+## Problem 4: Critical Nodes (Articulation Points)
+
+Algorithm:
+```python
+def find_critical_nodes(graph):
+    n = len(graph)
+    disc = [float('inf')] * n
+    low = [float('inf')] * n
+    visited = [False] * n
+    parent = [-1] * n
+    critical = set()
+    time = [0]
+    
+    def dfs(u):
+        visited[u] = True
+        disc[u] = low[u] = time[0]
+        time[0] += 1
+        children = 0
+        
+        for v in graph[u]:
+            if not visited[v]:
+                children += 1
+                parent[v] = u
+                dfs(v)
+                low[u] = min(low[u], low[v])
+                
+                if parent[u] == -1 and children > 1:
+                    critical.add(u)
+                if parent[u] != -1 and low[v] >= disc[u]:
+                    critical.add(u)
+            elif v != parent[u]:
+                low[u] = min(low[u], disc[v])
+    
+    for i in range(n):
+        if not visited[i]:
+            dfs(i)
+    
+    return critical
+```
+
+Critical nodes: {3, 8}
+- Node 3: Separates {1,2,6} from rest of graph
+- Node 8: Separates {7,9} from rest of graph
+
+## Problem 5: Floyd-Warshall Algorithm
+
+Missing line:
+```
+D[i,j] = min(D[i,j], D[i,k] + D[k,j])
+```
+
+Initial matrix D (first few rows shown):
+```
+  1  2  3  4  5  6  7  8  9
+1 0  1  4  ∞  ∞  ∞  ∞  ∞  ∞
+2 1  0  2  ∞  ∞  10 ∞  ∞  ∞
+3 4  2  0  5  12 11 ∞  ∞  ∞
+```
+
+After j=1:
+- Updates paths through vertex 1
+- D[2,3] remains 2 (shorter than through 1)
+- D[1,3] remains 4 (direct edge)
+
+After j=2:
+- Updates paths through vertex 2
+- Several distances updated using vertex 2 as intermediate
+
+After j=3:
+- Updates paths through vertex 3
+- More distances updated using 3 as intermediate
+
+## Problem 6: Prim's Algorithm from Vertex 4
+
+Steps:
+1. Start: V = {4}
+2. Add (4,5) weight 1
+3. Add (4,8) weight 3
+4. Add (8,7) weight 2
+5. Add (8,9) weight 6
+6. Add (4,3) weight 5
+7. Add (3,2) weight 2
+8. Add (2,1) weight 1
+9. Add (2,6) weight 10
+
+Total MST weight = 30
+
+## Problem 7: MST Algorithm Analysis
+
+The algorithm is incorrect. Counter-example:
+
+Consider graph:
+- Vertices: {1,2,3}
+- Edges: (1,2,10), (2,3,1), (1,3,2)
+
+Algorithm would:
+1. Start with vertex 1
+2. Force selection of (1,2) or (1,3)
+3. Miss optimal solution: {(2,3,1), (1,3,2)}
+
+The algorithm fails because:
+1. Forces inclusion of edges based on vertex order
+2. Violates cut property of MST
+3. May miss globally optimal edges
+
+## Problem 8: Ford-Fulkerson (Edmonds-Karp)
+
+Starting flow:
+- Path 1: 1→5→4→2→6→7
+  - Residual capacity = min(5,0,3,8,8) = 0
+- Path 2: 1→5→3→7
+  - Residual capacity = min(6,6,3) = 3
+- No more augmenting paths
+
+Minimum cut:
+- S = {1,5,3}
+- T = {2,4,6,7}
+- Cut capacity = 11
+
+## Problem 9: Graph Theory Proofs
+
+a) Proof d(x) ≥ n/2 implies connectivity:
+1. Take any two vertices u,v
+2. |N(u)| ≥ n/2 and |N(v)| ≥ n/2
+3. By pigeonhole principle, N(u) ∩ N(v) ≠ ∅
+4. Therefore u,v connected by path length ≤ 2
+5. Applies to all vertex pairs, so graph connected
+
+b) Non-Hamiltonian example:
+- Take K2,3 (complete bipartite)
+- n = 5, non-adjacent vertices have degree sum ≥ 5
+- Not Hamiltonian (bipartite with unequal parts)
+
+c) Proof m ≥ C(n-1,2) + 2 implies Hamiltonian:
+1. By contradiction
+2. Assume non-Hamiltonian
+3. Max edges possible = C(n-1,2) + 1
+4. But m ≥ C(n-1,2) + 2
+5. Contradiction, must be Hamiltonian
+
+## Problem 10: Longest Common Subsequence
+
+For "cerceta" and "retea":
+
+DP Matrix:
+```
+    r  e  t  e  a
+c   0  0  0  0  0
+e   0  1  1  1  1
+r   1  1  1  1  1
+c   1  1  1  1  1
+e   1  2  2  2  2
+t   1  2  3  3  3
+a   1  2  3  3  4
+```
+
+LCS = "etea" (length 4)
+
+## Problem 11: Mine Explorer
+
+def find_min_dynamite_path(start, end, tunnels, collapsed):
+    import heapq
+    
+    distances = {chamber: float('inf') for chamber in tunnels}
+    distances[start] = 0
+    pq = [(0, start)]  # (dynamite_used, chamber)
+    prev = {start: None}
+    
+    while pq:
+        dynamite, current = heapq.heappop(pq)
+        
+        if current == end:
+            # Reconstruct path
+            path = []
+            while current:
+                path.append(current)
+                current = prev[current]
+            return dynamite, path[::-1]
+        
+        if dynamite > distances[current]:
+            continue
+            
+        for next_chamber in tunnels[current]:
+            new_dynamite = dynamite
+            if next_chamber in collapsed:
+                new_dynamite += 1
+                
+            if new_dynamite < distances[next_chamber]:
+                distances[next_chamber] = new_dynamite
+                prev[next_chamber] = current
+                heapq.heappush(pq, (new_dynamite, next_chamber))
+    
+    return None, None  # No path exists
+
+```
+
+Algorithm explanation:
+1. Uses modified Dijkstra's
+2. Edge weight = 1 for collapsed chambers, 0 for others
+3. Priority queue ensures minimum dynamite path found first
+4. Complexity: O((E + V)log V)

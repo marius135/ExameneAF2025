@@ -1,0 +1,279 @@
+
+1. Finding maximum bipartite induced subgraph:
+
+Let's analyze the graph to find the largest bipartite induced subgraph. I'll use a coloring approach.
+
+The largest bipartite induced subgraph consists of:
+- Set A: {1, 3, 7, 9}
+- Set B: {2, 4, 8}
+
+This is a connected bipartite subgraph with 7 vertices. We can verify it's bipartite because:
+- All edges connect vertices from different sets
+- The subgraph is connected
+- No larger connected bipartite subgraph exists (vertices 5 and 6 can't be added without breaking the bipartite property)
+
+2. BFS from vertex 4:
+
+Let me provide a step-by-step BFS execution from vertex 4:
+
+```
+Initial state: 
+Queue: [4]
+Distances: d[4] = 0, all others infinity
+Visited: {4}
+
+Step 1:
+Process 4 -> Add neighbors (3, 5, 8)
+Queue: [3, 5, 8]
+Distances: d[3] = 1, d[5] = 1, d[8] = 1
+Visited: {3, 4, 5, 8}
+
+Step 2:
+Process 3 -> Add neighbors (1, 2, 6)
+Queue: [5, 8, 1, 2, 6]
+Distances: d[1] = 2, d[2] = 2, d[6] = 2
+Visited: {1, 2, 3, 4, 5, 6, 8}
+
+Step 3:
+Process remaining vertices, adding 7, 9
+Final distances from 4:
+d[1] = 2
+d[2] = 2
+d[3] = 1
+d[4] = 0
+d[5] = 1
+d[6] = 2
+d[7] = 2
+d[8] = 1
+d[9] = 2
+```
+
+The BFS tree:
+```
+        4
+     /  |  \
+    3   5   8
+   /|\      |\
+  1 2 6     7 9
+```
+
+
+
+3. Eulerian Path:
+For an undirected graph to have an Eulerian path, either:
+- All vertices have even degree, or
+- Exactly two vertices have odd degree (these will be the endpoints)
+
+Let's count vertex degrees:
+1: degree 2
+2: degree 3
+3: degree 5
+4: degree 3
+5: degree 2
+6: degree 2
+7: degree 2
+8: degree 3
+9: degree 2
+
+We have five vertices with odd degree (2, 3, 4, 8), so the graph doesn't have an Eulerian path. To obtain a graph with an Eulerian path, we need to remove edges to leave exactly two vertices with odd degree. 
+
+Strategy: Remove edge (2,3) and edge (3,4). This leaves:
+- Vertex 3 with odd degree
+- Vertex 4 with odd degree
+- All other vertices with even degree
+
+An Eulerian path in the modified graph: 4-5-3-1-2-6-3-5-4-8-7-9-8
+
+4. Critical Nodes:
+A critical node (articulation point) is a vertex whose removal increases the number of connected components.
+
+Algorithm to find critical nodes:
+```python
+def find_critical_nodes(graph):
+    n = len(graph)
+    discovery = [0] * n
+    low = [0] * n
+    visited = [False] * n
+    critical = set()
+    time = [0]
+    
+    def dfs(u, parent):
+        children = 0
+        visited[u] = True
+        discovery[u] = low[u] = time[0]
+        time[0] += 1
+        
+        for v in graph[u]:
+            if not visited[v]:
+                children += 1
+                dfs(v, u)
+                low[u] = min(low[u], low[v])
+                
+                if parent == -1 and children > 1:
+                    critical.add(u)
+                if parent != -1 and low[v] >= discovery[u]:
+                    critical.add(u)
+            elif v != parent:
+                low[u] = min(low[u], discovery[v])
+    
+    dfs(0, -1)
+    return critical
+```
+
+Critical nodes in our graph: {3, 8}
+- Node 3 is critical because its removal disconnects vertices 5,4 from 1,2,6
+- Node 8 is critical because its removal disconnects 7,9 from the rest
+
+5. Floyd-Warshall Algorithm:
+
+The missing line in the algorithm is:
+```
+D[i,k] = min(D[i,k], D[i,j] + D[j,k])
+```
+
+Initial distance matrix D (showing first few stages):
+```
+  1  2  3  4  5  6  7  8  9
+1 0  1  4  ∞  ∞  ∞  ∞  ∞  ∞
+2 1  0  2  ∞  ∞  10 ∞  ∞  ∞
+3 4  2  0  5  12 11 ∞  ∞  ∞
+4 ∞  ∞  5  0  1  ∞  ∞  3  ∞
+5 ∞  ∞  12 1  0  ∞  ∞  ∞  ∞
+6 ∞  10 11 ∞  ∞  0  ∞  ∞  ∞
+7 ∞  ∞  ∞  ∞  ∞  ∞  0  2  5
+8 ∞  ∞  ∞  3  ∞  ∞  2  0  6
+9 ∞  ∞  ∞  ∞  ∞  ∞  5  6  0
+```
+
+After j=1 (first vertex), j=2, and j=3 the matrix gets updated with shorter paths through these intermediate vertices.
+
+6. Prim's Algorithm starting from vertex 4:
+
+Steps of Prim's algorithm:
+1. Start with vertex 4
+2. Add edge (4,5) weight 1
+3. Add edge (4,8) weight 3
+4. Add edge (4,3) weight 5
+5. Add edge (8,7) weight 2
+6. Add edge (8,9) weight 6
+7. Add edge (3,2) weight 2
+8. Add edge (3,1) weight 4
+9. Add edge (2,6) weight 10
+
+Final MST weight = 33
+
+7. The proposed algorithm is incorrect.
+
+Counter-example:
+Consider a graph with vertices {1,2,3} and edges:
+(1,2) weight 10
+(2,3) weight 1
+(1,3) weight 2
+
+The algorithm would:
+1. Start with vertex 1, choose edge (1,2) as it's the only option
+2. Already have all vertices connected
+
+This produces a tree with weight 10, while the optimal MST has weight 3 using edges (1,3) and (2,3).
+
+The algorithm fails because it restricts edge selection to components containing specific vertices in order, rather than always choosing the global minimum weight edge that connects any two components.
+
+8. Ford-Fulkerson (Edmonds-Karp variant):
+
+Steps:
+1. Find shortest augmenting path: 1-5-4-2-6-7
+   Flow increase: min(1,0,3,8,8) = 0 (path already saturated)
+2. Find next path: 1-5-3-7
+   Flow increase: min(6-6,6-6,3-3) = 0 (path already saturated)
+3. No more augmenting paths exist
+
+Minimum cut:
+S = {1,5,3,4}
+T = {2,6,7}
+Cut capacity = sum of capacities of forward edges - sum of backward flow = 22
+
+9. Graph Theory Proofs:
+
+a) Proof for d(x) ≥ n/2:
+- For any two vertices x,y, their neighborhoods must overlap
+- Because d(x) + d(y) > n, by pigeonhole principle
+- This means any two vertices are connected by path of length ≤ 2
+- Therefore graph is connected
+
+b) Example of non-Hamiltonian graph:
+- Take K5,5 (complete bipartite graph)
+- It has n=10 vertices
+- Any two non-adjacent vertices have degree sum 10
+- But it's not Hamiltonian (bipartite with unequal parts)
+
+c) Proof for m ≥ C(n-1,2) + 2:
+- By Bondy-Chvátal theorem
+- Such density ensures closure has a Hamiltonian cycle
+- Number of edges ensures all non-adjacent vertices have degree sum ≥ n
+- Therefore graph is Hamiltonian
+
+10. Longest Common Subsequence:
+
+Algorithm uses dynamic programming:
+```
+LCS[i,j] = 0 if i=0 or j=0
+LCS[i,j] = LCS[i-1,j-1] + 1 if x[i]=y[j]
+LCS[i,j] = max(LCS[i-1,j], LCS[i,j-1]) otherwise
+```
+
+For "cerceta" and "retea":
+```
+    r  e  t  e  a
+c   0  0  0  0  0
+e   0  1  1  1  1
+r   1  1  1  1  1
+c   1  1  1  1  1
+e   1  2  2  2  2
+t   1  2  3  3  3
+a   1  2  3  3  4
+```
+
+11. Mine Explorer Problem:
+
+This is essentially a modified shortest path problem where the "cost" is the number of dynamite needed.
+
+
+def find_best_path(chambers, tunnels, start, end, collapsed):
+    import heapq
+    
+    # Priority queue storing (dynamite_used, chamber)
+    pq = [(0, start)]
+    # Keep track of minimum dynamite needed to reach each chamber
+    min_dynamite = {start: 0}
+    # Keep track of path
+    previous = {start: None}
+    
+    while pq:
+        dynamite, current = heapq.heappop(pq)
+        
+        if current == end:
+            # Reconstruct path
+            path = []
+            while current:
+                path.append(current)
+                current = previous[current]
+            return dynamite, path[::-1]
+            
+        for next_chamber in tunnels[current]:
+            new_dynamite = dynamite
+            if next_chamber in collapsed:
+                new_dynamite += 1
+                
+            if (next_chamber not in min_dynamite or 
+                new_dynamite < min_dynamite[next_chamber]):
+                min_dynamite[next_chamber] = new_dynamite
+                previous[next_chamber] = current
+                heapq.heappush(pq, (new_dynamite, next_chamber))
+    
+    return None, None  # No path exists
+```
+
+The algorithm uses Dijkstra's algorithm with modifications:
+- Edge weights are 0 for normal chambers, 1 for collapsed chambers
+- Priority queue orders by minimum dynamite used
+- Complexity: O((V+E)log V) where V is number of chambers and E is number of tunnels
