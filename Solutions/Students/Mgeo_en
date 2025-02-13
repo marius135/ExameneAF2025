@@ -1,0 +1,113 @@
+1.
+<Student Drawing>
+Undirected graph:
+1 3
+2 3
+3 6
+4 3
+4 5
+4 8
+8 9
+8 7
+</Student Drawing>
+
+2.
+The BFS algorithm incrementally traverses the neighbors of the starting node and then the neighbors of the neighbors, and so on, using a queue to maintain the order.
+BFS(4):
+Remove node 4, add 3,5,8, queue is: 3,5,8
+Remove node 3, add 1,2,6, queue: 5,8,1,2,6
+Remove 5, add _ (it has no unvisited neighbors), queue 8,1,2,6
+Remove 8, add 7,9, queue: 1,2,6,7,9
+Remove 1, queue: 2,6,7,9
+Remove 2, queue: 6,7,9
+Remove 6, queue: 7,9
+Remove 7, queue: 9
+Remove 9, queue: _
+To store the distances, we assume an initial distance for the starting node, and for neighbors we will increment the distance incrementally (distance of the node from which we are visiting + 1).
+BF(4) tree:
+<Student Drawing>
+Tree represented by the following parent vector: {3,3,4,0,4,3,8,4,8}
+</Student Drawing>
+
+3.
+Not admitted.
+We remove the edge 2-3, and we have the chain 8-9-7-8-4-5-3-6-2-1-3-4.
+A necessary condition is to have at most 2 nodes with odd degree. Our graph has 4 such nodes, and the edge 2-3 reduces this number to 2.
+
+4.
+We can determine the critical nodes in the DF tree as follows:
+
+the root is a critical point if it has at least 2 children in the DF tree.
+another vertex i is critical if it has at least one child j for which the minimum level at which an elementary cycle containing j closes (through a back edge) is greater than or equal to the level of i.
+<Student Drawing>
+Tree represented by the parent vector: {3, 1,4,0,3,2,8,4,7}
+6.
+We start from a vertex (4), representing the initial tree. At a step we select an edge of minimum cost from a vertex already added to the tree to one not yet added.
+V(T) = {4}, E(T) = {} → we choose 4-5.
+V(T) = {4,5}, E(T) = {4-5} → we choose 4-8.
+V(T) = {4,5,8}, E(T) = {4-5, 4-8} → we choose 8-7.
+V(T) = {4,5,8,7}, E(T) = {4-5, 4-8, 8-7} → we choose 7-3.
+V(T) = {4,5,8,7,3}, E(T) = {4-5, 4-8, 8-7, 4-3} → we choose 3-2.
+V(T) = {4,5,8,7,3,2}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2} → we choose 2-1.
+V(T) = {4,5,8,7,3,2,1}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2, 2-1} → we choose 7-9.
+V(T) = {4,5,8,7,3,2,1}, E(T) = {4-5, 4-8, 8-7, 4-3, 3-2, 2-1} → we choose 2-6.
+<Student Drawing>
+Tree represented by the following parent vector: {2,3,4,0,4,2,8,4,7}
+</Student Drawing>
+
+7.
+Yes, it is correct, it is an implementation of Kruskal's algorithm.
+
+8.
+We find the chain 1-2-6-7 with the potential 1
+<Student Drawing>
+source destination flow/capacity
+1 5 6/6
+1 2 6/10
+5 4 0/3
+4 2 3/3
+2 6 9/9
+6 4 3/5
+5 3 6/7
+3 6 3/3
+6 7 9/10
+3 7 3/7
+</Student Drawing>
+We find the chain 1-2-4-6-7 with the potential 1
+<Student Drawing>
+source destination flow/capacity
+1 5 6/6
+1 2 7/10
+5 4 0/3
+4 2 2/3
+2 6 9/9
+6 4 2/5
+5 3 6/7
+3 6 3/3
+6 7 10/10
+3 7 3/7
+</Student Drawing>
+We find the chain 1-2-4-6-3-7 with the potential 2
+<Student Drawing>
+source destination flow/capacity
+1 5 6/6
+1 2 9/10
+5 4 0/3
+4 2 0/3
+2 6 9/9
+6 4 0/5
+5 3 6/7
+3 6 1/3
+6 7 9/10
+3 7 5/7
+</Student Drawing>
+We start from node 1 and find the unsaturated edges:
+which represent the minimum cut. The partitions:
+1. 1,2
+2. 5,4,3,6,7
+with direct arcs 1-5, 2-6 and inverse arcs 4-2
+C(+) = 6-3+9 = 12
+
+11.
+We consider the map as a weighted undirected graph where the cost of the arcs leading to collapsed rooms (nodes) is 1, and 0 for the others. To find the minimum cost path in a weighted undirected graph with positive weights, we can use Dijkstra's algorithm.
+Algorithm Complexity: O(m log n), Keeping Q in a min-heap
