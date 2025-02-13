@@ -1,0 +1,225 @@
+ Aici urmează soluțiile pentru fiecare cerintă din examenul de algoritmi:
+
+1. Subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia:
+
+   Pentru a găsi un subgraf indus bipartit conex cu număr maxim de noduri, putem aplica următorul algoritm:
+
+   - Selectați un nod și marcați-l ca nodul din partea I a bipartiției.
+   - Marcați toate vecinii nemarcați ai nodului curent ca noduri din partea II a bipartiției.
+   - Pentru fiecare nod necurent marcat, dacă există o legătură cu un nod din partea I, atunci marcați-l ca nod din partea I a bipartiției și marcați toate vecinii necurenti ca noduri din partea II a bipartiției.
+   - Repeat până când nu mai există noduri necurenți marcați.
+
+   După acest algoritm, putem observa că graful este bipartit, cu nodurile 1, 3, 5 și 7 din partea I și nodurile 2, 4, 6, 8 și 9 din partea II a bipartiției. Acest subgraf este conex, deoarece orice nod din partea I este legat de cel puțin un nod din partea II, iar orice nod din partea II este legat de cel puțin un nod din partea I.
+
+2. Parcurgerea în lățime BFS:
+
+   Parcurgerea în lățime BFS este un algoritm de parcurgere a unui graf care vizitează primul nod nevizitat și apoi vizitează toate vecinii acestuia, înainte de a vizita vecinii acestora. Aceasta se poate realiza prin utilizarea unei cozi de prioritate, unde nodurile sunt sortate după distanța lor de la nodul de start.
+
+   Pentru graful din exemplu, dacă nodul de start este 4, algoritmul BFS va funcționa astfel:
+
+   - Adaugă 4 în coada de prioritate și marca-l ca vizitat.
+   - Extrage 4 din coada de prioritate și vizitează toate vecinii săi nevizitați: 8 și 7.
+   - Adaugă 8 și 7 în coada de prioritate și marcați-le ca vizitate.
+   - Extrage 8 din coada de prioritate și vizitează toate vecinii săi nevizitate: 9.
+   - Adaugă 9 în coada de prioritate și marcați-l ca vizitat.
+   - Extrage 7 din coada de prioritate și vizitează toate vecinii săi nevizitate: 8.
+   - Extrage 7 din coada de prioritate și nu mai există noduri nevizitate, astfel încât algoritmul se oprește.
+
+   Arborele BFS obținut este următorul:
+
+   ```
+   4
+  / \
+ 8   7
+    / \
+   9
+   ```
+
+   De asemenea, distanța de la 4 la fiecare alt nod poate fi calculată astfel:
+
+   - Distanța de la 4 la 8 este 1.
+   - Distanța de la 4 la 7 este 2.
+   - Distanța de la 4 la 9 este 3.
+
+3. Lanț eulerian:
+
+   Un graf orientat este un lanț eulerian dacă există o secvență de muchii care traversează fiecare muchie o singură dată și încheie la un nod. Un graf neorientat este un lanț eulerian dacă este conex și are un număr par de muchii.
+
+   Graful din exemplu nu este un lanț eulerian, deoarece are 7 muchii și este conex. De asemenea, nu există nicio secvență de muchii care traversează fiecare muchie o singură dată.
+
+   Pentru a elimina un număr minim de muchii astfel încât graful format să aibă un lanț eulerian, putem aplica următorul algoritm:
+
+   - Marcați toate componentele conexe ale grafului.
+   - Pentru fiecare componentă conexă cu un număr impar de muchii, eliminați o muchie arbitrară.
+
+   După eliminarea unei muchii arbitrare din componenta conexă cu 3 muchii, graful format va avea 6 muchii și va fi conex, astfel încât va exista un lanț eulerian.
+
+4. Noduri critice:
+
+   Un nod critic al unui graf neorientat este un nod care nu poate fi eliminat din graful conex fără a crea o componentă conexă disjunctă.
+
+   Pentru a găsi nodurile critice ale unui graf neorientat, putem aplica următorul algoritm:
+
+   - Marcați toate nodurile ca nevizitate.
+   - Selectați un nod nevizitat și marcați-l ca vizitat.
+   - Adaugă toate vecinii nevizitați ai nodului curent la o coadă de prioritate, sortându-i după distanța lor de la nodul curent.
+   - Extrage nodul cu distanța minimă de la coada de prioritate și verificați dacă este un nod critic. Dacă este, atunci adaugăți nodul critic la o lista de noduri critice și marcați-l ca vizitat. Dacă nu este, atunci vizitați toate vecinii săi nevizitați și adaugăți-i la coada de prioritate.
+   - Repeat până când toate nodurile au fost vizitate.
+
+   După aplicarea acestui algoritm pe graful din exemplu, putem observa că nodurile critice sunt 1, 3 și 7, deoarece fiecare dintre ele nu poate fi eliminat din graful conex fără a crea o componentă conexă disjunctă.
+
+5. Algoritmul Floyd-Warshall:
+
+   Algoritmul Floyd-Warshall este un algoritm de determinare a distanțelor într-un graf neorientat ponderat cu n vârfuri. Acesta se bazează pe iterarea peste toate perechile de noduri și calcularea distanțelor între ele prin intermediul unei iterări suplimentare peste toate perechile de noduri intermediare.
+
+   În graful din exemplu, matricea de costuri este următoarea:
+
+   ```
+   1 10 5 6 12 11 3 1 4
+   10 0 3 0 0 0 0 0 0
+   5 3 0 4 0 0 0 0 0
+   6 0 4 0 3 0 0 0 0
+   12 0 0 3 0 0 5 0 0
+   11 0 0 0 0 0 0 7 0
+   3 0 0 0 5 7 0 5 0
+   1 0 0 0 0 7 5 0 2
+   4 0 0 0 0 0 0 2 0
+   ```
+
+   La etapa j=1, matricea de distanțe este egală cu matricea de costuri:
+
+   ```
+   1 10 5 6 12 11 3 1 4
+   10 0 3 6 12 11 3 1 4
+   5 3 0 4 12 11 3 1 4
+   6 6 4 0 12 11 3 1 4
+   12 12 12 12 0 11 5 11 11
+   11 11 11 11 11 0 7 11 11
+   3 3 3 3 5 7 0 5 0
+   1 1 1 1 11 11 5 0 2
+   4 4 4 4 11 11 0 2 0
+   ```
+
+   La etapa j=2, matricea de distanțe este actualizată astfel:
+
+   ```
+   1 10 5 6 12 11 3 1 4
+   10 0 3 6 12 11 3 1 4
+   5 3 0 4 12 11 3 1 4
+   6 6 4 0 12 11 3 1 4
+   12 12 12 12 0 11 5 11 11
+   11 11 11 11 11 0 7 11 11
+   3 3 3 3 5 7 0 5 0
+   1 1 1 1 11 11 5 0 2
+   4 4 4 4 11 11 0 2 0
+   ```
+
+   La etapa j=3, matricea de distanțe este actualizată astfel:
+
+   ```
+   1 10 5 6 12 11 3 1 4
+   10 0 3 6 12 11 3 1 4
+   5 3 0 4 12 11 3 1 4
+   6 6 4 0 12 11 3 1 4
+   12 12 12 12 0 11 5 11 11
+   11 11 11 11 11 0 7 11 11
+   3 3 3 3 5 7 0 5 0
+   1 1 1 1 11 11 5 0 2
+   4 4 4 4 11 11 0 2 0
+   ```
+
+   Pentru graful din exemplu, matricea de distanțe rămâne egală cu matricea de costuri după toate etapele iterărilor, astfel încât distanțele între noduri sunt egală cu costurile lor.
+
+6. Algoritmul lui Prim:
+
+   Algoritmul lui Prim este un algoritm de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G = (V, E, w). Acesta se bazează pe iterarea peste toate nodurile și adăugarea celor mai bine conectate la arborele actual.
+
+   Pentru graful din exemplu, dacă nodul de start este 4, algoritmul lui Prim va funcția astfel:
+
+   - Adaugă 4 în arbore și marcați-l ca vizitat.
+   - Extrage nodul nevizitat cu distanța minimă de la arbore și adaugăți-l în arbore.
+   - Repeat până când toate nodurile au fost vizitate.
+
+   După aplicarea acestui algoritm, putem observa că arborele parțial de cost minim este următorul:
+
+   ```
+   4
+  / \
+ 8   7
+    / \
+   9
+   ```
+
+7. Algoritmul de determinare a unui arbore parțial de cost minim:
+
+   Algoritmul de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G = (V, E, w) este corect. Acesta se bazează pe iterarea peste toate nodurile și adăugarea celor mai bine conectate la arborele actual.
+
+8. Algoritmul Ford-Fulkerson:
+
+   Algoritmul Ford-Fulkerson este un algoritm de determinare a fluxului maxim printr-un rețeaua de transport. Acesta se bazează pe iterarea peste toate arcele și adăugarea unui flux maxim prin fiecare arcă.
+
+   Pentru rețeaua de transport din exemplu, dacă fluxul indicat este 1, algoritmul Ford-Fulkerson va funcționa astfel:
+
+   - Calculați fluxul maxim prin fiecare arcă directă și inversă.
+   - Dacă fluxul maxim printr-un arc direct este mai mic decât capacitatea acestuia, atunci adaugăți un flux maxim prin acel arc.
+   - Repeat până când nu mai există arcă prin care puteți adăuga un flux maxim.
+
+   După aplicarea acestui algoritm, putem observa că fluxul maxim este 4, iar o tăietură minimă este următoarea:
+
+   - Sursa (1)
+   - 2
+   - 3
+   - 4
+   - 5
+   - 6
+   - 7
+   - Destinație (7)
+
+   Capacitatea acestei tăieturi este 6 (capacitatea arcei directe 5 + capacitatea arcei inversă 1), deoarece este egală cu suma capacităților arcelor directe și inversă care traversează tăietura.
+
+9. Condiții pentru un graf:
+
+   a) Un graf cu n>2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex.
+
+   Demonstrația: Dacă un graf are n>2 noduri și îndeplinește condiția d(x) >= n/2 pentru orice nod x, atunci orice nod poate fi legat de cel puțin n/2 noduri, deoarece d(x) >= n/2. Astfel, graful este conex, deoarece orice nod poate fi legat de cel puțin un nod din componenta conexă care conține nodul de start.
+
+   b) Un graf nehamiltonian în care există două noduri neadiacente distince cu suma gradelor mai mare sau egală cu n.
+
+   Demonstrația: Pentru orice graf nehamiltonian, există cel puțin două noduri neadiacente distince. Pentru un astfel de graf, dacă suma gradelor celor două noduri este mai mare sau egală cu n, atunci graful nu poate fi hamiltonian, deoarece există doar n-2 muchii și suma gradelor celor două noduri este mai mare sau egală cu n.
+
+   c) Dacă un graf G cu n ≥ 2 noduri are m≥ combinații(n-1, 2) + 2 muchii, atunci G este Hamiltonian.
+
+   Demonstrația: Dacă un graf G cu n ≥ 2 noduri are m≥ combinații(n-1, 2) + 2 muchii, atunci graful este hamiltonian. Într-un graf hamiltonian, există o secvență de muchii care traversează fiecare nod o singură dată și încheie la un nod. Astfel, graful are n-1 muchii, deoarece fiecare nod este legat de cel puțin un nod printr-o muchie. De asemenea, graful are cel puțin două muchii suplimentare, deoarece nu există o secvență de muchii care traversează fiecare nod o singură dată și încheie la un nod. În total, graful are m≥ n-1 + 2 muchii, deoarece m este egal cu numărul de muchii și n este egal cu numărul de noduri.
+
+10. Algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte:
+
+   Algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte se bazează pe iterarea peste toate perechile de caractere și calcularea lungimii maximă a unui subsir comun a două subcuvinte care încep cu cele două caractere.
+
+   Pentru cuvintele 'cerceta' și 'retea', matricea cu valorile subproblemelelor este următoarea:
+
+   ```
+   c e r c e t a
+   r e t e a
+   0 1 2 3 4 5 6
+   1 0 1 2 3 4 5
+   0 1 0 1 2 3 4
+   0 1 1 0 1 2 3
+   0 1 2 1 0 1 2
+   0 1 3 2 1 0 1
+   0 1 4 3 2 1 0
+   ```
+
+   Lungimea maximă a unui subsir comun a două cuvintele este 4 (subsirul comun este 'cerc').
+
+11. Algoritmul de determinare a drumului:
+
+   Algoritmul de determinare a drumului pentru exploratorii noștri experimentați care trebuie să ajungă de la camera de intrare la camera care conține cristalul rar folosind cât mai puțină dinamită se poate realiza astfel:
+
+   - Marcați toate camerele ca nevizitate.
+   - Selectați camera de intrare și marcați-l ca vizitat.
+   - Adaugăți toate camerele nevizitate legate de camera curentă la o coadă de prioritate, sortându-le după distanța lor de la camera curentă.
+   - Extrageți camera cu distanța minimă de la coadă de prioritate și verificați dacă este camera care conține cristalul rar. Dacă este, atunci adaugăți drumul actual la o listă de drumuri posibile. Dacă nu este, atunci vizitați toate camerele nevizitate legate de camera curentă și adaugăți-le la coada de prioritate.
+   - Repeat până când nu mai există camere nevizitate.
+   - Selectați drumul cu lungimea minimă din lista de drumuri posibile.
+
+   Complexitatea acestui algoritm este O(n^2), deoarece se poate parcurge fiecare cameră o singură dată și se poate parcurge fiecare tăietură a grafului (un tăietură este formată dintr-o cameră și toate camerele legate de ea) o singură dată.

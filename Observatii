@@ -10,9 +10,13 @@ Modelele mai vechi iti explica cum sa faci si nu fac ele (inclusiv O1)
 - Demonstrația se bazează pe un rezultat cunoscut (uneori e enunțat sub forma unui corolar la teorema lui Dirac sau Ore, combinat cu inegalități pe numărul total de muchii).  
 - si o3-mini are lene Această proprietate se poate arăta folosind o analiză structurală a grafurilor maxime neHamiltoniene (de exemplu, se poate arăta că un graf maxim neHamiltonian trebuie să fie “defectuos” într-un anumit sens şi să nu poată atinge un număr de muchii mai mare).  
 Prin urmare, dacă \(m\ge \binom{n-1}{2}+2\), graful \(G\) nu poate fi neHamiltonian şi deci este Hamiltonian.
+An efficient algorithm is Tarjan's algorithm. It's based on Depth-First Search (DFS) and uses discovery times and low values to identify articulation points. Explaining Tarjan's and applying it to this graph requires a bit more space and would be easier with a visual representation. It involves tracking discovery and low-link values during DFS.
+... continue until all vertices are in the MST.
+Edmonds-Karp uses BFS to find augmenting paths. Applying it to the given network requires tracking the flow and residual capacity, which is too complex to detail here without diagrams.
 
 O3-mini si O3-high nu au reusit la flux sa inteleaga graful...
 
+Modele thinking (Gemini 2 mai ales dar si O3 au mers mai slab ca originalul)
 
 La 10 se gresete subsirul comun frecvent:
 
@@ -20,6 +24,7 @@ Un subșir comun de lungime 4 poate fi 'retea'.
 
 Unele modele nu apuca sa scrie tot examenul cu tokenii de un output (default sau totali ... uneori peste 8K tokens)
 
+Gemini 1.5 pro nu a vrut sa scrie... cu greu a fost convins
 
 Failing Easy Math:
 

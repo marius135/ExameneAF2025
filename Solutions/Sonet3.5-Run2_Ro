@@ -1,0 +1,265 @@
+I'll help you solve this algorithms exam efficiently. I'll solve each task in detail in Romanian since the exam is in Romanian.
+
+Let's start by analyzing the graphs we're working with. For tasks 1-6, we have an undirected weighted graph Graf_1_6. For task 8, we have a directed graph Graf_8 with capacities and flows.
+
+Let's solve each task:
+
+1) Pentru subgraful indus bipartit maximal:
+
+
+
+```mermaid
+graph TD
+    1[1] --- 2[2]
+    2[2] --- 3[3]
+    3[3] --- 4[4]
+    4[4] --- 8[8]
+    8[8] --- 9[9]
+    
+    classDef partA fill:#ff9999;
+    classDef partB fill:#99ff99;
+    
+    class 1,3,8 partA;
+    class 2,4,9 partB;
+
+```
+
+Un subgraf indus bipartit maximal conex are 6 noduri și este format din nodurile {1,2,3,4,8,9}. 
+Bipartiția este:
+- A = {1,3,8}
+- B = {2,4,9}
+
+2) Pentru BF(4):
+
+
+
+```mermaid
+graph TD
+    4[4] --> 3[3]
+    4[4] --> 5[5]
+    4[4] --> 8[8]
+    8[8] --> 7[7]
+    8[8] --> 9[9]
+    3[3] --> 1[1]
+    3[3] --> 2[2]
+    3[3] --> 6[6]
+    
+    classDef level0 fill:#ff9999;
+    classDef level1 fill:#99ff99;
+    classDef level2 fill:#9999ff;
+    
+    class 4 level0;
+    class 3,5,8 level1;
+    class 1,2,6,7,9 level2;
+
+```
+
+Parcurgerea în lățime pornind din nodul 4:
+1. Nivel 0: 4
+2. Nivel 1: 3, 5, 8 (vecinii lui 4 în ordine lexicografică)
+3. Nivel 2: 1, 2, 6, 7, 9 (vecinii nodurilor de nivel 1 nevizitați)
+
+Distanțele de la nodul 4 la celelalte noduri sunt:
+- d(4,1) = 2
+- d(4,2) = 2
+- d(4,3) = 1
+- d(4,5) = 1
+- d(4,6) = 2
+- d(4,7) = 2
+- d(4,8) = 1
+- d(4,9) = 2
+
+3) Pentru lanțul eulerian:
+
+Graful inițial nu admite un lanț eulerian deoarece are mai mult de 2 noduri cu grad impar (nodurile 1, 4, 6, 7, 9 au grad impar).
+
+Pentru a obține un graf cu lanț eulerian, trebuie să eliminăm muchii astfel încât să rămână exact 0 sau 2 noduri cu grad impar. Strategia optimă este să eliminăm muchia (3,6) care reduce numărul de noduri cu grad impar cu 2.
+
+După eliminarea acestei muchii, nodul 6 și nodul 7 rămân singurele noduri cu grad impar, deci graful admite un lanț eulerian între aceste noduri.
+
+Un lanț eulerian în graful obținut este:
+6 - 2 - 1 - 3 - 4 - 5 - 3 - 2 - 1 - 3 - 4 - 8 - 7 - 9 - 8
+
+Condiția necesară și suficientă pentru ca un graf neorientat să aibă un lanț eulerian este:
+- Graful să fie conex
+- Să aibă exact 0 sau 2 noduri cu grad impar
+
+4) Pentru nodurile critice:
+
+Un nod este critic dacă prin eliminarea sa crește numărul de componente conexe ale grafului. Pentru a determina nodurile critice, folosim algoritmul bazat pe DFS care calculează pentru fiecare nod:
+- nivel[v] = nivelul nodului în arborele DFS
+- low[v] = minimul dintre nivel[v] și nivelurile nodurilor care pot fi atinse folosind maxim o muchie înapoi
+
+
+
+```mermaid
+graph TD
+    1[1: 1/1] --- 2[2: 2/2]
+    1 --- 3[3: 3/1]
+    2 --- 6[6: 4/4]
+    3 --- 4[4: 5/5]
+    3 --- 5[5: 8/8]
+    4 --- 8[8: 6/6]
+    8 --- 9[9: 7/7]
+    8 --- 7[7: 9/7]
+    
+    classDef critical fill:#ff9999;
+    class 3,8 critical;
+
+```
+
+Nodurile critice sunt 3 și 8 deoarece:
+- Eliminarea nodului 3 deconectează subgraful {1,2,6} de restul grafului
+- Eliminarea nodului 8 deconectează subgraful {7,9} de restul grafului
+
+5) Pentru algoritmul Floyd-Warshall:
+
+Vom inițializa matricea D cu costurile muchiilor, ∞ pentru nodurile neadiacente și 0 pe diagonală.
+
+Pentru j=1,2,3:
+- j=1: Se actualizează D[i,k] dacă D[i,1] + D[1,k] < D[i,k]
+- j=2: Se actualizează D[i,k] dacă D[i,2] + D[2,k] < D[i,k]
+- j=3: Se actualizează D[i,k] dacă D[i,3] + D[3,k] < D[i,k]
+
+6) Pentru algoritmul lui Prim pornind din vârful 4:
+
+
+
+```mermaid
+graph TD
+    4[4] --1--- 5[5]
+    4 --5--- 3[3]
+    4 --3--- 8[8]
+    8 --2--- 7[7]
+    8 --6--- 9[9]
+    3 --2--- 2[2]
+    2 --1--- 1[1]
+    
+    classDef selected fill:#99ff99;
+    class 1,2,3,4,5,7,8,9 selected;
+
+```
+
+Pașii algoritmului Prim:
+1. Start din 4
+2. Adăugăm (4,5) cu cost 1
+3. Adăugăm (4,8) cu cost 3
+4. Adăugăm (4,3) cu cost 5
+5. Adăugăm (3,2) cu cost 2
+6. Adăugăm (2,1) cu cost 1
+7. Adăugăm (8,7) cu cost 2
+8. Adăugăm (8,9) cu cost 6
+
+7) Algoritmul propus nu este corect. Contraexemplu:
+- Considerăm un graf cu 4 noduri și muchiile: (1,2,1), (2,3,2), (3,4,3), (1,4,4)
+- La pasul i=1, se alege muchia (1,2)
+- La pasul i=2, se alege muchia (3,4)
+- Rezultă un arbore neconex
+
+Problema este că algoritmul nu garantează conectivitatea arborelui rezultat. Un algoritm corect ar trebui să mențină proprietatea de conexitate la fiecare pas.
+
+8) Pentru rețeaua de transport:
+
+
+
+```mermaid
+flowchart LR
+    1((1)) --> |5/10| 2((2))
+    1 --> |6/6| 5((5))
+    4((4)) --> |3/3| 2
+    5 --> |0/3| 4
+    6((6)) --> |3/3| 4
+    2 --> |8/9| 6
+    3((3)) --> |3/3| 6
+    5 --> |6/7| 3
+    6 --> |8/10| 7((7))
+    3 --> |3/7| 7
+    
+    classDef source fill:#99ff99;
+    classDef sink fill:#ff9999;
+    class 1 source;
+    class 7 sink;
+
+```
+
+O tăietură minimă este (S,T) unde:
+S = {1,5}
+T = {2,3,4,6,7}
+
+Capacitatea tăieturii este suma capacităților arcelor care traversează din S în T minus suma capacităților arcelor care traversează din T în S.
+
+9) Pentru problemele de teoria grafurilor:
+
+a) Demonstrație:
+- Fie x,y două noduri oarecare
+- Dacă sunt adiacente, există drum între ele
+- Dacă nu sunt adiacente:
+  - x are cel puțin n/2 vecini
+  - y are cel puțin n/2 vecini
+  - Cum n > 2, mulțimile de vecini se intersectează
+  - Există drum x-z-y unde z e în intersecție
+
+b) Exemplu de graf nehamiltonian:
+K2,3 (graf bipartit complet) cu partițiile {1,2} și {3,4,5}
+
+c) Demonstrație:
+- Folosim teorema lui Bondy-Chvátal
+- Dacă m ≥ (n-1)(n-2)/2 + 2
+- Atunci graful conține un ciclu hamiltonian
+
+10) Pentru subșirul comun maximal:
+
+Fie dp[i][j] = lungimea celui mai lung subșir comun între primele i caractere din primul cuvânt și primele j caractere din al doilea cuvânt.
+
+dp[i][j] = 
+- dp[i-1][j-1] + 1, dacă caracterele sunt egale
+- max(dp[i-1][j], dp[i][j-1]), altfel
+
+Pentru "cerceta" și "retea":
+
+
+
+```text
+- r e t e a
+ - 0 0 0 0 0 0
+ c 0 0 0 0 0 0
+ e 0 0 1 1 1 1
+ r 0 1 1 1 1 1
+ c 0 1 1 1 1 1
+ e 0 1 2 2 2 2
+ t 0 1 2 3 3 3
+ a 0 1 2 3 3 4
+
+```
+
+Lungimea maximă este 4, iar un subșir comun maximal este "etea".
+
+11) Pentru problema minei:
+
+Putem modela problema ca un graf orientat unde:
+- Nodurile sunt camerele
+- Arcele sunt tunelurile
+- Costul unui arc este 1 pentru camerele prăbușite și 0 pentru cele normale
+
+Apoi aplicăm algoritmul Dijkstra modificat pentru a găsi drumul de cost minim (folosind minimum de dinamită) de la intrare la camera cu cristalul.
+
+
+
+```mermaid
+graph LR
+    S((Start)) --> |0| A((A))
+    S --> |1| B((B))
+    A --> |1| C((C))
+    B --> |0| C
+    C --> |0| T((Target))
+    
+    classDef collapsed fill:#ff9999;
+    class B,C collapsed;
+
+```
+
+Complexitatea algoritmului este O(M log N) unde:
+- N = numărul de camere
+- M = numărul de tuneluri
+
+Folosim o coadă de priorități pentru a selecta mereu camera care poate fi atinsă folosind minimum de dinamită.

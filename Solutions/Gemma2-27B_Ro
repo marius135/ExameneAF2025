@@ -1,0 +1,145 @@
+## Rezolvarea Examenului de Algoritmi Fundamentali - Varianta 2
+
+**1. Subgraf indus bipartit conex cu număr maxim de noduri:**
+
+* **Soluție:** {1, 2, 3, 6} este un subgraf indus bipartit conex cu număr maxim de noduri (4 noduri).
+* **Bipartiție:** {1, 3}, {2, 6}
+
+**2. Parcurgerea în lățime bf(4):**
+
+* **Explicație:** bf(4) pornește din nodul 4 și explorează graful nivel cu nivel. Se vizitează mai întâi vecinii lui 4, apoi vecinii vecinilor lui 4 și așa mai departe.
+* **Calculul distanței:** Distanța de la 4 la un nod x este numărul de muchii din drumul cel mai scurt de la 4 la x.
+* **Arborele BFS:**
+
+```
+      4
+    / | \
+   5  3  8
+  /   |  |
+ 1    6  9
+ |
+ 2
+```
+
+**3. Lanț Eulerian:**
+
+* **Admite graful un lanț Eulerian?** Nu. Graful are noduri cu grad impar (1, 3, 5, 7, 8, 9).
+* **Eliminarea muchiilor:** Eliminăm muchia (3, 6) și muchia (8, 9).
+* **Lanț Eulerian:** 1-2-6-3-5-4-8-7-9-8-4
+
+**Condiție necesară și suficientă:** Un graf neorientat admite un lanț Eulerian dacă și numai dacă toate nodurile au grad par sau exact două noduri au grad impar.
+
+**4. Noduri critice:**
+
+* **Algoritm:** Algoritmul de determinare a nodurilor critice se bazează pe parcurgerea în adâncime (DFS) a grafului. Se calculează pentru fiecare nod:
+    * **timpul de descoperire (discovery time):** momentul în care nodul este vizitat pentru prima dată.
+    * **timpul de finalizare (finishing time):** momentul în care se termină explorarea subarborelui cu rădăcina în nodul respectiv.
+    * **low-link:** cel mai mic timp de descoperire accesibil dintr-un nod și subarborii săi printr-un drum înapoi.
+* **Nod critic:** Un nod este critic dacă low-link-ul său este egal cu timpul de descoperire al său.
+
+**Exemplificare:**
+
+* Se aplică DFS pe graful din imagine.
+* Se calculează timpii de descoperire, timpii de finalizare și low-link pentru fiecare nod.
+* Se identifică nodurile critice.
+
+**5. Algoritmul Floyd-Warshall:**
+
+* **Inițializare:** Matricea D este inițializată cu matricea costurilor.
+
+```
+D[i][j] = w(i, j) dacă există muchie între i și j, altfel ∞
+```
+
+* **Schemă:**
+
+```
+for k ← 1, n
+  for i ← 1, n
+    for j ← 1, n
+      D[i][j] = min(D[i][j], D[i][k] + D[k][j])
+```
+
+* **Valori modificate:**
+
+* **j=1:** D[1][2] = 10, D[1][6] = 11, D[2][6] = 12
+* **j=2:** D[1][3] = 4, D[2][3] = 2, D[2][4] = 13, D[2][5] = 14
+* **j=3:** D[1][4] = 9, D[1][5] = 16, D[2][4] = 13, D[2][5] = 14
+
+**6. Algoritmul lui Prim:**
+
+* **Explicație:** Algoritmul lui Prim construiește un arbore parțial de cost minim pornind dintr-un nod arbitrar. La fiecare pas, se adaugă muchia de cost minim care conectează un nod din arbore la un nod din afara arborelui.
+
+* **Pași:**
+
+1. Se alege nodul 4 ca nod de start.
+2. Se adaugă muchia (4, 5) cu costul 1.
+3. Se adaugă muchia (5, 3) cu costul 12.
+4. Se adaugă muchia (3, 1) cu costul 4.
+5. Se adaugă muchia (1, 2) cu costul 1.
+6. Se adaugă muchia (2, 6) cu costul 10.
+
+**7. Algoritmul de determinare a arborelui parțial de cost minim:**
+
+* **Corectitudine:** Algoritmul este **incorect**.
+
+* **Justificare:** Algoritmul nu garantează că arborele construit este de cost minim. De exemplu, dacă graful conține un ciclu cu muchii de cost mic, algoritmul poate adăuga toate muchiile din ciclu, rezultând un arbore de cost mai mare decât arborele parțial de cost minim.
+
+**8. Algoritmul Ford-Fulkerson:**
+
+* **Pași:**
+
+1. Se alege un s-t lanț f-nesaturat de lungime minimă (Edmonds-Karp).
+2. Se determină capacitatea minimă a muchiilor din lanț.
+3. Se adaugă capacitatea minimă la fluxul pe muchiile din lanț și se scade din fluxul pe muchiile inverse.
+4. Se repetă pașii 1-3 până când nu mai există s-t lanțuri f-nesaturate.
+
+* **Tăietură minimă:** {s = {1}, t = {7}}, arcele directe: {(1, 2), (2, 6), (6, 3), (3, 5), (5, 4), (4, 8), (8, 9), (9, 7)}, arcele inverse: {(2, 1), (6, 2), (3, 6), (5, 3), (4, 5), (8, 4), (9, 8), (7, 9)}. Capacitatea tăieturii este 10.
+
+* **Justificare:** Tăietura minimă separă sursa de destinație și capacitatea sa este egală cu fluxul maxim.
+
+**9. Teorie a Grafurilor:**
+
+* **a) Graf conex:** Demonstrație prin contradicție. Se presupune că graful nu este conex. Atunci există două componente conexe disjuncte. Suma gradelor nodurilor din fiecare componentă este mai mică decât n, ceea ce contrazice condiția d(x) >= n/2 pentru orice nod x.
+
+* **b) Graf nehamiltonian:** Un graf cu 5 noduri, unde nodurile 1 și 5 sunt neadiacente, iar restul nodurilor sunt conectate între ele. Suma gradelor nodurilor 1 și 5 este 4, care este mai mare sau egală cu n = 5.
+
+* **c) Graf Hamiltonian:** Demonstrație prin inducție. Cazul de bază: n = 2 este trivial. Ipoteza inductivă: pentru n-1 noduri, graful este Hamiltonian. Cazul inductiv: pentru n noduri, se consideră un nod x. Graful G-x are n-1 noduri și m-d(x) muchii. Conform ipotezei inductive, G-x este Hamiltonian. Se poate adăuga nodul x la un ciclu Hamiltonian al lui G-x pentru a obține un ciclu Hamiltonian al lui G.
+
+**10. Lungimea maximă a unui subsir comun:**
+
+* **Algoritm:** Se construiește o matrice D cu dimensiunile (lungimea(cerceta) + 1) x (lungimea(retea) + 1). D[i][j] reprezintă lungimea maximă a unui subsir comun al prefixului de lungime i al lui "cerceta" și prefixului de lungime j al lui "retea".
+
+* **Calcul:** D[i][j] = D[i-1][j-1] + 1 dacă cerceta[i] = retea[j], altfel max(D[i-1][j], D[i][j-1]).
+
+* **Matrice:**
+
+```
+    r e t e a
+  0 0 0 0 0 0
+c 0 0 0 0 0 0
+e 0 1 1 1 1 1
+r 0 1 1 1 1 1
+c 0 1 1 1 1 1
+e 0 1 1 1 2 2
+t 0 1 2 2 2 2
+a 0 1 2 2 2 2
+```
+
+* **Lungimea maximă:** 2.
+
+**11. Algoritmul pentru explorarea minei:**
+
+* **Complexitate optimă:** O(V + E), unde V este numărul de camere și E este numărul de tuneluri.
+
+* **Algoritm:**
+
+1. Se construiește un graf orientat cu camerele ca noduri și tunelurile ca muchii.
+2. Se aplică algoritmul BFS pornind din camera de intrare.
+3. Se marchează camerele vizitate și se calculează numărul de dinamite necesare pentru a ajunge la fiecare cameră.
+4. Se returnează drumul de la camera de intrare la camera cu cristalul rar cu numărul minim de dinamite.
+
+* **Observații:**
+
+* Algoritmul poate fi optimizat prin utilizarea unei cozi de priorități pentru a explora camerele în ordinea crescătoare a numărului de dinamite necesare.
+* Algoritmul poate fi adaptat pentru a găsi toate drumurile posibile de la camera de intrare la camera cu cristalul rar.

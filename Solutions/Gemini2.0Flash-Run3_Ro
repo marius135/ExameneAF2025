@@ -1,0 +1,331 @@
+Bine, voi rezolva acest examen detaliat, pas cu pas. Voi include explicații pentru fiecare răspuns, algoritmi și exemplificări.
+
+**Examen la Algoritmi Fundamentali - Varianta 2 (28.01.2025)**
+
+**Graf_1_6:**
+
+*   Neorientat
+*   Noduri: \[1, 2, 3, 4, 5, 6, 7, 8, 9]
+*   Muchii: \[(1, 2, 1), (2, 6, 10), (2, 3, 2), (1, 3, 4), (3, 6, 11), (3, 5, 12), (5, 4, 1), (3, 4, 5), (4, 8, 3), (8, 9, 6), (9, 7, 5), (7, 8, 2)]
+
+**Graf_8:**
+
+*   Orientat
+*   Noduri: \[1, 2, 3, 4, 5, 6, 7]
+*   Muchii: \[(1, 2, 5, 10), (1, 5, 6, 6), (4, 2, 3, 3), (5, 4, 0, 3), (6, 4, 3, 5), (2, 6, 8, 9), (3, 6, 3, 3), (5, 3, 6, 7), (6, 7, 8, 10), (3, 7, 3, 7)] (x, y, c, w) unde c=capacitate, w=cost
+
+**Rezolvarea Sarcinilor:**
+
+**1. (5p) Subgraf bipartit conex cu număr maxim de noduri:**
+
+*   **Concept:** Un graf bipartit este un graf ale cărui noduri pot fi împărțite în două mulțimi disjuncte astfel încât fiecare muchie conectează un nod dintr-o mulțime cu un nod din cealaltă mulțime.  Un subgraf indus este un graf format dintr-un subset de noduri ale grafului original și toate muchiile care conectează acele noduri în graful original.
+*   **Strategie:**  Vom încerca să găsim un subgraf cât mai mare, folosind o abordare de tip BFS (Breadth-First Search) sau DFS (Depth-First Search) și colorând nodurile alternativ cu două culori. Dacă întâlnim o muchie între două noduri de aceeași culoare, trebuie să eliminăm un nod pentru a menține proprietatea de bipartit.
+*   **Exemplificare:**
+    1.  Pornim cu nodul 1 și îl colorăm cu culoarea A.
+    2.  Vecinii lui 1 sunt 2 și 3. Colorăm 2 cu B și 3 cu B.
+    3.  Vecinii lui 2 sunt 1, 3 și 6. 1 este deja colorat, 3 este deja colorat, deci colorăm 6 cu A.
+    4.  Vecinii lui 3 sunt 1, 2, 4, 5 și 6. 1 și 2 sunt colorați, colorăm 4 cu A, 5 cu A, și 6 este colorat.
+    5.  Vecinii lui 4 sunt 3, 5 și 8. 3 și 5 sunt colorați. Colorăm 8 cu B.
+    6.  Vecinii lui 5 sunt 3 și 4. Ambele colorate.
+    7.  Vecinii lui 6 sunt 2 și 3. Ambele colorate.
+    8.  Vecinii lui 7 sunt 9 și 8.
+    9.  Vecinii lui 8 sunt 4, 7 și 9. 4 este colorat, coloram 7 cu A, coloram 9 cu A.
+    10. Vecinii lui 9 sunt 7 și 8. Ambele colorate.
+    *   Noduri colorate cu A: 1, 6, 4, 5, 7, 9
+    *   Noduri colorate cu B: 2, 3, 8
+    *   Toate nodurile sunt incluse.
+    *   Subgraful indus format din toate nodurile este bipartit si conex.
+    *   Bipartiție: {1, 4, 5, 6, 7, 9} și {2, 3, 8}
+
+*   **Răspuns:** Subgraful indus bipartit conex cu număr maxim de noduri este graful complet. Bipartiția este: A = {1, 4, 5, 6, 7, 9}, B = {2, 3, 8}.
+
+**2. (5p) Parcurgere în lățime (BFS) de la nodul 4:**
+
+*   **Algoritm BFS:** Explorează graful nivel cu nivel. Se folosește o coadă pentru a menține ordinea de vizitare.
+*   **bf(4):**
+    1.  Pornim de la nodul 4. Distanța de la 4 la 4 este 0. Coada: \[4]
+    2.  Scoatem 4 din coadă. Vecinii lui 4 în ordine lexicografică sunt 3, 5 și 8. Îi adăugăm în coadă și setăm distanța:
+        *   dist(4, 3) = 1, Coada: \[5, 8, 3]
+        *   dist(4, 5) = 1, Coada: \[8, 3, 5]
+        *   dist(4, 8) = 1, Coada: \[3, 5, 8]
+    3.  Scoatem 3 din coadă. Vecinii lui 3 sunt 1, 2, 4, 5, 6.
+        *   dist(4, 1) = 2, Coada: \[5, 8, 1]
+        *   dist(4, 2) = 2, Coada: \[8, 1, 2]
+        *   4 este deja vizitat.
+        *   5 este deja vizitat.
+        *   dist(4, 6) = 2, Coada: \[1, 2, 6, 5, 8]
+    4.  Scoatem 5 din coadă. Vecinii lui 5 sunt 3 și 4. Ambii vizitați.
+        *   Coada: \[2, 6, 5, 8, 1]
+    5.  Scoatem 8 din coadă. Vecinii lui 8 sunt 4, 7, 9.
+        *   dist(4, 7) = 2, Coada: \[6, 5, 8, 1, 7]
+        *   dist(4, 9) = 2, Coada: \[5, 8, 1, 7, 9]
+    6.  Scoatem 1 din coadă. Vecinii lui 1 sunt 2 și 3. Ambii vizitați.
+        *   Coada: \[8, 1, 7, 9, 2, 6, 5]
+    7.  Scoatem 2 din coadă. Vecinii lui 2 sunt 1, 3 și 6. Toți vizitați.
+        *   Coada: \[1, 7, 9, 2, 6, 5, 8]
+    8.  Scoatem 6 din coadă. Vecinii lui 6 sunt 2 și 3. Toți vizitați.
+        *   Coada: \[7, 9, 2, 6, 5, 8, 1]
+    9. Scoatem 7 din coadă. Vecinii lui 7 sunt 8 și 9. Toți vizitați.
+    10. Scoatem 9 din coadă. Vecinii lui 9 sunt 7 și 8. Toți vizitați.
+
+*   **Distanțe de la 4:**
+    *   dist(4, 1) = 2
+    *   dist(4, 2) = 2
+    *   dist(4, 3) = 1
+    *   dist(4, 4) = 0
+    *   dist(4, 5) = 1
+    *   dist(4, 6) = 2
+    *   dist(4, 7) = 2
+    *   dist(4, 8) = 1
+    *   dist(4, 9) = 2
+
+*   **Arborele BFS:**
+    *   Rădăcina: 4
+    *   Nivel 1: 3, 5, 8
+    *   Nivel 2: 1, 2, 6, 7, 9
+
+**3. (7.5p) Lanț Eulerian:**
+
+*   **Condiție necesară și suficientă:** Un graf neorientat are un lanț eulerian dacă și numai dacă are cel mult două noduri de grad impar.  Are un ciclu eulerian dacă toate nodurile au grad par.
+*   **Calcul grade:**
+    *   1: 2
+    *   2: 3
+    *   3: 5
+    *   4: 3
+    *   5: 2
+    *   6: 2
+    *   7: 2
+    *   8: 3
+    *   9: 2
+
+*   **Analiză:** Există 4 noduri de grad impar (2, 3, 4, 8), deci graful nu are lanț eulerian.
+*   **Eliminare muchii:** Trebuie să eliminăm muchii pentru a reduce numărul de noduri de grad impar la 0 (ciclu eulerian) sau 2 (lanț eulerian). O strategie bună este să eliminăm muchii care conectează noduri de grad impar.
+    *   Eliminăm (2,3) și (4,8). Acum nodurile 2, 3, 4, 8 au grad par.
+*   **Lanț Eulerian:** Acum toate nodurile au grad par, deci există ciclu eulerian. Un posibil ciclu eulerian (și implicit un lanț eulerian) este: 1-2-6-3-1-3-5-4-3-6-8-7-9-8-4-5-4.
+*   **Răspuns:** Graful nu admite un lanț eulerian. Eliminând muchiile (2,3) și (4,8), obținem un graf cu ciclu eulerian.
+
+**4. (7.5p) Noduri Critice (Articulation Points):**
+
+*   **Definiție:** Un nod critic este un nod a cărui eliminare mărește numărul de componente conexe ale grafului.
+*   **Algoritm:** Se folosește DFS (Depth-First Search) și două array-uri: `disc` (discovery time) și `low` (lowest reachable discovery time).
+    1.  Inițializare: `disc[u] = -1` pentru toate nodurile u.
+    2.  Se alege un nod de start și se apelează DFS(u, parent), unde parent este nodul părinte al lui u în arborele DFS.
+    3.  În DFS(u, parent):
+        *   `disc[u] = time++` (atribuie timpul de descoperire)
+        *   `low[u] = disc[u]`
+        *   Pentru fiecare vecin v al lui u:
+            *   Dacă v nu a fost vizitat (disc\[v] == -1):
+                *   DFS(v, u)
+                *   `low[u] = min(low[u], low[v])`
+                *   Dacă u este rădăcina arborelui DFS și are mai mult de un copil, atunci u este un nod critic.
+                *   Dacă u nu este rădăcină și există un v (copil al lui u) astfel încât `low[v] >= disc[u]`, atunci u este un nod critic.
+            *   Altfel (v a fost vizitat și nu este părintele lui u):
+                *   `low[u] = min(low[u], disc[v])`
+
+*   **Exemplificare (pornind de la nodul 1):**
+
+| Nod | disc | low | Vecini  |
+|-----|------|-----|---------|
+| 1   | -1   | -1  | 2, 3    |
+| 2   | -1   | -1  | 1, 3, 6 |
+| 3   | -1   | -1  | 1, 2, 4, 5, 6 |
+| 4   | -1   | -1  | 3, 5, 8 |
+| 5   | -1   | -1  | 3, 4    |
+| 6   | -1   | -1  | 2, 3    |
+| 7   | -1   | -1  | 8, 9    |
+| 8   | -1   | -1  | 4, 7, 9 |
+| 9   | -1   | -1  | 7, 8    |
+
+Parcurgere:
+
+1. 1, disc[1] = 0, low[1] = 0
+2. 2, disc[2] = 1, low[2] = 1
+3. 3, disc[3] = 2, low[3] = 2
+4. 4, disc[4] = 3, low[4] = 3
+5. 5, disc[5] = 4, low[5] = 4
+6. Inapoi la 4, low[4] = min(3, 4) = 3
+7. 8, disc[8] = 5, low[8] = 5
+8. 7, disc[7] = 6, low[7] = 6
+9. 9, disc[9] = 7, low[9] = 7
+10. Inapoi la 7, low[7] = min(6, 7) = 6
+11. Inapoi la 8, low[8] = min(5, 6) = 5
+12. Inapoi la 4, low[4] = min(3, 5) = 3
+13. Inapoi la 3, low[3] = min(2, 3) = 2
+14. 6, disc[6] = 8, low[6] = 8
+15. Inapoi la 3, low[3] = min(2, 8) = 2
+16. Inapoi la 2, low[2] = min(1, 2) = 1
+17. Inapoi la 1, low[1] = min(0, 1) = 0
+
+Conditii:
+*   1 este radacina, copii 2 si 3. Este punct critic.
+*   2 nu este radacina, are copil 3, low[3] = 2 > disc[2] = 1 nu e adevarat.
+*   3 nu este radacina, are copil 4, low[4] = 3 > disc[3] = 2 nu e adevarat.
+*   4 nu este radacina, are copil 5, low[5] = 4 > disc[4] = 3 nu e adevarat. are copil 8, low[8] = 5 > disc[4] = 3 nu e adevarat.
+*   5 nu este radacina, nu are copii.
+*   6 nu este radacina, nu are copii.
+*   7 nu este radacina, are copil 9, low[9] = 7 > disc[7] = 6 nu e adevarat.
+*   8 nu este radacina, are copil 7, low[7] = 6 > disc[8] = 5 nu e adevarat.
+*   9 nu este radacina, nu are copii.
+
+*   **Noduri Critice:** 1, 3, 4, 8
+*   **Răspuns:** Nodurile critice sunt 1, 3, 4 si 8.
+
+**5. (5p) Algoritmul Floyd-Warshall:**
+
+*   **Descriere:** Algoritmul Floyd-Warshall calculează distanțele minime între toate perechile de noduri dintr-un graf ponderat. Este un algoritm de programare dinamică.
+*   **Schemă:**
+    1.  `Inițializarea matricei D: D[i][j] = cost(i, j)` (costul muchiei de la i la j, infinit dacă nu există muchie, 0 dacă i == j).
+    2.  `for k ← 1 to n do`
+    3.  `for i ← 1 to n do`
+    4.  `for j ← 1 to n do`
+    5.  `D[i][j] ← min(D[i][j], D[i][k] + D[k][j])`
+
+*   **Exemplificare (etapele j=1, j=2, j=3):**
+    *Initalizare matrice D*
+    ```
+      1   2   3   4   5   6   7   8   9
+    1  0   1   4  inf inf inf inf inf inf
+    2  1   0   2  inf inf 10  inf inf inf
+    3  4   2   0   5   12  11  inf inf inf
+    4 inf inf  5   0   1   inf inf  3  inf
+    5 inf inf 12   1   0  inf inf inf inf
+    6 inf  10  11  inf inf  0  inf inf inf
+    7 inf inf inf inf inf inf  0   2   5
+    8 inf inf inf  3  inf inf  2   0   6
+    9 inf inf inf inf inf inf  5   6   0
+    ```
+    *   **j = 1:**
+        *   Pentru fiecare i și k, verificăm dacă trecerea prin 1 reduce distanța D\[i]\[k].
+        *   Exemplu: D\[2][3] = min(D\[2][3], D\[2][1] + D\[1][3]) = min(2, 1 + 4) = 2. D\[3][2] = min(D\[3][2], D\[3][1] + D\[1][2]) = min(2, 4+1) = 2
+        ```
+          1   2   3   4   5   6   7   8   9
+        1  0   1   4  inf inf inf inf inf inf
+        2  1   0   2  inf inf 10  inf inf inf
+        3  4   2   0   5   12  11  inf inf inf
+        4 inf inf  5   0   1   inf inf  3  inf
+        5 inf inf 12   1   0  inf inf inf inf
+        6 inf  10  11  inf inf  0  inf inf inf
+        7 inf inf inf inf inf inf  0   2   5
+        8 inf inf inf  3  inf inf  2   0   6
+        9 inf inf inf inf inf inf  5   6   0
+        ```
+
+    *   **j = 2:**
+        *   Verificăm dacă trecerea prin 2 reduce distanța.
+        *   Exemplu: D\[1][3] = min(D\[1][3], D\[1][2] + D\[2][3]) = min(4, 1 + 2) = 3
+        ```
+          1   2   3   4   5   6   7   8   9
+        1  0   1   3  inf inf 11  inf inf inf
+        2  1   0   2  inf inf 10  inf inf inf
+        3  3   2   0   5   12  11  inf inf inf
+        4 inf inf  5   0   1   inf inf  3  inf
+        5 inf inf 12   1   0  inf inf inf inf
+        6 11  10  11  inf inf  0  inf inf inf
+        7 inf inf inf inf inf inf  0   2   5
+        8 inf inf inf  3  inf inf  2   0   6
+        9 inf inf inf inf inf inf  5   6   0
+        ```
+
+    *   **j = 3:**
+        *   Verificăm dacă trecerea prin 3 reduce distanța.
+        *   Exemplu: D\[1][4] = min(D\[1][4], D\[1][3] + D\[3][4]) = min(inf, 3 + 5) = 8
+        ```
+          1   2   3   4   5   6   7   8   9
+        1  0   1   3   8   15  14  inf inf inf
+        2  1   0   2   7   14  11  inf inf inf
+        3  3   2   0   5   12  11  inf inf inf
+        4  8   7   5   0   1   16  inf  3  inf
+        5 15  14  12   1   0  inf inf inf inf
+        6 14  11  11  16  inf  0  inf inf inf
+        7 inf inf inf inf inf inf  0   2   5
+        8 inf inf inf  3  inf inf  2   0   6
+        9 inf inf inf inf inf inf  5   6   0
+        ```
+
+**6. (5p) Algoritmul lui Prim (pornind din vârful 4):**
+
+*   **Algoritmul lui Prim:** Construiește un arbore parțial de cost minim pornind dintr-un nod inițial și adăugând iterativ muchii de cost minim care conectează arborele curent la un nod din afara arborelui.
+*   **Pași:**
+    1.  **Start:** Începem cu arborele T = {4}. Nodurile nevizitate sunt {1, 2, 3, 5, 6, 7, 8, 9}.
+    2.  **Iterația 1:**
+        *   Muchiile care pleacă din 4: (4, 3, 5), (4, 5, 1), (4, 8, 3).
+        *   Muchiul de cost minim: (4, 5, 1).
+        *   Adăugăm muchia (4, 5) la T. T = {(4, 5)}. Noduri în T: {4, 5}. Noduri nevizitate: {1, 2, 3, 6, 7, 8, 9}.
+    3.  **Iterația 2:**
+        *   Muchiile care pleacă din T: (4, 3, 5), (4, 8, 3), (5, 3, 12).
+        *   Muchiul de cost minim: (4, 8, 3).
+        *   Adăugăm muchia (4, 8) la T. T = {(4, 5), (4, 8)}. Noduri în T: {4, 5, 8}. Noduri nevizitate: {1, 2, 3, 6, 7, 9}.
+    4.  **Iterația 3:**
+        *   Muchiile care pleacă din T: (4, 3, 5), (5, 3, 12), (8, 7, 2), (8, 9, 6).
+        *   Muchiul de cost minim: (8, 7, 2).
+        *   Adăugăm muchia (8, 7) la T. T = {(4, 5), (4, 8), (8, 7)}. Noduri în T: {4, 5, 8, 7}. Noduri nevizitate: {1, 2, 3, 6, 9}.
+    5.  **Iterația 4:**
+        *   Muchiile care pleacă din T: (4, 3, 5), (5, 3, 12), (8, 9, 6), (7, 9, 5).
+        *   Muchiul de cost minim: (7, 9, 5).
+        *   Adăugăm muchia (7, 9) la T. T = {(4, 5), (4, 8), (8, 7), (7, 9)}. Noduri în T: {4, 5, 8, 7, 9}. Noduri nevizitate: {1, 2, 3, 6}.
+    6.  **Iterația 5:**
+        *   Muchiile care pleacă din T: (4, 3, 5), (5, 3, 12), (9, 8, 6).
+        *   Muchiul de cost minim: (4, 3, 5).
+        *   Adăugăm muchia (4, 3) la T. T = {(4, 5), (4, 8), (8, 7), (7, 9), (4, 3)}. Noduri în T: {4, 5, 8, 7, 9, 3}. Noduri nevizitate: {1, 2, 6}.
+    7.  **Iterația 6:**
+        *   Muchiile care pleacă din T: (3, 1, 4), (3, 2, 2), (3, 6, 11), (5, 3, 12), (9, 8, 6).
+        *   Muchiul de cost minim: (3, 2, 2).
+        *   Adăugăm muchia (3, 2) la T. T = {(4, 5), (4, 8), (8, 7), (7, 9), (4, 3), (3, 2)}. Noduri în T: {4, 5, 8, 7, 9, 3, 2}. Noduri nevizitate: {1, 6}.
+    8.  **Iterația 7:**
+        *   Muchiile care pleacă din T: (3, 1, 4), (2, 1, 1), (2, 6, 10), (3, 6, 11), (5, 3, 12), (9, 8, 6).
+        *   Muchiul de cost minim: (2, 1, 1).
+        *   Adăugăm muchia (2, 1) la T. T = {(4, 5), (4, 8), (8, 7), (7, 9), (4, 3), (3, 2), (2,1)}. Noduri in T:{1,2,3,4,5,7,8,9} Noduri nevizitate: {6}.
+    9. **Iteratia 8:**
+        * Muchiile care pleaca din T: (2, 6, 10), (3, 6, 11)
+        * Muchia de cost minim: (2, 6, 10).
+        * Adaugam muchia (2, 6) la T. T= {(4, 5), (4, 8), (8, 7), (7, 9), (4, 3), (3, 2), (2,1), (2, 6)}.
+
+**7. (5p) Corectitudinea Algoritmului de APM:**
+
+*   **Analiză:** Algoritmul este **corect**.
+*   **Justificare:**
+    1.  **Invariant:** La fiecare iterație, T este un arbore parțial al grafului G.
+    2.  **Demonstrație prin inducție:**
+        *   **Bază:** La inițializare, T conține doar nodurile și nicio muchie. Este trivial un arbore parțial.
+        *   **Pas inductiv:** Presupunem că la iterația *i*, T este un arbore parțial. Algoritmul alege o muchie *e = (u, v)* de cost minim, unde *u* aparține unei componente conexe C a lui T, iar *v* nu aparține lui C. Adăugarea lui *e* la T nu creează un ciclu (deoarece *v* nu era în C), și T rămâne un arbore.
+        *   **Cost Minim:** Să demonstrăm că T este un arbore parțial de cost minim.  Presupunem, prin contradicție, că T nu este un arbore parțial de cost minim. Atunci există un arbore parțial de cost minim T' care diferă de T.  Fie *e = (u, v)* prima muchie adăugată la T care nu aparține lui T'. Adăugarea lui *e* la T' creează un ciclu.  Există o muchie *e' = (x, y)* în acest ciclu, unde *x* aparține C și *y* nu aparține C.  (Aici, C este componenta conexă a lui T înainte de adăugarea lui *e*).  Deoarece algoritmul a ales *e* în loc de *e'*, avem că `cost(e) <= cost(e')`.  Acum, înlocuim *e'* cu *e* în T'.  Rezultatul este un arbore parțial T'' cu un cost mai mic sau egal decât T'.  Deoarece T' era un arbore parțial de cost minim, avem `cost(e) = cost(e')`.  Prin urmare, T'' este, de asemenea, un arbore parțial de cost minim. Repetând acest proces, putem transforma T' în T fără a crește costul. Prin urmare, T este un arbore parțial de cost minim.
+
+**8. (12.5p) Algoritmul Ford-Fulkerson cu Edmonds-Karp:**
+
+*   **Algoritmul Ford-Fulkerson (Edmonds-Karp):** Găsește fluxul maxim într-o rețea de transport iterativ, căutând lanțuri de augmentare de lungime minimă.
+*   **Inițial:** Flux indicat f(e)/c(e).
+*   **Iterații:**
+    1.  **Găsim un lanț s-t f-nesaturat de lungime minimă (Edmonds-Karp - BFS):**
+
+        *  **Iterația 1:** Lanțul de augmentare de lungime minimă este 1-2-6-7. Capacitatea reziduală minimă este min(5-0, 8-0, 8-0) = 5. Augmentăm fluxul cu 5.
+
+        *  **Iterația 2:** Lanțul de augmentare de lungime minimă este 1-5-3-7. Capacitatea reziduală minimă este min(6-0, 6-0, 3-0) = 3. Augmentăm fluxul cu 3.
+
+        * **Iterația 3:** Lanțul de augmentare de lungime minima este 1-5-4-2-6-7. Capacitatea reziduala minima este min(6-3, 0+3, 3+5, 8-5) = 3. Augmentam fluxul cu 3.
+
+        * **Iteratia 4:** Nu mai exista lanturi s-t f-nesaturate in graful rezidual.
+
+*   **Flux maxim:** 5 + 3 + 3 = 11
+*   **Tăietură minimă:**
+    *   Vârfuri în S: {1, 5}
+    *   Vârfuri în T: {2, 3, 4, 6, 7}
+    *   Arce directe: (1, 2), (1,5)
+    *   Arce inverse: (5,4)
+    *   Capacitatea tăieturii: c(1, 2) + c(1, 5)= 5+6 = 11.
+
+*   **Justificare:** Algoritmul Ford-Fulkerson cu Edmonds-Karp converge la fluxul maxim. O tăietură minimă separă sursa de destinație și capacitatea ei este egală cu fluxul maxim (Teorema Max-Flow Min-Cut).
+
+**9. (15p) Proprietăți ale Grafurilor Hamiltoniene și Conexe:**
+
+*   **(a) d(x) >= n/2 => G conex:**
+    *   **Demonstrație prin contradicție:** Presupunem că G nu este conex. Atunci există cel puțin două componente conexe, C1 și C2. Fie n1 și n2 numărul de noduri din C1 și C2, respectiv. Deci n1 + n2 <= n.
+    *   Fie x un nod în C1. Deoarece x este conectat doar la nodurile din C1, gradul său este d(x) <= n1 - 1. Din ipoteză, d(x) >= n/2. Deci n/2 <= n1 - 1.
+    *   Similar, fie y un nod în C2. Atunci d(y) <= n2 - 1 și d(y) >= n/2. Deci n/2 <= n2 - 1.
+    *   Adunând cele două inegalități: n <= n1 + n2 - 2 <= n - 2. Contradicție. Prin urmare, G este conex.
+
+*   **(b) Graf nehamiltonian cu d(u) + d(v) >= n:**
+    *   **Exemplu:** Fie G un graf format dintr-un K(n/2) (clică cu n/2 noduri) și un K(n/2) disjunct. Adăugăm o muchie între cele doua K-uri. Fie u și v două noduri neadiacente, u fiind in primul K si v in al doilea K. d(u) = n/2 -1 + 1 = n/2. d(v) = n/2 -1. d(u) + d(v) = n-2>= n. Graf nehamiltonian.
+    *   Acest graf nu este hamiltonian deoarece nu are un ciclu care să viziteze toate nodurile o singură dată.
+
+*   **(c) m >= C(n-1, 2) + 2 => G Hamiltonian:**
+    *   **Teorema lui Ore

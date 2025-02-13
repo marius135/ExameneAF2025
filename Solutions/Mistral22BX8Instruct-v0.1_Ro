@@ -1,0 +1,210 @@
+ 1. Un subgraf indus bipartit conex cu număr maxim de noduri și o bipartiție a acestuia:
+
+Pentru a determina un subgraf indus bipartit conex cu număr maxim de noduri, putem utiliza următoarea procedură:
+
+- Identificăm toate ciclurile impare din graf.
+- Eliminăm un nod din fiecare ciclu impar pentru a obține un subgraf bipartit.
+- Verificăm dacă subgraful este conex. Dacă nu, eliminăm încă un nod din fiecare ciclu impar până când subgraful devine conex.
+
+În exemplul nostru, putem elimina nodurile 1 și 5 pentru a obține un subgraf indus bipartit conex cu următoarele noduri: {2, 3, 4, 6, 7, 8, 9}. O bipartiție a acestui subgraf ar fi: {2, 4, 7} și {3, 6, 8, 9}.
+
+2. Parcurgerea în lățime bf(4) și calculul distanței de la 4 la celelalte noduri:
+
+Pentru a efectua o parcurgere în lățime începând de la nodul 4, putem utiliza următoarea procedură:
+
+- Inițializăm o coadă cu nodul 4.
+- Marcam nodul 4 ca vizitat și setăm distanța sa la 0.
+- Repetăm următorul proces până când coada este goală:
+  - Extragem nodul curent din coadă.
+  - Pentru fiecare vecin nevizitat al nodului curent, marcăm vecinul ca vizitat, setăm distanța sa la distanța nodului curent plus 1 și adăugăm vecinul în coadă.
+
+În exemplul nostru, arborele BFS arată astfel:
+
+```
+        4
+       /|\
+      / | \
+     /  |  \
+    3   8   5
+   / \  |  / \
+  1   6 9  7
+```
+
+Distanțele de la nodul 4 la celelalte noduri sunt următoarele:
+
+- d(4, 1) = 2
+- d(4, 2) = 3
+- d(4, 3) = 1
+- d(4, 5) = 1
+- d(4, 6) = 2
+- d(4, 7) = 2
+- d(4, 8) = 1
+- d(4, 9) = 2
+
+3. Lanț eulerian și condiție necesară și suficientă:
+
+Un graf neorientat are un lanț eulerian dacă și numai dacă fiecare nod are grad par. În exemplul nostru, graful nu are un lanț eulerian deoarece nodurile 1, 2, 4, 7 și 9 au grad impar.
+
+Pentru a obține un graf cu un lanț eulerian, putem elimina muchia {1, 3} sau {2, 3}. În acest caz, graful obținut va avea un lanț eulerian.
+
+4. Noduri critice ale unui graf neorientat:
+
+Un nod critic este un nod al cărui eliminare duce la creșterea numărului de componente conexe ale grafului. Pentru a determina nodurile critice ale unui graf neorientat, putem utiliza următoarea procedură:
+
+- Calculăm numărul de componente conexe ale grafului.
+- Pentru fiecare nod, eliminăm nodul și recalculăm numărul de componente conexe.
+- Dacă eliminarea unui nod duce la creșterea numărului de componente conexe, atunci nodul este critic.
+
+În exemplul nostru, nu există noduri critice deoarece eliminarea oricărui nod nu duce la creșterea numărului de componente conexe.
+
+5. Algoritmul Floyd-Warshall:
+
+Algoritmul Floyd-Warshall determină distanțele într-un graf neorientat ponderat cu n vârfuri. În exemplul nostru, putem utiliza următoarea schemă pentru a calcula matricea D de distanțe:
+
+Initializarea matricei D de distanțe cu matricea costurilor:
+
+```
+ 1 2 3 4 5 6 7 8 9
+1 0 1 4 ∞ ∞ ∞ ∞ ∞ ∞
+2 1 0 2 ∞ 10 ∞ ∞ ∞ ∞
+3 4 2 0 5 11 12 ∞ ∞ ∞
+4 ∞ ∞ 5 0 1 ∞ 3 ∞ ∞
+5 ∞ ∞ 12 1 0 ∞ ∞ ∞ ∞
+6 ∞ 10 11 ∞ ∞ 0 ∞ ∞ ∞
+7 ∞ ∞ ∞ ∞ ∞ ∞ 0 5 ∞
+8 ∞ ∞ ∞ 3 ∞ ∞ 5 0 6
+9 ∞ ∞ ∞ ∞ ∞ ∞ 5 6 0
+```
+
+Pentru j = 1:
+
+```
+ 1 2 3 4 5 6 7 8 9
+1 0 1 4 ∞ ∞ ∞ ∞ ∞ ∞
+2 1 0 2 ∞ 10 ∞ ∞ ∞ ∞
+3 4 2 0 5 11 12 ∞ ∞ ∞
+4 ∞ ∞ ∞ 0 1 ∞ 3 ∞ ∞
+5 ∞ ∞ ∞ 1 0 ∞ ∞ ∞ ∞
+6 ∞ 10 11 ∞ ∞ 0 ∞ ∞ ∞
+7 ∞ ∞ ∞ ∞ ∞ ∞ 0 5 ∞
+8 ∞ ∞ ∞ 3 ∞ ∞ 5 0 6
+9 ∞ ∞ ∞ ∞ ∞ ∞ 5 6 0
+```
+
+Pentru j = 2:
+
+```
+ 1 2 3 4 5 6 7 8 9
+1 0 1 4 ∞ ∞ ∞ ∞ ∞ ∞
+2 1 0 2 ∞ 10 ∞ ∞ ∞ ∞
+3 4 2 0 5 11 12 ∞ ∞ ∞
+4 ∞ ∞ 5 0 1 ∞ 3 ∞ ∞
+5 ∞ ∞ ∞ 1 0 ∞ ∞ ∞ ∞
+6 ∞ 10 11 ∞ ∞ 0 ∞ ∞ ∞
+7 ∞ ∞ ∞ ∞ ∞ ∞ 0 5 ∞
+8 ∞ ∞ ∞ 3 ∞ ∞ 5 0 6
+9 ∞ ∞ ∞ ∞ ∞ ∞ 5 6 0
+```
+
+Pentru j = 3:
+
+```
+ 1 2 3 4 5 6 7 8 9
+1 0 1 4 ∞ ∞ ∞ ∞ ∞ ∞
+2 1 0 2 ∞ 10 ∞ ∞ ∞ ∞
+3 4 2 0 5 11 12 ∞ ∞ ∞
+4 ∞ ∞ 5 0 1 ∞ 3 ∞ ∞
+5 ∞ ∞ ∞ 1 0 ∞ ∞ ∞ ∞
+6 ∞ 10 11 ∞ ∞ 0 ∞ ∞ ∞
+7 ∞ ∞ ∞ ∞ ∞ ∞ 0 5 ∞
+8 ∞ ∞ ∞ 3 ∞ ∞ 5 0 6
+9 ∞ ∞ ∞ ∞ ∞ ∞ 5 6 0
+```
+
+6. Algoritmul lui Prim:
+
+Algoritmul lui Prim determină un arbore de acoperire minim al unui graf neorientat ponderat. În exemplul nostru, putem utiliza următoarea procedură pentru a construi arborele de acoperire minim pornind de la nodul 4:
+
+- Inițializăm o mulțime T cu nodul 4.
+- Repetăm următorul proces până când T conține toate nodurile:
+  - Alegem o muchie de cost minim e cu o extremitate în T și cealaltă nu și adăugăm e la T.
+
+În exemplul nostru, arborele de acoperire minim arată astfel:
+
+```
+        4
+       /|\
+      / | \
+     /  |  \
+    3   8   5
+   / \  |  / \
+  1   6 9  7
+```
+
+7. Algoritmul de determinare a unui arbore parțial de cost minim:
+
+Algoritmul de determinare a unui arbore parțial de cost minim al unui graf conex ponderat G = (V, E, w) este corect. Justificarea se bazează pe următoarele:
+
+- La fiecare pas, algoritmul alege o muchie de cost minim e cu o extremitate în componenta conexă C și cealaltă nu, astfel încât să se extindă componenta conexă.
+- La final, algoritmul produce un arbore parțial de cost minim al grafului G.
+
+8. Algoritmul Ford-Fulkerson și tăietura minimă:
+
+Algoritmul Ford-Fulkerson determină un flux maxim într-o rețea de transport. În exemplul nostru, putem utiliza următoarea procedură pentru a ilustra pașii algoritmului Ford-Fulkerson:
+
+- Inițializăm un flux f cu valoarea 0 pentru fiecare arc.
+- Repetăm următorul proces până când nu mai există s-t lanțuri f-nesaturate de lungime minimă:
+  - Alegem un s-t lanț f-nesaturat de lungime minimă.
+  - Actualizăm fluxul pe arcele din lanțul ales.
+
+În exemplul nostru, putem alege lanțul {1, 2, 6, 7} pentru a actualiza fluxul.
+
+Tăietura minimă în rețea este formată din nodurile {1, 2, 3, 4} și {5, 6, 7} și are capacitatea 15.
+
+9. Grafuri conexe și Hamiltonian:
+
+a. Un graf cu n > 2 noduri care îndeplinește condiția d(x) >= n/2 pentru orice nod x este conex.
+
+b. Un exemplu de graf nehamiltonian în care există două noduri neadiacente distince cu suma gradelor mai mare sau egală cu n este graful complet K\_5 cu un nod eliminat.
+
+c. Dacă un graf G cu n ≥ 2 noduri are m ≥ combinații(n-1, 2) + 2 muchii, atunci G este Hamiltonian.
+
+10. Lungimea maxima a unui subsir comun a două cuvinte:
+
+Algoritmul de determinare a lungimii maxime a unui subsir comun a două cuvinte este următorul:
+
+- Inițializăm o matrice M cu dimensiunea (n+1) x (m+1), unde n și m sunt lungimile cuvintelor.
+- Pentru i = 0, ..., n și j = 0, ..., m, calculăm M[i][j] astfel:
+  - Dacă i = 0 sau j = 0, atunci M[i][j] = 0.
+  - Dacă cuvintele au literele egale în pozițiile i și j, atunci M[i][j] = M[i-1][j-1] + 1.
+  - În caz contrar, M[i][j] = max(M[i-1][j], M[i][j-1]).
+
+În exemplul nostru, lungimea maxima a unui subsir comun a cuvintelor 'cerceta' și 'retea' este 3, iar matricea M este următoarea:
+
+```
+  0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+r 0 1 1 1 1 1 1
+e 0 1 1 2 2 2 2
+t 0 1 1 2 2 3 3
+e 0 1 1 2 2 3 4
+a 0 1 1 2 2 3 4
+```
+
+11. Algoritmul de determinare a drumului pentru exploratori:
+
+Algoritmul de determinare a drumului pentru exploratori este următorul:
+
+- Inițializăm o matrice D cu dimensiunea (n+1) x (m+1), unde n și m sunt numărul de camere și numărul de tuneluri, respectiv.
+- Pentru fiecare cameră i, setăm D[i][0] = 0.
+- Pentru fiecare tunel j, setăm D[0][j] = infinit.
+- Pentru fiecare cameră i și tunel j, calculăm D[i][j] astfel:
+  - Dacă tunelul j duce din camera i în camera k, atunci D[i][j] = min(D[i][j-1], D[k][j-1] + costul tunelului j).
+- Dacă D[n][m] = infinit, atunci nu există drum pentru exploratori.
+- În caz contrar, putem determina drumul pentru exploratori prin următorul proces:
+  - Setăm i = n și j = m.
+  - Repetăm următorul proces până când i = 0:
+    - Dacă D[i][j] = D[i][j-1], atunci trecem prin tunelul j-1.
+    - În caz contrar, trecem prin tunelul j și setăm i = k, unde k este camera la care duce tunelul j.
+
+În exemplul nostru, putem determina dacă există drum pentru exploratori și, în caz că există, putem determina drumul folosind algoritmul descris mai sus.
