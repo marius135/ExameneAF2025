@@ -1,6 +1,0 @@
-\subsubsection{Using LLMs for Grading}
-We selected the top-performing LLMs from the solver experiment to act as graders. Each LLM was tasked with grading each paper five times to assess both consistency and deviations from the instructors' grading.
-
-Additionally, we analyzed how many of the key mistakes in each student's paper the LLM was able to identify, as most models tend to overlook some errors. We also examined instances where the LLM falsely identified non-existent mistakes.
-
-Furthermore, we conducted an additional evaluation round in which we provided feedback to the LLMs to determine whether they could improve their grading accuracy after receiving corrections. In addition to grading, we also asked the LLMs to generate constructive feedback for students based on their submitted papers, aiming to assess their ability to provide meaningful guidance.
