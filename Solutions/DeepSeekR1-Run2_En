@@ -1,0 +1,175 @@
+1. Connected Bipartite Induced Subgraph with Maximum Nodes
+
+Solution:
+
+The largest connected bipartite induced subgraph consists of nodes {4, 5, 8, 9, 7} after removing node 8 to break the cycle. However, this results in two disconnected edges. Instead, the valid connected bipartite subgraph is nodes {4, 5, 8, 9} with edges:
+
+4-5, 4-8, 8-9
+Bipartition:
+
+U = {4, 9}
+V = {5, 8}
+Explanation:
+
+This subgraph is a tree (no cycles), ensuring bipartiteness. All edges connect U to V without conflicts.
+
+2. BFS from Node 4 (bf(4))
+
+Steps:
+
+Queue Initialization: Start with node 4.
+Level 0: Node 4 (distance 0).
+Level 1: Neighbors of 4 → 3, 5, 8 (distance 1).
+Level 2: Neighbors of 3 → 1, 2, 6; neighbors of 5 → none new; neighbors of 8 → 9, 7 (distance 2).
+Level 3: Neighbors of 1 → none new; neighbors of 2 → 6; neighbors of 6 → none new; neighbors of 9 → 7; neighbors of 7 → none new.
+BFS Tree:
+
+Root: 4
+Level 1: 3, 5, 8
+Level 2: 1, 2, 6, 9, 7
+Distances from 4:
+
+4: 0
+3,5,8: 1
+1,2,6,9,7: 2
+3. Eulerian Path
+
+Initial Graph Check:
+
+Degrees:
+1: 2
+2: 3
+3: 5
+4: 3
+5: 2
+6: 3
+7: 2
+8: 3
+9: 2
+Odd Degrees: Nodes 2,3,4,6,8 (5 nodes). Eulerian path requires exactly 0 or 2 odd-degree nodes.
+Modification: Remove two edges to reduce odd degrees by 4:
+
+Remove edges 3-5 (degree 5→4, 5→1) and 3-6 (degree 3→2, 6→2).
+Eulerian Path in Modified Graph:
+
+Example: 2 → 6 → 3 → 1 → 2 → 3 → 4 → 5 → 4 → 8 → 9 → 7 → 8
+
+Condition: An undirected graph has an Eulerian path iff it is connected and has exactly 0 or 2 vertices of odd degree.
+
+4. Critical Nodes (Articulation Points)
+
+Algorithm (DFS-based):
+
+Track discovery time and low value.
+A node is critical if:
+Root with ≥2 children.
+Non-root and has a child where low(child) ≥ disc(node).
+Application to Graph_1_6:
+
+Critical Nodes: 3,4,8.
+Explanation:
+Node 3: Connects components {1,2,6} and {4,5,8,9,7}.
+Node 4: Connects {3,5} to {8,9,7}.
+Node 8: Connects {4,9} to {7}.
+5. Floyd-Warshall Algorithm
+
+Steps for j=1,2,3:
+
+Initial Matrix D:
+
+Download Code
+Copy Code
+D[i][k] = weight of edge i→k or ∞.  
+D[i][k] = weight of edge i→k or ∞.  
+Updates for j=1 (Node 1):
+
+No changes (no outgoing edges).
+j=2 (Node 2):
+
+Update paths via 2: e.g., 1→2→3 (1+2=3 < 4 → update).
+j=3 (Node 3):
+
+Update paths via 3: e.g., 2→3→6 (2+11=13 < 10 → no update).
+Matrix Stages:
+
+Detailed cell updates depend on intermediate nodes.
+6. Prim's Algorithm from Node 4
+
+Steps:
+
+Start at 4. Add edges to 3 (5), 5 (1), 8 (3).
+Select min edge: 4-5 (1).
+Add edges from 5: 3 (12).
+Next min edge: 4-8 (3).
+Add edges from 8: 9 (6), 7 (2).
+Continue until all nodes are included.
+MST Edges:
+
+4-5 (1), 4-8 (3), 8-7 (2), 7-9 (5), 5-3 (12), 3-1 (4), 3-2 (2), 2-6 (10).
+
+7. MST Algorithm Correctness
+
+Analysis:
+
+The algorithm is incorrect. It resembles Prim’s but iterates components for each vertex. Fails because selecting edges per vertex i may miss global minimum edges, leading to suboptimal or disconnected components. Counterexample: A cycle where higher-weight edges are chosen early.
+
+8. Ford-Fulkerson (Edmonds-Karp) for Graph_8
+
+Steps:
+
+Residual Graph: Augmenting paths via BFS.
+Paths: 1→5→3→7 (min capacity 6).
+Update residuals; repeat until no more paths.
+Min Cut:
+
+S: {1,5,3,4,2,6}
+T: {7}
+Capacity: Sum of capacities from S to T: 10 (6→7) + 7 (3→7) = 17.
+
+9. Graph Theory
+
+a. Proof of Connectivity
+
+Assume a graph ( G ) with ( n > 2 ) nodes where each node has degree ( \geq \frac{n}{2} ). Suppose ( G ) is disconnected. Then, it has at least two components. Let ( C ) be the smallest component with ( k \leq \frac{n}{2} ) nodes. Each node in ( C ) can have at most ( k - 1 ) neighbors within ( C ), so its degree ( \leq k - 1 ). However, ( k - 1 < \frac{n}{2} ), contradicting the degree condition. Hence, ( G ) must be connected.
+
+b. Non-Hamiltonian Example
+
+Graph Construction: Take two complete graphs ( K_3 ) and ( K_3 ), connected by a single bridge edge. Add a sixth node connected to one node in each ( K_3 ). Now, two non-adjacent nodes (one from each ( K_3 )) have degrees 3 and 3, summing to 6 ( \geq 6 ). However, the graph isn’t Hamiltonian because traversing between the ( K_3 )s requires using the bridge edge, creating a bottleneck.
+
+Bipartition: ( {A, B, C} ) and ( {D, E, F} ), with bridge edges ( A-D ) and ( C-F ).
+
+c. Hamiltonian Condition
+
+If ( G ) has ( m \geq \binom{n-1}{2} + 2 ) edges, it’s missing at most ( n - 3 ) edges from being complete. By Ore’s theorem, for any two non-adjacent nodes ( u, v ), ( \deg(u) + \deg(v) \geq n ). Since ( G ) is nearly complete, the degree sum condition holds, ensuring ( G ) is Hamiltonian.
+
+10. Longest Common Subsequence (LCS)
+
+Algorithm:
+
+Matrix Definition: ( \text{dp}[i][j] ) = LCS length of ( X[1..i] ) and ( Y[1..j] ).
+Base Case: ( \text{dp}[i][0] = \text{dp}[0][j] = 0 ).
+Recurrence:
+If ( X[i] = Y[j] ): ( \text{dp}[i][j] = \text{dp}[i-1][j-1] + 1 ).
+Else: ( \text{dp}[i][j] = \max(\text{dp}[i-1][j], \text{dp}[i][j-1]) ).
+Example for 'cerceta' (X) and 'retea' (Y):
+
+Matrix (Key Steps):
+
+( \text{dp}[2][1] = 1 ) (X='ce', Y='r' → no match; X='e' vs Y='e').
+( \text{dp}[3][1] = 1 ) (X='cer' vs Y='r').
+( \text{dp}[5][4] = 4 ) (X='cercet', Y='rete').
+Final ( \text{dp}[7][5] = 5 ).
+LCS: 'r', 'e', 't', 'e', 'a' → "retea" (length 5).
+
+11. Optimal Path with Minimal Dynamite
+
+Algorithm:
+
+Model as Weighted Graph: Assign each chamber (node) a dynamite cost ( c(v) ).
+Edge Transformation: For each directed edge ( u \to v ), set its weight to ( c(v) ). The start node’s cost ( c(s) ) is included if applicable.
+Shortest Path: Use Dijkstra’s algorithm to find the path from ( s ) to ( t ) with minimal total weight.
+Complexity: ( O(m + n \log n) ) using a priority queue.
+
+Example: If chambers 1 (start) and 7 (target) have costs 0 and 5 respectively, and intermediate nodes have varying costs, the algorithm finds the path minimizing the sum of node costs.
+
+Conclusion: This approach guarantees the optimal path with minimal dynamite usage by reducing the problem to a shortest path in a node-weighted graph.
